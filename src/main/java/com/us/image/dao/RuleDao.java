@@ -10,4 +10,7 @@ import com.us.image.entities.Rule;
 @MyBatisDao
 public interface RuleDao extends CrudDao<Rule> {
 
+    public void disable(Rule rule);
+
+    public void enable(Rule rule);
 }

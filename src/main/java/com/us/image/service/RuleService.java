@@ -38,4 +38,14 @@ public class RuleService extends CrudService<RuleDao, Rule> {
         super.delete(rule);
     }
 
+    @Transactional(readOnly = false)
+    public void disable(Rule rule) {
+        dao.disable(rule);
+    }
+
+    @Transactional(readOnly = false)
+    public void enable(Rule rule) {
+        dao.enable(rule);
+    }
+
 }

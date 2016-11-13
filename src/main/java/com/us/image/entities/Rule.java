@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 public class Rule extends DataEntity<Rule> {
     private Integer type;
     private String keyword;
-    private Boolean enable;
 
     public Rule() {
     }
@@ -42,21 +41,11 @@ public class Rule extends DataEntity<Rule> {
         this.keyword = keyword;
     }
 
-    @NotNull(message = "请选择是否启用")
-    public Boolean getEnable() {
-        return enable;
-    }
-
-    public void setEnable(Boolean enable) {
-        this.enable = enable;
-    }
-
     @Override
     public String toString() {
         return "Rule{" +
                 "type=" + type +
                 ", keyword='" + keyword + '\'' +
-                ", enable=" + enable +
                 '}';
     }
 }
