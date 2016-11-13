@@ -1,4 +1,3 @@
-1
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%@ attribute name="name" type="java.lang.String" required="true" description="验证码输入框名称"%>
