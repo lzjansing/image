@@ -66,16 +66,16 @@
                             <th>用户名</th>
                             <th>用户类型</th>
                             <th>关注量</th>
-                            <th>创建时间</th>
+                            <th>更新时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${page.list}" var="user">
                             <tr>
-                                <td><a href="${ctx}/user/form?id=${user.id}">
+                                <td>
                                         ${user.username}
-                                </a></td>
+                                </td>
                                 <td>
                                         ${user.userType}
                                 </td>
@@ -94,6 +94,9 @@
                                             <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要启用该用户吗？', '${ctx}/user/enable?id=${user.id}');">启用</a>
                                         </c:when>
                                     </c:choose>
+                                    <c:if test="${user.valid ne fns:getObjConst('com.us.image.entities.User','VALID_DELETE')}">
+                                        <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要删除该用户吗？', '${ctx}/user/delete?id=${user.id}');">删除</a>
+                                    </c:if>
                                 </td>
                             </tr>
                         </c:forEach>

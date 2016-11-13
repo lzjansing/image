@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 public class Rule extends DataEntity<Rule> {
     private Integer type;
     private String keyword;
+    public static final Integer RULETYPE_NORMAL = 1;
+    public static final Integer RULETYPE_REGEXP = 2;
 
     public Rule() {
     }

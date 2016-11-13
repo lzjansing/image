@@ -56,6 +56,13 @@ public class UserController extends BaseController {
         return "redirect:/admin/user/?repage";
     }
 
+    @RequestMapping(value = "delete")
+    public String delete(User user, RedirectAttributes redirectAttributes) {
+        userService.delete(user);
+        addMessage(redirectAttributes, "删除用户成功");
+        return "redirect:/admin/user/?repage";
+    }
+
     @RequestMapping(value = "disable")
     public String disable(User user, RedirectAttributes redirectAttributes) {
         userService.disable(user);
