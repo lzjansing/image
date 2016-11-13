@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.us.image.dao.RuleDao">
+
+    <sql id="ruleColumns">
+        a.id AS "id",
+        a.type AS "type",
+        a.keyword AS "keyword",
+        a.valid AS "valid",
+        a.create_date AS "createDate",
+        a.update_date AS "updateDate"
+    </sql>
+
+    <sql id="ruleJoins">
+    </sql>
+
+    <select id="get" resultType="Rule">
+        SELECT
+        <include refid="ruleColumns"/>
+        FROM rule a
+        <include refid="ruleJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="Rule">
+        SELECT
+        <include refid="ruleColumns"/>
+        FROM rule a
+        <include refid="ruleJoins"/>
+        <where>
+            <if test="type != null">
+                AND a.type = #{type}
+            </if>
+            <if test="valid != null">
+                AND a.valid = #{valid}
+            </if>
+        </where>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO rule(
+        id,
+        type,
+        keyword,
+        valid,
+        create_date,
+        update_date
+        ) VALUES (
+        #{id},
+        #{type},
+        #{keyword},
+        #{valid},
+        #{createDate},
+        #{updateDate}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE rule SET
+        type = #{type},
+        keyword = #{keyword},
+        update_date = #{updateDate},
+        WHERE id = #{id}
+    </update>
+
+    <update id="disable">
+        UPDATE rule SET
+        valid = #{VALID_DISABLE}
+        WHERE id = #{id}
+    </update>
+
+    <update id="enable">
+        UPDATE rule SET
+        valid = #{VALID_ENABLE}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE rule SET
+        valid = #{VALID_DELETE}
+        WHERE id = #{id}
+    </update>
+</mapper>
