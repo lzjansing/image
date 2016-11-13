@@ -9,17 +9,18 @@ import java.beans.PropertyEditorSupport;
 public class MyIntegerEditor extends PropertyEditorSupport {
 
     @Override
-    public void setAsText(String text) throws IllegalArgumentException {
+    public void setAsText(String text) {
         if (text == null || "".equals(text)) {
-            text = "0";
+            //默认设null，如果需要，请手动设0
+
         } else {
-            //true  -> 1
-            //false -> 0
             try {
+                //true  -> 1
+                //false -> 0
                 text = new MyBooleanEditor().parse(text) ? "1" : "0";
             } catch (Exception e) {
             }
+            setValue(Integer.parseInt(text));
         }
-        setValue(Integer.parseInt(text));
     }
 }

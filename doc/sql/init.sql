@@ -29,7 +29,7 @@ CREATE TABLE `share` (
 
 CREATE TABLE `rule` (
   `id` varchar(36) NOT NULL,
-  `type` tinyint DEFAULT NULL COMMENT '过滤策略\n模糊匹配	1\n正则匹配	2\n',
+  `type` tinyint DEFAULT NULL COMMENT '过滤策略\n精确匹配	1\n正则匹配	2\n',
   `keyword` varchar(100) DEFAULT NULL,
   `valid` tinyint DEFAULT NULL COMMENT '无效	0\n有效	1\n禁用	2' ,
   `create_date` datetime DEFAULT NULL,
