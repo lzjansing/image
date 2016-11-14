@@ -22,7 +22,7 @@
     </context:component-scan>
 
     <!-- 导入相应的properties文件 -->
-    <context:property-placeholder location="classpath:image.properties"/>
+    <context:property-placeholder ignore-unresolvable="true" location="classpath:image.properties"/>
 
     <!-- 加载应用属性实例，可通过  @Value("#{APP_PROP['jdbc.driver']}") String jdbcDriver 方式引用 -->
     <util:properties id="APP_PROP" location="classpath:image.properties" local-override="true"/>
@@ -63,9 +63,9 @@
     <!-- MyBatis begin -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="typeAliasesPackage" value="com.us.image"/>
+        <property name="typeAliasesPackage" value="com.us"/>
         <property name="typeAliasesSuperType" value="com.us.common.persistence.BaseEntity"/>
-        <property name="mapperLocations" value="classpath:/mappings/*.xml"/>
+        <property name="mapperLocations" value="classpath:/mappings/**/*.xml"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"></property>
     </bean>
 

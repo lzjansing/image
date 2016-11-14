@@ -12,8 +12,6 @@ public interface CrudDao<T> extends BaseDao {
 
     List<T> findList(T var1);
 
-    List<T> findAllList(T var1);
-
     int insert(T var1);
 
     int update(T var1);

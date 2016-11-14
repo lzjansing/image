@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.us.common.modules.sys.dao.DictDao">
+
+    <sql id="dictColumns">
+        a.id AS "id",
+        a.label AS "label",
+        a.value AS "value",
+        a.type AS "type",
+        a.description AS "description",
+        a.sort AS "sort",
+        a.valid AS "valid",
+        a.remarks AS "remarks",
+        a.create_date AS "createDate",
+        a.update_date AS "updateDate"
+    </sql>
+
+    <sql id="dictJoins">
+    </sql>
+    <select id="get" resultType="Dict">
+        SELECT
+        <include refid="dictColumns"/>
+        FROM sys_dict a
+        <include refid="dictJoins"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="findList" resultType="Dict">
+        SELECT
+        <include refid="dictColumns"/>
+        FROM sys_dict a
+        <include refid="dictJoins"/>
+        <where>
+            valid = #{VALID_ENABLE}
+            <if test="type != null and type != ''">
+                AND type = #{type}
+            </if>
+            <if test="description != null and description != ''">
+                AND description LIKE CONCAT('%', #{description}, '%')
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.type,a.sort ASC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findTypeList" resultType="string">
+        SELECT
+        type
+        FROM sys_dict
+        WHERE valid = #{VALID_ENABLE}
+        GROUP BY type
+        ORDER BY type
+    </select>
+
+    <insert id="insert">
+        INSERT INTO sys_dict(
+        id,
+        value,
+        label,
+        type,
+        description,
+        sort,
+        create_date,
+        update_date,
+        remarks,
+        valid
+        ) VALUES (
+        #{id},
+        #{value},
+        #{label},
+        #{type},
+        #{description},
+        #{sort},
+        #{createDate},
+        #{updateDate},
+        #{remarks},
+        #{valid}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE sys_dict SET
+        value = #{value},
+        label = #{label},
+        type = #{type},
+        description = #{description},
+        sort = #{sort},
+        update_date = #{updateDate},
+        remarks = #{remarks}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE sys_dict SET
+        valid = #{VALID_DELETE}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

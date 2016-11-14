@@ -1,5 +1,6 @@
 package com.us.image.entities;
 
+import com.us.common.modules.sys.utils.DictUtil;
 import com.us.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
@@ -11,8 +12,8 @@ public class User extends DataEntity<User> {
     private String password;
     private Integer userType;
     private Integer focus;
-    public static final Integer USERTYPE_NORMAL = 1;
-    public static final Integer USERTYPE_ADMIN = 2;
+    public static final Integer USERTYPE_NORMAL = Integer.valueOf(DictUtil.getDictValue("普通用户", "user_type", null));
+    public static final Integer USERTYPE_ADMIN = Integer.valueOf(DictUtil.getDictValue("管理员", "user_type", null));
 
     public User() {
     }

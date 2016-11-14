@@ -20,17 +20,14 @@ import javax.servlet.http.HttpServletResponse;
  * Created by jansing on 16-11-8.
  */
 @Controller
-@RequestMapping(value = "/admin/rule")
+@RequestMapping(value = "${adminPath}/rule")
 public class RuleController extends BaseController {
     @Autowired
     private RuleService ruleService;
 
     @ModelAttribute
     public Rule get(@RequestParam(required = false) String id) {
-        if (StringUtil.isNotBlank(id)) {
-            return ruleService.get(id);
-        }
-        return new Rule();
+        return StringUtil.isNotBlank(id) ? ruleService.get(id) : new Rule();
     }
 
     @RequestMapping(value = {"list", ""})
@@ -53,27 +50,27 @@ public class RuleController extends BaseController {
         }
         ruleService.save(rule);
         addMessage(redirectAttributes, "保存规则成功");
-        return "redirect:/admin/rule/?repage";
+        return "redirect:" + this.adminPath + "/rule/?repage";
     }
 
     @RequestMapping(value = "delete")
     public String delete(Rule rule, RedirectAttributes redirectAttributes) {
         ruleService.delete(rule);
         addMessage(redirectAttributes, "删除规则成功");
-        return "redirect:/admin/rule/?repage";
+        return "redirect:" + this.adminPath + "/rule/?repage";
     }
 
     @RequestMapping(value = "disable")
     public String disable(Rule rule, RedirectAttributes redirectAttributes) {
         ruleService.disable(rule);
         addMessage(redirectAttributes, "禁用规则成功");
-        return "redirect:/admin/rule/?repage";
+        return "redirect:" + this.adminPath + "/rule/?repage";
     }
 
     @RequestMapping(value = "enable")
     public String enable(Rule rule, RedirectAttributes redirectAttributes) {
         ruleService.enable(rule);
         addMessage(redirectAttributes, "启用规则成功");
-        return "redirect:/admin/rule/?repage";
+        return "redirect:" + this.adminPath + "/rule/?repage";
     }
 }

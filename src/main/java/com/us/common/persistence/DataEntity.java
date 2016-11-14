@@ -7,6 +7,7 @@ package com.us.common.persistence;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.us.common.modules.sys.utils.DictUtil;
 import com.us.common.utils.IdGen;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
@@ -20,8 +21,8 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
     protected Date updateDate;
     protected Integer valid;
     public static final Integer VALID_DELETE = 0;
-    public static final Integer VALID_ENABLE = 1;
-    public static final Integer VALID_DISABLE = 2;
+    public static final Integer VALID_ENABLE = Integer.valueOf(DictUtil.getDictValue("正常", "valid", null));
+    public static final Integer VALID_DISABLE = Integer.valueOf(DictUtil.getDictValue("禁用", "valid", null));
 
     public DataEntity() {
         this.valid = VALID_ENABLE;

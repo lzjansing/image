@@ -20,17 +20,14 @@ import javax.servlet.http.HttpServletResponse;
  * Created by jansing on 16-11-8.
  */
 @Controller
-@RequestMapping(value = "/admin/user")
+@RequestMapping(value = "${adminPath}/user")
 public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
     @ModelAttribute
     public User get(@RequestParam(required = false) String id) {
-        if (StringUtil.isNotBlank(id)) {
-            return userService.get(id);
-        }
-        return new User();
+        return StringUtil.isNotBlank(id) ? userService.get(id) : new User();
     }
 
     @RequestMapping(value = {"list", ""})
@@ -53,27 +50,27 @@ public class UserController extends BaseController {
         }
         userService.save(user);
         addMessage(redirectAttributes, "保存用户成功");
-        return "redirect:/admin/user/?repage";
+        return "redirect:" + this.adminPath + "/user/?repage";
     }
 
     @RequestMapping(value = "delete")
     public String delete(User user, RedirectAttributes redirectAttributes) {
         userService.delete(user);
         addMessage(redirectAttributes, "删除用户成功");
-        return "redirect:/admin/user/?repage";
+        return "redirect:" + this.adminPath + "/user/?repage";
     }
 
     @RequestMapping(value = "disable")
     public String disable(User user, RedirectAttributes redirectAttributes) {
         userService.disable(user);
         addMessage(redirectAttributes, "禁用用户成功");
-        return "redirect:/admin/user/?repage";
+        return "redirect:" + this.adminPath + "/user/?repage";
     }
 
     @RequestMapping(value = "enable")
     public String enable(User user, RedirectAttributes redirectAttributes) {
         userService.enable(user);
         addMessage(redirectAttributes, "启用用户成功");
-        return "redirect:/admin/user/?repage";
+        return "redirect:" + this.adminPath + "/user/?repage";
     }
 }

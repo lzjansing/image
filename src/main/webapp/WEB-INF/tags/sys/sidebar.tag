@@ -17,11 +17,11 @@
             </a>
         </li>
         <li class="">
-                <a href="javascript:">
-                    <i class="fa"></i>
-                    <span class="title">通用功能</span>
-                    <span class="arrow "></span>
-                </a>
+            <a href="javascript:">
+                <i class="fa"></i>
+                <span class="title">通用功能</span>
+                <span class="arrow "></span>
+            </a>
             <ul class="sub-menu">
                 <li class="${fn:indexOf('user', tag) != -1 ? 'active' : ''}">
                     <a href="${ctx}/user/list">
@@ -32,6 +32,20 @@
                     <a href="${ctx}/rule/list">
                         <i class="fa"></i>
                         过滤规则管理</a>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="javascript:">
+                <i class="fa"></i>
+                <span class="title">系统功能</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li class="${fn:indexOf('sys/dict', tag) != -1 ? 'active' : ''}">
+                    <a href="${ctx}/sys/dict/list">
+                        <i class="fa"></i>
+                        字典管理</a>
                 </li>
             </ul>
         </li>

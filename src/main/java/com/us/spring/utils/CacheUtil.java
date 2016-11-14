@@ -8,7 +8,7 @@ import net.sf.ehcache.Element;
  * Created by jansing on 16-11-13.
  */
 public class CacheUtil {
-    private static CacheManager cacheManager = (CacheManager)SpringContextHolder.getBean("cacheManager");
+    private static CacheManager cacheManager = (CacheManager) SpringContextHolder.getBean("cacheManager");
     private static final String SYS_CACHE = "sysCache";
 
     public static Object get(String key) {
@@ -25,7 +25,7 @@ public class CacheUtil {
 
     public static Object get(String cacheName, String key) {
         Element element = getCache(cacheName).get(key);
-        return element == null?null:element.getObjectValue();
+        return element == null ? null : element.getObjectValue();
     }
 
     public static void put(String cacheName, String key, Object value) {
@@ -39,7 +39,7 @@ public class CacheUtil {
 
     private static Cache getCache(String cacheName) {
         Cache cache = cacheManager.getCache(cacheName);
-        if(cache == null) {
+        if (cache == null) {
             cacheManager.addCache(cacheName);
             cache = cacheManager.getCache(cacheName);
             cache.getCacheConfiguration().setEternal(true);

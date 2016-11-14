@@ -40,6 +40,19 @@ public class Global {
         return value;
     }
 
+    public static String getAdminPath() {
+        return getConfig("adminPath");
+    }
+
+    public static String getFrontPath() {
+        return getConfig("frontPath");
+    }
+
+    public static String getUrlSuffix() {
+        return getConfig("urlSuffix");
+    }
+
+
     public static Boolean isDemoMode() {
         String dm = getConfig("demoMode");
         return Boolean.valueOf("true".equalsIgnoreCase(dm) || "1".equals(dm));

@@ -41,8 +41,7 @@
                             <div class="form-group">
                                 <form:select path="type" class="form-control">
                                     <form:option value="" label=""/>
-                                    <form:option value="${fns:getObjConst('com.us.image.entities.Rule','RULETYPE_NORMAL')}" label="精确匹配"/>
-                                    <form:option value="${fns:getObjConst('com.us.image.entities.Rule','RULETYPE_REGEXP')}" label="正则匹配"/>
+                                    <form:options items="${fns:getDictList('rule_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
                                 </form:select>
                             </div>
                             &nbsp;&nbsp;&nbsp;&nbsp;
@@ -51,14 +50,12 @@
                             </div>
                             <div class="form-group">
                                 <form:select path="valid" class="form-control">
-                                    <form:option value="${fns:getObjConst('com.us.image.entities.Rule','VALID_ENABLE')}" label="启用"/>
-                                    <form:option value="${fns:getObjConst('com.us.image.entities.Rule','VALID_DISABLE')}" label="禁用"/>
-                                    <form:option value="${fns:getObjConst('com.us.image.entities.Rule','VALID_DELETE')}" label="删除"/>
+                                    <form:options items="${fns:getDictList('valid')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
                                 </form:select>
                             </div>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <div class="form-group">
-                                <input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
+                                <input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
                             </div>
                         </div>
                     </form:form>

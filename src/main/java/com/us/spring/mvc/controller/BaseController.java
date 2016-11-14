@@ -11,6 +11,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.WebDataBinder;
@@ -31,6 +32,10 @@ import java.util.List;
  */
 public class BaseController {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Value("${adminPath}")
+    protected String adminPath;
+    @Value("${frontPath}")
+    protected String frontPath;
     @Autowired
     protected Validator validator;
 
@@ -42,8 +47,8 @@ public class BaseController {
         try {
             beanValidator(object, groups);
             return true;
-        } catch (ConstraintViolationException var6) {
-            List list = BeanValidators.extractPropertyAndMessageAsList(var6, ": ");
+        } catch (ConstraintViolationException e) {
+            List list = BeanValidators.extractPropertyAndMessageAsList(e, ": ");
             list.add(0, "数据验证失败：");
             this.addMessage(model, (String[]) list.toArray(new String[0]));
             return false;
@@ -54,8 +59,8 @@ public class BaseController {
         try {
             BeanValidators.validateWithException(this.validator, object, groups);
             return true;
-        } catch (ConstraintViolationException var6) {
-            List list = BeanValidators.extractPropertyAndMessageAsList(var6, ": ");
+        } catch (ConstraintViolationException e) {
+            List list = BeanValidators.extractPropertyAndMessageAsList(e, ": ");
             list.add(0, "数据验证失败：");
             this.addMessage(redirectAttributes, (String[]) list.toArray(new String[0]));
             return false;
@@ -64,11 +69,8 @@ public class BaseController {
 
     protected void addMessage(Model model, String... messages) {
         StringBuilder sb = new StringBuilder();
-        String[] var4 = messages;
-        int var5 = messages.length;
-
-        for (int var6 = 0; var6 < var5; ++var6) {
-            String message = var4[var6];
+        for (int i = 0; i < messages.length; ++i) {
+            String message = messages[i];
             sb.append(message).append(messages.length > 1 ? "<br/>" : "");
         }
 
@@ -77,11 +79,8 @@ public class BaseController {
 
     protected void addMessage(RedirectAttributes redirectAttributes, String... messages) {
         StringBuilder sb = new StringBuilder();
-        String[] var4 = messages;
-        int var5 = messages.length;
-
-        for (int var6 = 0; var6 < var5; ++var6) {
-            String message = var4[var6];
+        for (int i = 0; i < messages.length; ++i) {
+            String message = messages[i];
             sb.append(message).append(messages.length > 1 ? "<br/>" : "");
         }
 
@@ -100,7 +99,7 @@ public class BaseController {
             response.getWriter().print(string);
             response.flushBuffer();
             return null;
-        } catch (IOException var5) {
+        } catch (IOException e) {
             return null;
         }
     }

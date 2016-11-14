@@ -46,14 +46,12 @@
                             </div>
                             <div class="form-group">
                                 <form:select path="valid" class="form-control">
-                                    <form:option value="${fns:getObjConst('com.us.image.entities.User','VALID_ENABLE')}" label="启用"/>
-                                    <form:option value="${fns:getObjConst('com.us.image.entities.User','VALID_DISABLE')}" label="禁用"/>
-                                    <form:option value="${fns:getObjConst('com.us.image.entities.User','VALID_DELETE')}" label="删除"/>
+                                    <form:options items="${fns:getDictList('valid')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
                                 </form:select>
                             </div>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <div class="form-group">
-                                <input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
+                                <input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
                             </div>
                         </div>
                     </form:form>
