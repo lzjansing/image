@@ -10,6 +10,7 @@ import net.sf.ehcache.Element;
 public class CacheUtil {
     private static CacheManager cacheManager = (CacheManager) SpringContextHolder.getBean("cacheManager");
     private static final String SYS_CACHE = "sysCache";
+    public static final String CACHE_MENU_NAME_PATH_MAP = "menuNamePathMap";
 
     public static Object get(String key) {
         return get("sysCache", key);

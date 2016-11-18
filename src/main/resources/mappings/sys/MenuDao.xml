@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.us.common.modules.sys.dao.MenuDao">
+	
+	<sql id="menuColumns">
+		a.id AS "id",
+		a.pid AS "parent.id",
+		a.pids AS "pids",
+		a.name AS "name",
+		a.href AS "href",
+		a.target AS "target",
+		a.icon AS "icon",
+		a.sort AS "sort",
+		a.is_show AS "isShow",
+		a.permission AS "permission",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.valid AS "valid",
+		
+		p.name AS "parent.name"
+	</sql>
+
+	<sql id="menuJoins">
+		LEFT JOIN sys_menu p ON p.id = a.pid
+    </sql>
+	
+	<select id="get" resultType="Menu">
+		SELECT
+			<include refid="menuColumns"/>
+		FROM sys_menu a
+		<include refid="menuJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findByParentIdsLike" resultType="Menu">
+		SELECT
+		a.id,
+		a.pid AS "parent.id",
+		a.pids
+		FROM sys_menu a
+		WHERE a.valid = #{VALID_ENABLE} AND a.pids LIKE CONCAT('%,', #{pids}, ',%')
+		ORDER BY a.sort
+	</select>
+
+	<select id="findByUserId" resultType="Menu">
+		SELECT DISTINCT
+		<include refid="menuColumns"/>
+		FROM sys_menu a
+		LEFT JOIN sys_menu p ON p.id = a.pid
+		<if test="user!=null and user.id!=null and user.id!=''">
+			JOIN sys_role_menu rm ON rm.menu_id = a.id
+			JOIN sys_role r ON r.id = rm.role_id AND r.useable= #{YES}
+			JOIN sys_user_role ur ON ur.role_id = r.id
+			JOIN user u ON u.id = ur.user_id AND u.id = #{user.id}
+		</if>
+		WHERE a.valid = #{VALID_ENABLE}
+		<if test="user!=null and user.id!=null and user.id!=''">
+			AND r.valid = #{VALID_ENABLE} AND u.valid = #{VALID_ENABLE}
+		</if>
+		ORDER BY a.sort
+	</select>
+
+	<insert id="insert">
+		INSERT INTO sys_menu(
+		id,
+		pid,
+		pids,
+		name,
+		href,
+		target,
+		icon,
+		sort,
+		is_show,
+		permission,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		remarks,
+		valid
+		) VALUES (
+		#{id},
+		#{parent.id},
+		#{pids},
+		#{name},
+		#{href},
+		#{target},
+		#{icon},
+		#{sort},
+		#{isShow},
+		#{permission},
+		#{createBy.id},
+		#{createDate},
+		#{updateBy.id},
+		#{updateDate},
+		#{remarks},
+		#{valid}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE sys_menu SET
+		pid = #{parent.id},
+		pids = #{pids},
+		name = #{name},
+		href = #{href},
+		target = #{target},
+		icon = #{icon},
+		sort = #{sort},
+		is_show = #{isShow},
+		permission = #{permission},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateParentIds">
+		UPDATE sys_menu SET
+		pid = #{parent.id},
+		pids = #{pids}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateSort">
+		UPDATE sys_menu SET
+		sort = #{sort}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		UPDATE sys_menu SET
+		valid = #{VALID_DELETE}
+		WHERE id = #{id} OR pids LIKE CONCAT('%,', #{id}, ',%')
+	</update>
+
+</mapper>

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -24,6 +25,10 @@ public class StringUtil extends StringUtils {
             String s = m.replaceAll("");
             return s;
         }
+    }
+
+    public static String toHtml(String txt) {
+        return txt == null ? "" : replace(replace(Encodes.escapeHtml(txt), "\n", "<br/>"), "\t", "&nbsp; &nbsp; ");
     }
 
     /**
@@ -119,6 +124,32 @@ public class StringUtil extends StringUtils {
 
             return result.toString();
         }
+    }
+
+    /**
+     * todo
+     * 如果是代理，可能有问题，因为X-Forwarded-For可以在客户端直接编辑？
+     *
+     * @param request
+     * @return
+     */
+    public static String getRemoteAddr(HttpServletRequest request) {
+
+        String remoteAddr = request.getHeader("X-Real-IP");
+        if (isBlank(remoteAddr) || "unknow".equals(remoteAddr)) {
+            remoteAddr = request.getHeader("X-Forwarded-For");
+        }
+        if (isNotBlank(remoteAddr) || "unknow".equals(remoteAddr)) {
+            remoteAddr = request.getHeader("Proxy-Client-IP");
+        }
+        if (isNotBlank(remoteAddr) || "unknow".equals(remoteAddr)) {
+            remoteAddr = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (isNotBlank(remoteAddr) || "unknow".equals(remoteAddr)) {
+            remoteAddr = request.getRemoteAddr();
+        }
+
+        return remoteAddr;
     }
 
     /**

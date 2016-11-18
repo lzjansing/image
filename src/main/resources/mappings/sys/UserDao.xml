@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.us.image.dao.UserDao">
+<mapper namespace="com.us.common.modules.sys.dao.UserDao">
 
     <sql id="userColumns">
         a.id AS "id",
@@ -28,10 +28,15 @@
         <include refid="userColumns"/>
         FROM user a
         <include refid="userJoins"/>
+        <if test="role != null and role.id != null and role.id != ''">
+            JOIN sys_user_role ur ON ur.user_id = a.id AND ur.role_id = #{role.id}
+        </if>
         <where>
-            a.user_type = #{USERTYPE_NORMAL}
             <if test="username != null and username != ''">
                 AND a.username like concat('%',#{username},'%')
+            </if>
+            <if test="userType != null">
+                AND a.user_type = #{userType}
             </if>
             <if test="valid != null">
                 AND a.valid = #{valid}
@@ -87,12 +92,42 @@
         WHERE id = #{id}
     </update>
 
-    <update id="getByUsername">
+    <select id="getByUsername" resultType="User">
         SELECT
         <include refid="userColumns"/>
         FROM user a
         <include refid="userJoins"/>
         WHERE a.username = #{username}
+        AND valid IN (#{VALID_ENABLE},#{VALID_DISABLE})
+    </select>
+
+    <!-- 查询全部用户数目 -->
+    <select id="findAllCount" resultType="long">
+        SELECT
+        COUNT(1)
+        FROM user a
+        WHERE valid IN (#{VALID_ENABLE},#{VALID_DISABLE})
+    </select>
+
+    <!-- 更新用户密码 -->
+    <update id="updatePasswordById">
+        UPDATE user SET
+        password = #{password}
+        WHERE id = #{id}
     </update>
+
+    <!-- 删除用户和角色关联表数据 -->
+    <delete id="deleteUserRole">
+        DELETE FROM sys_user_role WHERE user_id = #{id}
+    </delete>
+
+    <!-- 插入用户和角色关联表数据 -->
+    <insert id="insertUserRole">
+        INSERT INTO sys_user_role(user_id, role_id)
+        <foreach collection="roleList" item="role" separator=" union all ">
+            SELECT #{id}, #{role.id}
+            FROM dual
+        </foreach>
+    </insert>
 
 </mapper>

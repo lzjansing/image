@@ -5,6 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by jansing on 16-11-12.
  */
@@ -12,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping({"${adminPath}/tag"})
 public class TagController extends BaseController {
 
-    @RequestMapping({"iconselect/{id}/{value}"})
-    public String iconselect(@PathVariable String id, @PathVariable String value, Model model) {
+    @RequestMapping({"iconselect/{id}"})
+    public String iconselect(@PathVariable String id, HttpServletRequest request, Model model) {
         model.addAttribute("id", id);
-        model.addAttribute("value", value);
+        model.addAttribute("value", request.getParameter("value"));
         return "include/tagIconSelect";
     }
 }

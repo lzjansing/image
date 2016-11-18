@@ -1,6 +1,5 @@
 package com.us.image.entities;
 
-import com.us.common.modules.sys.utils.DictUtil;
 import com.us.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
@@ -11,8 +10,8 @@ import org.hibernate.validator.constraints.Range;
 public class Rule extends DataEntity<Rule> {
     private Integer type;
     private String keyword;
-    public static final Integer RULETYPE_NORMAL = Integer.valueOf(DictUtil.getDictValue("精确匹配", "rule_type", null));
-    public static final Integer RULETYPE_REGEXP = Integer.valueOf(DictUtil.getDictValue("正则匹配", "rule_type", null));
+    public static final Integer RULETYPE_NORMAL = 1;
+    public static final Integer RULETYPE_REGEXP = 2;
 
     public Rule() {
     }

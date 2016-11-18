@@ -52,6 +52,13 @@ public class Global {
         return getConfig("urlSuffix");
     }
 
+    public static String getSuperAdminId() {
+        return getConfig("user.superAdmin.id");
+    }
+
+    public static String getRootMenuId() {
+        return getConfig("root.menu.id");
+    }
 
     public static Boolean isDemoMode() {
         String dm = getConfig("demoMode");

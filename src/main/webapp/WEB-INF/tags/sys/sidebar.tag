@@ -16,39 +16,30 @@
                 <span class="title">控制面板</span>
             </a>
         </li>
-        <li class="">
-            <a href="javascript:">
-                <i class="fa"></i>
-                <span class="title">通用功能</span>
-                <span class="arrow "></span>
-            </a>
-            <ul class="sub-menu">
-                <li class="${fn:indexOf('user', tag) != -1 ? 'active' : ''}">
-                    <a href="${ctx}/user/list">
-                        <i class="fa"></i>
-                        用户管理</a>
+        <c:forEach items="${fns:getMenuList()}" var="menu" varStatus="idxStatus">
+            <c:if test="${menu.parent.id eq fns:getRootMenuId() && menu.isShow eq '1'}">
+                <li class="">
+                    <c:if test="${empty menu.href}">
+                        <a href="javascript:">
+                            <i class="fa ${menu.icon}"></i>
+                            <span class="title">${menu.name}</span>
+                            <span class="arrow "></span>
+                        </a>
+                    </c:if>
+                    <ul class="sub-menu">
+                        <c:forEach items="${fns:getMenuList()}" var="menuItem" varStatus="idxItemStatus">
+                            <c:if test="${menuItem.parent.id eq menu.id && menuItem.isShow eq '1'}">
+                                <li class="${fn:indexOf(menuItem.href, tag) != -1 ? 'active' : ''}">
+                                    <a href="${fn:indexOf(menuItem.href, '://') eq -1 ? ctx : ''}${menuItem.href}">
+                                        <i class="fa ${menuItem.icon}"></i>
+                                            ${menuItem.name}</a>
+                                </li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
                 </li>
-                <li class="${fn:indexOf('rule', tag) != -1 ? 'active' : ''}">
-                    <a href="${ctx}/rule/list">
-                        <i class="fa"></i>
-                        过滤规则管理</a>
-                </li>
-            </ul>
-        </li>
-        <li class="">
-            <a href="javascript:">
-                <i class="fa"></i>
-                <span class="title">系统功能</span>
-                <span class="arrow "></span>
-            </a>
-            <ul class="sub-menu">
-                <li class="${fn:indexOf('sys/dict', tag) != -1 ? 'active' : ''}">
-                    <a href="${ctx}/sys/dict/list">
-                        <i class="fa"></i>
-                        字典管理</a>
-                </li>
-            </ul>
-        </li>
+            </c:if>
+        </c:forEach>
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>

@@ -11,7 +11,7 @@
 
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
-    <sys:sidebar tag="user"/>
+    <sys:sidebar tag="sys/user"/>
     <!-- BEGIN PAGE -->
     <div class="page-content">
         <!-- BEGIN PAGE HEADER-->
@@ -30,7 +30,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="portlet-body form">
-                    <form:form id="searchForm" modelAttribute="user" action="${ctx}/user/" method="post" class="form-inline">
+                    <form:form id="searchForm" modelAttribute="user" action="${ctx}/sys/user/" method="post" class="form-inline">
                         <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
                         <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
                         <div class="form-actions top">
@@ -86,14 +86,14 @@
                                 <td>
                                     <c:choose>
                                         <c:when test="${user.valid eq fns:getObjConst('com.us.image.entities.User','VALID_ENABLE')}">
-                                            <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要禁用该用户吗？', '${ctx}/user/disable?id=${user.id}');">禁用</a>
+                                            <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要禁用该用户吗？', '${ctx}/sys/user/disable?id=${user.id}');">禁用</a>
                                         </c:when>
                                         <c:when test="${user.valid eq fns:getObjConst('com.us.image.entities.User','VALID_DISABLE')}">
-                                            <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要启用该用户吗？', '${ctx}/user/enable?id=${user.id}');">启用</a>
+                                            <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要启用该用户吗？', '${ctx}/sys/user/enable?id=${user.id}');">启用</a>
                                         </c:when>
                                     </c:choose>
                                     <c:if test="${user.valid ne fns:getObjConst('com.us.image.entities.User','VALID_DELETE')}">
-                                        <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要删除该用户吗？', '${ctx}/user/delete?id=${user.id}');">删除</a>
+                                        <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要删除该用户吗？', '${ctx}/sys/user/delete?id=${user.id}');">删除</a>
                                     </c:if>
                                 </td>
                             </tr>

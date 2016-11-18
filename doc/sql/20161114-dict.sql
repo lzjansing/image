@@ -26,3 +26,5 @@ INSERT INTO `sys_dict` VALUES ('13417212df624f12aa4dfa282ef68080', '精确匹配
 INSERT INTO `sys_dict` VALUES ('f915d2baa9c142f897e808223b399dd3', '正则匹配', '2', 'rule_type', '匹配策略', '20', '2016-11-14 23:21:14', '2016-11-14 23:21:14', '', '1');
 INSERT INTO `sys_dict` VALUES ('e27f07b79cac46f681be800d1f9170ec', '普通用户', '1', 'user_type', '用户类型', '10', '2016-11-14 16:02:50', '2016-11-14 16:02:50', '', '1');
 INSERT INTO `sys_dict` VALUES ('0c249442dd8e451f8543cca9710d860d', '管理员', '2', 'user_type', '用户类型', '20', '2016-11-14 16:03:03', '2016-11-14 16:03:03', '', '1');
+INSERT INTO `sys_dict` VALUES ('028a8b1f6c674a0bb92605e8888c569c', '是', '1', 'yes_no', '', '10', '2016-11-14 15:58:33', '2016-11-14 15:58:33', '', '1');
+INSERT INTO `sys_dict` VALUES ('873bb7bed6dc43d8ba8ed0053301ceec', '否', '0', 'yes_no', '', '20', '2016-11-14 15:59:00', '2016-11-14 15:59:00', '', '1');

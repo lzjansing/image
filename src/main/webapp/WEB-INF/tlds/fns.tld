@@ -40,6 +40,20 @@
         <example>${fns:getConfig(key)}</example>
     </function>
     <function>
+        <description>获取超管id</description>
+        <name>getSuperAdminId</name>
+        <function-class>com.us.common.config.Global</function-class>
+        <function-signature>java.lang.String getSuperAdminId()</function-signature>
+        <example>${fns:getSuperAdminId()}</example>
+    </function>
+    <function>
+        <description>获取rootMenuId</description>
+        <name>getRootMenuId</name>
+        <function-class>com.us.common.config.Global</function-class>
+        <function-signature>java.lang.String getRootMenuId()</function-signature>
+        <example>${fns:getRootMenuId()}</example>
+    </function>
+    <function>
         <description>获取常量</description>
         <name>getConst</name>
         <function-class>com.us.common.config.Global</function-class>
@@ -51,24 +65,40 @@
         <name>getObjConst</name>
         <function-class>com.us.common.config.Global</function-class>
         <function-signature>java.lang.Object getConst(java.lang.String,java.lang.String)</function-signature>
-        <example>${fns:getConst(obj, key)}</example>
+        <example>${fns:getConst(className, key)}</example>
     </function>
 
     <!-- UserUtils -->
     <function>
         <description>获取当前用户对象</description>
         <name>getUser</name>
-        <function-class>com.us.image.utils.UserUtil</function-class>
-        <function-signature>com.us.image.entities.User getUser(javax.servlet.http.HttpSession)</function-signature>
-        <example>${fns:getUser(session)}</example>
+        <function-class>com.us.common.modules.sys.utils.UserUtil</function-class>
+        <function-signature>com.us.common.modules.sys.entities.User getUser()</function-signature>
+        <example>${fns:getUser()}</example>
     </function>
 
     <function>
         <description>根据编码获取用户对象</description>
         <name>getUserById</name>
-        <function-class>com.us.image.utils.UserUtil</function-class>
-        <function-signature>com.us.image.entities.User get(java.lang.String)</function-signature>
+        <function-class>com.us.common.modules.sys.utils.UserUtil</function-class>
+        <function-signature>com.us.common.modules.sys.entities.User get(java.lang.String)</function-signature>
         <example>${fns:getUserById(id)}</example>
+    </function>
+
+    <function>
+        <description>获取授权用户信息</description>
+        <name>getPrincipal</name>
+        <function-class>com.us.common.modules.sys.utils.UserUtil</function-class>
+        <function-signature>com.us.common.modules.sys.security.SystemAuthorizingRealm.Principal getPrincipal()</function-signature>
+        <example>${fns:getPrincipal()}</example>
+    </function>
+
+    <function>
+        <description>获取当前用户的菜单对象列表</description>
+        <name>getMenuList</name>
+        <function-class>com.us.common.modules.sys.utils.UserUtil</function-class>
+        <function-signature>java.util.List getMenuList()</function-signature>
+        <example>${fns:getMenuList()}</example>
     </function>
 
     <!-- DictUtil -->

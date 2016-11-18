@@ -7,8 +7,10 @@ package com.us.common.persistence;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.us.common.modules.sys.utils.DictUtil;
+import com.us.common.modules.sys.entities.User;
+import com.us.common.modules.sys.utils.UserUtil;
 import com.us.common.utils.IdGen;
+import com.us.common.utils.StringUtil;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
@@ -17,12 +19,18 @@ import java.util.Date;
 
 public abstract class DataEntity<T> extends BaseEntity<T> {
     protected String remarks;
+    protected User createBy;
     protected Date createDate;
+    protected User updateBy;
     protected Date updateDate;
     protected Integer valid;
     public static final Integer VALID_DELETE = 0;
-    public static final Integer VALID_ENABLE = Integer.valueOf(DictUtil.getDictValue("正常", "valid", null));
-    public static final Integer VALID_DISABLE = Integer.valueOf(DictUtil.getDictValue("禁用", "valid", null));
+    public static final Integer VALID_ENABLE = 1;
+    public static final Integer VALID_DISABLE = 2;
+
+    public static final Integer YES = 1;
+    public static final Integer NO = 0;
+
 
     public DataEntity() {
         this.valid = VALID_ENABLE;
@@ -36,11 +44,23 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
         if (!this.isNew) {
             this.setId(IdGen.uuid());
         }
+
+        User user = UserUtil.getUser();
+        if (StringUtil.isNotBlank(user.getId())) {
+            this.createBy = user;
+            this.updateBy = user;
+        }
+
         this.updateDate = new Date();
         this.createDate = this.updateDate;
     }
 
     public void preUpdate() {
+        User user = UserUtil.getUser();
+        if (StringUtil.isNotBlank(user.getId())) {
+            this.updateBy = user;
+        }
+
         this.updateDate = new Date();
     }
 
@@ -53,6 +73,15 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
         this.remarks = remarks;
     }
 
+    @JsonIgnore
+    public User getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(User createBy) {
+        this.createBy = createBy;
+    }
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateDate() {
         return this.createDate;
@@ -60,6 +89,15 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    @JsonIgnore
+    public User getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(User updateBy) {
+        this.updateBy = updateBy;
     }
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -1,14 +1,17 @@
 package com.us.common.utils;
 
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.UUID;
 
 @Service
 @Lazy(false)
-public class IdGen {
+public class IdGen implements SessionIdGenerator {
     private static SecureRandom random = new SecureRandom();
 
     public IdGen() {
@@ -42,5 +45,10 @@ public class IdGen {
             System.out.println(randomLong());
         }
 
+    }
+
+    @Override
+    public Serializable generateId(Session session) {
+        return uuid();
     }
 }
