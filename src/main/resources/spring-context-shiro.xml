@@ -10,33 +10,34 @@
     <!-- 加载配置属性文件 -->
     <context:property-placeholder ignore-unresolvable="true" location="classpath:image.properties"/>
 
-    <!-- Shiro权限过滤过滤器定义 -->
-    <bean name="shiroFilterChainDefinitions" class="java.lang.String">
-        <constructor-arg>
-            <value>
-                /front/** = anon
-                /upload/** = anon
-                ${adminPath}/login = authc
-                ${adminPath}/logout = logout
-                ${adminPath}/** = user
-                <!--如果下面这条不通过，则返回401错误-->
-                <!--${adminPath}/** = user,roles[admin]-->
-            </value>
-        </constructor-arg>
-    </bean>
-
     <!-- 安全认证过滤器 -->
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+    <bean id="shiroFilter" class="com.us.common.modules.sys.security.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="${adminPath}/login"/>
         <property name="successUrl" value="${adminPath}?login"/>
+        <property name="frontLoginUrl" value="${frontPath}/login"/>
+        <property name="frontSuccessUrl" value="${frontPath}/?login"/>
         <property name="filters">
             <map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
             </map>
         </property>
         <property name="filterChainDefinitions">
-            <ref bean="shiroFilterChainDefinitions"/>
+            <value>
+                <!--后台-->
+                /front/** = anon
+                /upload/** = anon
+                ${adminPath}/login = authc
+                ${adminPath}/logout = logout
+                ${adminPath}/** = user
+                <!--如果访问时下面这条不通过，则返回401错误-->
+                <!--${adminPath}/** = user,roles[admin]-->
+                <!--前台-->
+                /static/** = anon
+                ${frontPath}/login = authc
+                ${frontPath}/logout = logout
+                ${frontPath}/** = anon
+            </value>
         </property>
     </bean>
 

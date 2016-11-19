@@ -1,6 +1,7 @@
 package com.us.common.web;
 
 import com.us.common.config.Global;
+import com.us.common.utils.Encodes;
 import com.us.common.utils.StringUtil;
 import org.apache.commons.lang3.Validate;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -131,10 +132,10 @@ public class Servlets {
         return queryStringBuilder.toString();
     }
 
-//    public static String encodeHttpBasic(String userName, String password) {
-//        String encode = userName + ":" + password;
-//        return "Basic " + Encodes.encodeBase64(encode.getBytes());
-//    }
+    public static String encodeHttpBasic(String userName, String password) {
+        String encode = userName + ":" + password;
+        return "Basic " + Encodes.encodeBase64(encode.getBytes());
+    }
 
     public static HttpServletRequest getRequest() {
         try {
@@ -143,6 +144,40 @@ public class Servlets {
             return null;
         }
     }
+
+    /**
+     * 假设访问路径
+     * http://localhost:8080/image/login?username=aaa&password=ttt
+     * 则：
+     * getContextPath   /image
+     * getServletPath   /login
+     * getRequestURI    /image/login
+     * getRequestURL    http://localhost:8080/image/login
+     * getQueryString   username=aaa&password=ttt
+     * 参考org.apache.shiro.web.util.WebUtils.getRequestUri()等
+     * @return
+     */
+    public static String getContextPath(){
+        return getRequest().getContextPath();
+    }
+
+    public static String getServletPath(){
+        return getRequest().getServletPath();
+    }
+
+    public static String getRequestURI(){
+        return getRequest().getRequestURI();
+    }
+
+    public static String getRequestURL(){
+        return getRequest().getRequestURL().toString();
+    }
+
+    public static String getQueryString(){
+        return getRequest().getQueryString();
+    }
+
+
 
     public static boolean isStaticFile(String uri) {
         if (staticFiles == null) {

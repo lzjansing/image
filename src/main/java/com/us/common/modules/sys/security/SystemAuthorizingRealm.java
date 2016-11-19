@@ -6,9 +6,11 @@ import com.us.common.modules.sys.entities.Menu;
 import com.us.common.modules.sys.entities.Role;
 import com.us.common.modules.sys.entities.User;
 import com.us.common.modules.sys.service.SystemService;
+import com.us.common.modules.sys.utils.DictUtil;
 import com.us.common.modules.sys.utils.UserUtil;
 import com.us.common.utils.Encodes;
 import com.us.common.utils.StringUtil;
+import com.us.common.web.Servlets;
 import com.us.spring.utils.SpringContextHolder;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -65,6 +67,12 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 //            if(User.VALID_DISABLE.equals(user.getValid())) {
 //                throw new AuthenticationException("msg:该帐号禁止登录.");
 //            } else {
+            //普通用户不能登录后台
+            if(Integer.valueOf(DictUtil.getDictValue("普通用户","user_type",null)).equals(user.getUserType())){
+                if(Servlets.getServletPath().startsWith(Global.getAdminPath())){
+                    return null;
+                }
+            }
             byte[] salt = Encodes.decodeHex(user.getPassword().substring(0, 16));
             return new SimpleAuthenticationInfo(
                     new Principal(user, token.isMobileLogin()),
