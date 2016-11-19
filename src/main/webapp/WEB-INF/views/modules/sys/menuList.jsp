@@ -19,7 +19,7 @@
             <div class="col-md-12">
                 <!-- BEGIN PAGE TITLE & BREADCRUMB-->
                 <h3 class="page-title">
-                    菜单列表 <small><a href="${ctx}/sys/menu/form" class="text-muted">菜单添加</a></small>
+                    菜单列表 <shiro:hasPermission name="sys:menu:edit"><small><a href="${ctx}/sys/menu/form" class="text-muted">菜单添加</a></small></shiro:hasPermission>
                 </h3>
                 <!-- BEGIN PAGE TITLE & BREADCRUMB-->
             </div>
@@ -41,7 +41,7 @@
                                     <th style="text-align:center;">排序</th>
                                     <th>可见</th>
                                     <th>权限标识</th>
-                                    <th>操作</th>
+                                    <shiro:hasPermission name="sys:menu:edit"><th>操作</th></shiro:hasPermission>
                                 </tr>
                                 </thead>
                                 <tbody><c:forEach items="${list}" var="menu">
@@ -50,24 +50,27 @@
                                         <td title="${menu.href}">${fns:abbr(menu.href,30)}</td>
                                         <td style="text-align:center;">
                                             <%--TODO 两个input是干嘛用的？--%>
-                                            <input type="hidden" name="ids" value="${menu.id}"/>
-                                            <input name="sorts" type="text" value="${menu.sort}" style="width:50px;margin:0;padding:0;text-align:center;border: 1px solid #dddddd;">
+                                            <shiro:hasPermission name="sys:menu:edit">
+                                                <input type="hidden" name="ids" value="${menu.id}"/>
+                                                <input name="sorts" type="text" value="${menu.sort}" style="width:50px;margin:0;padding:0;text-align:center;border: 1px solid #dddddd;">
+                                            </shiro:hasPermission><shiro:lacksPermission name="sys:menu:edit">
                                             ${menu.sort}
+                                            </shiro:lacksPermission>
                                         </td>
                                         <td>${menu.isShow eq fns:getDictValue('是', 'yes_no', '') ?'显示':'隐藏'}</td>
                                         <td title="${menu.permission}">${fns:abbr(menu.permission,30)}</td>
-                                        <td nowrap>
+                                        <shiro:hasPermission name="sys:menu:edit"><td nowrap>
                                             <a href="${ctx}/sys/menu/form?id=${menu.id}">修改</a>
                                             <a href="#confirm" data-toggle="modal" onclick="confirmDialog('要删除该菜单及所有子菜单项吗？', '${ctx}/sys/menu/delete?id=${menu.id}');">删除</a>
                                             <a href="${ctx}/sys/menu/form?parent.id=${menu.id}">添加下级菜单</a>
-                                        </td>
+                                        </td></shiro:hasPermission>
                                     </tr>
                                 </c:forEach></tbody>
                             </table>
                         </div>
-                        <div class="form-actions right">
+                        <shiro:hasPermission name="sys:menu:edit"><div class="form-actions right">
                             <input id="btnSubmit" class="btn btn-primary" type="button" value="保存排序" onclick="updateSort();"/>
-                        </div>
+                        </div></shiro:hasPermission>
                     </form>
                 </div>
             </div>

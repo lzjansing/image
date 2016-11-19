@@ -20,7 +20,7 @@
                 <!-- BEGIN PAGE TITLE & BREADCRUMB-->
                 <h3 class="page-title">
                     过滤规则列表
-                    <small><a href="${ctx}/rule/form" class="text-muted">过滤规则添加</a></small>
+                    <shiro:hasPermission name="rule:edit"><small><a href="${ctx}/rule/form" class="text-muted">过滤规则添加</a></small></shiro:hasPermission>
                 </h3>
                 <!-- BEGIN PAGE TITLE & BREADCRUMB-->
             </div>
@@ -68,7 +68,7 @@
                             <th>过滤策略</th>
                             <th>过滤规则</th>
                             <th>更新时间</th>
-                            <th>操作</th>
+                            <shiro:hasPermission name="rule:edit"><th>操作</th></shiro:hasPermission>
                         </tr>
                         </thead>
                         <tbody>
@@ -84,6 +84,7 @@
                                     <fmt:formatDate value="${rule.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
                                 </td>
                                 <td>
+                                    <shiro:hasPermission name="rule:edit">
                                     <c:choose>
                                         <c:when test="${rule.valid eq fns:getObjConst('com.us.image.entities.Rule','VALID_ENABLE')}">
                                             <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要禁用该过滤规则吗？', '${ctx}/rule/disable?id=${rule.id}');">禁用</a>
@@ -95,6 +96,7 @@
                                     <c:if test="${rule.valid ne fns:getObjConst('com.us.image.entities.Rule','VALID_DELETE')}">
                                         <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要删除该过滤规则吗？', '${ctx}/rule/delete?id=${rule.id}');">删除</a>
                                     </c:if>
+                                    </shiro:hasPermission>
                                 </td>
                             </tr>
                         </c:forEach>

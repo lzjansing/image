@@ -8,6 +8,8 @@ import com.us.common.modules.sys.utils.UserUtil;
 import com.us.common.persistence.Page;
 import com.us.common.utils.StringUtil;
 import com.us.spring.mvc.controller.BaseController;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +38,7 @@ public class UserController extends BaseController {
         return StringUtil.isNotBlank(id) ? systemService.getUser(id) : new User();
     }
 
+    @RequiresPermissions({"sys:user:view"})
     @RequestMapping(value = {"list", ""})
     public String list(User user, HttpServletRequest req, HttpServletResponse resp, Model model) {
         Page<User> page = systemService.findUser(new Page<>(req, resp), user);
@@ -43,6 +46,7 @@ public class UserController extends BaseController {
         return "modules/sys/userList";
     }
 
+    @RequiresPermissions({"sys:user:view"})
     @RequestMapping(value = "form")
     public String form(User user, Model model) {
         model.addAttribute("user", user);
@@ -50,6 +54,7 @@ public class UserController extends BaseController {
         return "modules/sys/user/form";
     }
 
+    @RequiresPermissions({"sys:user:edit"})
     @RequestMapping(value = "save")
     public String save(User user, Model model, RedirectAttributes redirectAttributes) {
         if (StringUtil.isNotBlank(user.getPassword())) {
@@ -86,6 +91,7 @@ public class UserController extends BaseController {
         return "redirect:" + this.adminPath + "/sys/user/list?repage";
     }
 
+    @RequiresAuthentication
     @ResponseBody
     @RequestMapping({"checkUsername"})
     public String checkUsername(User user) {
@@ -93,6 +99,7 @@ public class UserController extends BaseController {
         return (StringUtil.isBlank(user.getId()) && tmpUser == null) || user.getId().equals(tmpUser.getId()) ? "true" : "false";
     }
 
+    @RequiresPermissions({"sys:user:edit"})
     @RequestMapping(value = "delete")
     public String delete(User user, RedirectAttributes redirectAttributes) {
         if (UserUtil.getUser().getId().equals(user.getId())) {
@@ -106,6 +113,7 @@ public class UserController extends BaseController {
         return "redirect:" + this.adminPath + "/sys/user/?repage";
     }
 
+    @RequiresPermissions({"sys:user:edit"})
     @RequestMapping(value = "disable")
     public String disable(User user, RedirectAttributes redirectAttributes) {
         systemService.disableUser(user);
@@ -113,6 +121,7 @@ public class UserController extends BaseController {
         return "redirect:" + this.adminPath + "/sys/user/?repage";
     }
 
+    @RequiresPermissions({"sys:user:edit"})
     @RequestMapping(value = "enable")
     public String enable(User user, RedirectAttributes redirectAttributes) {
         systemService.enableUser(user);

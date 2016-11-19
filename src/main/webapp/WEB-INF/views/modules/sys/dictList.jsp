@@ -20,7 +20,7 @@
                 <!-- BEGIN PAGE TITLE & BREADCRUMB-->
                 <h3 class="page-title">
                     字典列表
-                    <small><a href="${ctx}/sys/dict/form?sort=10" class="text-muted">字典添加</a></small>
+                    <shiro:hasPermission name="sys:dict:edit"><small><a href="${ctx}/sys/dict/form?sort=10" class="text-muted">字典添加</a></small></shiro:hasPermission>
                 </h3>
                 <!-- BEGIN PAGE TITLE & BREADCRUMB-->
             </div>
@@ -68,7 +68,7 @@
                             <th>类型</th>
                             <th>描述</th>
                             <th>排序</th>
-                            <th>操作</th>
+                            <shiro:hasPermission name="sys:dict:edit"><th>操作</th></shiro:hasPermission>
                         </tr>
                         </thead>
                         <tbody>
@@ -80,9 +80,13 @@
                                 <td>${dict.description}</td>
                                 <td>${dict.sort}</td>
                                 <td>
+
+                                <shiro:hasPermission name="sys:dict:edit"><td>
                                     <a href="${ctx}/sys/dict/form?id=${dict.id}">修改</a>
                                     <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要删除该字典吗？', '${ctx}/sys/dict/delete?id=${dict.id}&type=${dict.type}');">删除</a>
+                                <%--todo 这是什么意思来着？--%>
                                     <a href="<c:url value='${fns:getAdminPath()}/sys/dict/form?type=${dict.type}&sort=${dict.sort+10}'><c:param name='description' value='${dict.description}'/></c:url>">添加键值</a>
+                                </td></shiro:hasPermission>
                                 </td>
                             </tr>
                         </c:forEach>

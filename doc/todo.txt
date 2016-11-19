@@ -1,5 +1,5 @@
 1、valid只用来表示是否被删除
-2、移除xml中sql对常量的取值，移除实体类中的常量
+2、移除xml中sql对常量的取值，移除实体类中的常量，将jsp中取实体类常量改为取字典值
 3、修改表名：user->sys_user
 4、shiro一旦登录，登录信息在项目重启|tomcat重启之后仍然存在？
     重现：启动项目，登录，重启项目，在LoginController.39查看principal是否有值
@@ -8,3 +8,5 @@
 
 1、完善静态文件
 http://localhost:8080/image/front/plugins/uniform/images/sprite.png
+/menuForm的checkbox样式问题
+tagIconSelect.jsp中有部分图标不显示？

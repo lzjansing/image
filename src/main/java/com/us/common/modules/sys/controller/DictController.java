@@ -5,6 +5,7 @@ import com.us.common.modules.sys.service.DictService;
 import com.us.common.persistence.Page;
 import com.us.common.utils.StringUtil;
 import com.us.spring.mvc.controller.BaseController;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,7 @@ public class DictController extends BaseController {
         return StringUtil.isNotBlank(id) ? dictService.get(id) : new Dict();
     }
 
+    @RequiresPermissions({"sys:dict:view"})
     @RequestMapping({"list", ""})
     public String list(Dict dict, HttpServletRequest request, HttpServletResponse response, Model model) {
         model.addAttribute("typeList", dictService.findTypeList());
@@ -40,12 +42,14 @@ public class DictController extends BaseController {
         return "modules/sys/dictList";
     }
 
+    @RequiresPermissions({"sys:dict:view"})
     @RequestMapping({"form"})
     public String form(Dict dict, Model model) {
         model.addAttribute("dict", dict);
         return "modules/sys/dictForm";
     }
 
+    @RequiresPermissions({"sys:dict:edit"})
     @RequestMapping({"save"})
     public String save(Dict dict, Model model, RedirectAttributes redirectAttributes) {
         if (!this.beanValidator(model, dict)) {
@@ -57,6 +61,7 @@ public class DictController extends BaseController {
         }
     }
 
+    @RequiresPermissions({"sys:dict:edit"})
     @RequestMapping({"delete"})
     public String delete(Dict dict, RedirectAttributes redirectAttributes) {
         this.dictService.delete(dict);

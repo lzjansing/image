@@ -84,6 +84,7 @@
                                     <fmt:formatDate value="${user.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
                                 </td>
                                 <td>
+                                    <shiro:hasPermission name="sys:user:edit">
                                     <c:choose>
                                         <c:when test="${user.valid eq fns:getObjConst('com.us.image.entities.User','VALID_ENABLE')}">
                                             <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要禁用该用户吗？', '${ctx}/sys/user/disable?id=${user.id}');">禁用</a>
@@ -95,6 +96,7 @@
                                     <c:if test="${user.valid ne fns:getObjConst('com.us.image.entities.User','VALID_DELETE')}">
                                         <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要删除该用户吗？', '${ctx}/sys/user/delete?id=${user.id}');">删除</a>
                                     </c:if>
+                                    </shiro:hasPermission>
                                 </td>
                             </tr>
                         </c:forEach>

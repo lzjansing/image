@@ -65,16 +65,16 @@
                         <thead>
                         <tr>
                             <th>登录名</th>
-                            <th>操作</th>
+                            <shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${userList}" var="user">
                             <tr>
                                 <td><a href="${ctx}/sys/user/form?id=${user.id}">${user.username}</a></td>
-                                <td>
+                                <shiro:hasPermission name="sys:role:edit"><td>
                                     <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要将用户<b>[${user.username}]</b>从<b>[${role.name}]</b>角色中移除吗？', '${ctx}/sys/role/outrole?userId=${user.id}&roleId=${role.id}');">移除</a>
-                                </td>
+                                </td></shiro:hasPermission>
                             </tr>
                         </c:forEach>
                         </tbody>

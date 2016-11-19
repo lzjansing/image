@@ -5,6 +5,7 @@ import com.us.common.utils.StringUtil;
 import com.us.image.entities.Rule;
 import com.us.image.service.RuleService;
 import com.us.spring.mvc.controller.BaseController;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,7 @@ public class RuleController extends BaseController {
         return StringUtil.isNotBlank(id) ? ruleService.get(id) : new Rule();
     }
 
+    @RequiresPermissions({"dict:view"})
     @RequestMapping(value = {"list", ""})
     public String list(Rule rule, HttpServletRequest req, HttpServletResponse resp, Model model) {
         Page<Rule> page = ruleService.findPage(new Page<Rule>(req, resp), rule);
@@ -37,12 +39,14 @@ public class RuleController extends BaseController {
         return "modules/rule/list";
     }
 
+    @RequiresPermissions({"dict:view"})
     @RequestMapping(value = "form")
     public String form(Rule rule, Model model) {
         model.addAttribute("rule", rule);
         return "modules/rule/form";
     }
 
+    @RequiresPermissions({"dict:edit"})
     @RequestMapping(value = "save")
     public String save(Rule rule, Model model, RedirectAttributes redirectAttributes) {
         if (!beanValidator(model, rule)) {
@@ -53,6 +57,7 @@ public class RuleController extends BaseController {
         return "redirect:" + this.adminPath + "/rule/?repage";
     }
 
+    @RequiresPermissions({"dict:edit"})
     @RequestMapping(value = "delete")
     public String delete(Rule rule, RedirectAttributes redirectAttributes) {
         ruleService.delete(rule);
@@ -60,6 +65,7 @@ public class RuleController extends BaseController {
         return "redirect:" + this.adminPath + "/rule/?repage";
     }
 
+    @RequiresPermissions({"dict:edit"})
     @RequestMapping(value = "disable")
     public String disable(Rule rule, RedirectAttributes redirectAttributes) {
         ruleService.disable(rule);
@@ -67,6 +73,7 @@ public class RuleController extends BaseController {
         return "redirect:" + this.adminPath + "/rule/?repage";
     }
 
+    @RequiresPermissions({"dict:edit"})
     @RequestMapping(value = "enable")
     public String enable(Rule rule, RedirectAttributes redirectAttributes) {
         ruleService.enable(rule);

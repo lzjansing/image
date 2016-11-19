@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="form-actions right">
-                                <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+                            <shiro:hasPermission name="sys:role:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
                         </div>
                     </form:form>
                     <!-- END FORM-->

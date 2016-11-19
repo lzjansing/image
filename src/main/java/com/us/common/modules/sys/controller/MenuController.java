@@ -7,6 +7,8 @@ import com.us.common.modules.sys.entities.Menu;
 import com.us.common.modules.sys.service.SystemService;
 import com.us.common.utils.StringUtil;
 import com.us.spring.mvc.controller.BaseController;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +44,7 @@ public class MenuController extends BaseController {
      * @param model
      * @return
      */
+    @RequiresPermissions({"sys:menu:view"})
     @RequestMapping({"list", ""})
     public String list(Model model) {
         ArrayList list = Lists.newArrayList();
@@ -51,6 +54,7 @@ public class MenuController extends BaseController {
         return "modules/sys/menuList";
     }
 
+    @RequiresPermissions({"sys:menu:view"})
     @RequestMapping({"form"})
     public String form(Menu menu, Model model) {
         if (menu.getParent() == null || menu.getParent().getId() == null) {
@@ -71,6 +75,7 @@ public class MenuController extends BaseController {
         return "modules/sys/menuForm";
     }
 
+    @RequiresPermissions({"sys:menu:edit"})
     @RequestMapping({"save"})
     public String save(Menu menu, Model model, RedirectAttributes redirectAttributes) {
         this.systemService.saveMenu(menu);
@@ -78,6 +83,7 @@ public class MenuController extends BaseController {
         return "redirect:" + this.adminPath + "/sys/menu/";
     }
 
+    @RequiresPermissions({"sys:menu:edit"})
     @RequestMapping({"delete"})
     public String delete(Menu menu, RedirectAttributes redirectAttributes) {
         this.systemService.deleteMenu(menu);
@@ -85,6 +91,7 @@ public class MenuController extends BaseController {
         return "redirect:" + this.adminPath + "/sys/menu/";
     }
 
+    @RequiresPermissions({"sys:menu:edit"})
     @RequestMapping({"updateSort"})
     public String updateSort(String[] ids, Integer[] sorts, RedirectAttributes redirectAttributes) {
         for (int i = 0; i < ids.length; ++i) {
@@ -107,6 +114,7 @@ public class MenuController extends BaseController {
      * @param response
      * @return
      */
+    @RequiresAuthentication
     @ResponseBody
     @RequestMapping({"treeData"})
     public List<Map<String, Object>> treeData(@RequestParam(required = false) String parentId,

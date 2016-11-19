@@ -7,6 +7,8 @@ import com.us.common.modules.sys.utils.UserUtil;
 import com.us.common.utils.Collections3;
 import com.us.common.utils.StringUtil;
 import com.us.spring.mvc.controller.BaseController;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,7 @@ public class RoleController extends BaseController {
         return StringUtil.isNotBlank(id) ? this.systemService.getRole(id) : new Role();
     }
 
+    @RequiresPermissions({"sys:role:view"})
     @RequestMapping({"list", ""})
     public String list(Role role, Model model) {
         List list = this.systemService.findAllRole();
@@ -39,6 +42,7 @@ public class RoleController extends BaseController {
         return "modules/sys/roleList";
     }
 
+    @RequiresPermissions({"sys:role:view"})
     @RequestMapping({"form"})
     public String form(Role role, Model model) {
         model.addAttribute("role", role);
@@ -46,6 +50,7 @@ public class RoleController extends BaseController {
         return "modules/sys/roleForm";
     }
 
+    @RequiresPermissions({"sys:role:edit"})
     @RequestMapping({"save"})
     public String save(Role role, Model model, RedirectAttributes redirectAttributes) {
         if (!this.beanValidator(model, role, new Class[0])) {
@@ -64,6 +69,7 @@ public class RoleController extends BaseController {
         return "redirect:" + this.adminPath + "/sys/role/?repage";
     }
 
+    @RequiresPermissions({"sys:role:edit"})
     @RequestMapping({"delete"})
     public String delete(Role role, RedirectAttributes redirectAttributes) {
         this.systemService.deleteRole(role);
@@ -71,6 +77,7 @@ public class RoleController extends BaseController {
         return "redirect:" + this.adminPath + "/sys/role/?repage";
     }
 
+    @RequiresPermissions({"sys:role:edit"})
     @RequestMapping({"assign"})
     public String assign(Role role, Model model) {
         List userList = this.systemService.findUser(new User(new Role(role.getId())));
@@ -78,6 +85,7 @@ public class RoleController extends BaseController {
         return "modules/sys/roleAssign";
     }
 
+    @RequiresPermissions({"sys:role:view"})
     @RequestMapping({"usertorole"})
     public String selectUserToRole(Role role, Model model) {
         User tmpUser = new User();
@@ -91,6 +99,7 @@ public class RoleController extends BaseController {
         return "modules/sys/selectUserToRole";
     }
 
+    @RequiresPermissions({"sys:role:edit"})
     @RequestMapping({"outrole"})
     public String outrole(String userId, String roleId, RedirectAttributes redirectAttributes) {
         Role role = this.systemService.getRole(roleId);
@@ -111,6 +120,7 @@ public class RoleController extends BaseController {
         return "redirect:" + this.adminPath + "/sys/role/assign?id=" + role.getId();
     }
 
+    @RequiresPermissions({"sys:role:edit"})
     @RequestMapping({"assignrole"})
     public String assignRole(Role role, String[] userIds, RedirectAttributes redirectAttributes) {
         StringBuilder msg = new StringBuilder();
@@ -128,6 +138,7 @@ public class RoleController extends BaseController {
         return "redirect:" + this.adminPath + "/sys/role/assign?id=" + role.getId();
     }
 
+    @RequiresAuthentication
     @ResponseBody
     @RequestMapping({"checkName"})
     public String checkName(Role role) {
@@ -135,6 +146,7 @@ public class RoleController extends BaseController {
         return (StringUtil.isBlank(role.getId()) && tmpRole == null) || role.getId().equals(tmpRole.getId()) ? "true" : "false";
     }
 
+    @RequiresAuthentication
     @ResponseBody
     @RequestMapping({"checkEnname"})
     public String checkEnname(Role role) {
