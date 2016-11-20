@@ -1,0 +1,36 @@
+/*CSS基本重置样式*/
+*{
+	box-sizing: content-box;
+}
+body,h1,h2,h3,h4,h5,h6,a,p,input,label{
+	margin: 0;
+	padding: 0;
+	font-weight: 100;
+	font-family: "幼圆","微软雅黑","arial black";
+}
+a{
+	text-decoration: none;
+}
+strong {
+  font-weight: bold;
+}
+mark {
+  color: #000;
+  background: #ff0;
+}
+img {
+  border: 0;
+}
+ul{
+	list-style: none;
+	margin:0;
+	padding: 0;
+}
+input{
+	border:solid 1px #CCCCCC;
+	border-radius: 3px;
+	color:#000000;
+}
+input[type="radio"]{
+	margin: 0;
+}

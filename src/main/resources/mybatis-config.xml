@@ -40,6 +40,8 @@
     <!-- 类型别名 -->
     <typeAliases>
         <typeAlias alias="Page" type="com.us.common.persistence.Page" /><!--分页  -->
+        <typeAlias type="com.us.image.entities.Account" alias="Account"/>
+        <typeAlias type="com.us.image.entities.User" alias="FrontUser"/>
     </typeAliases>
 
     <!-- 插件配置 -->

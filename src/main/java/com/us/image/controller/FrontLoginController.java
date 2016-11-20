@@ -9,7 +9,6 @@ import com.us.common.utils.StringUtil;
 import com.us.spring.mvc.controller.BaseController;
 import com.us.spring.utils.CacheUtil;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

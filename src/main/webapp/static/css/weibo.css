@@ -1,0 +1,977 @@
+/*重要标记@knowledge 知识积累 @why 疑问*/
+
+body,
+ul,
+input,
+p {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+body {
+	background: url(../image/body-background.jpg);
+	background-attachment: fixed;
+}
+a {
+	text-decoration: none;
+	color: #434343;
+}
+li {
+	list-style-type: none;
+}
+/*******************页眉**********************
+**********************************************/
+/*页眉颜色*/
+
+.header {
+	width: 100%;
+	z-index: 2;
+	background-color: #f9f9f9;
+	position: fixed;
+	box-shadow: 1px 0 10px #888888;
+}
+/*居中页眉*/
+
+.for-center-header {
+	max-width: 1190px;
+	margin: 0 auto;
+	min-width: 1145px;
+}
+/*logo*/
+
+.header .logo-image {
+	float: left;
+	width: 140px;
+	height: 48px;
+	background: url(../image/logo.png);
+}
+/*输入框*/
+
+.search-input {
+	width: 28%;
+	height: 20px;
+	float: left;
+	background: #F2F2F5;
+	border: 1px solid #c7c7c7;
+	border-right: none;
+	padding: 4px 33px 4px 10px;
+	margin: 9px 0 0 0;
+}
+.header input[type="text"]:focus {
+	border: solid 1px #f53e08;
+}
+/*搜索按钮*/
+
+.header button {
+	float: left;
+	border: none;
+	background-color: #4f8bec;
+	color: #fff;
+	cursor: pointer;
+	width: 100px;
+	height: 30px;
+	font-size: 15px;
+	font-family: "微软雅黑";
+	margin: 9px 0 0 0;
+}
+button:hover {
+	background-color: #f53e08;
+}
+/*页眉导航*/
+
+.header ul li {
+	float: left;
+	list-style-type: none;
+}
+/*页眉导航栏图标图标*/
+
+.home,
+.discover,
+.game,
+.user,
+.massage,
+.setting,
+.compose {
+	display: block;
+	float: left;
+	text-indent: -10000px;
+	height: 30px;
+	margin: 10px 3px 0 0;
+}
+/*首页*/
+
+.home {
+	width: 81px;
+	background: url(../image/home.jpg);
+	margin-left: 3%
+}
+/*发现*/
+
+.discover:link {
+	width: 80px;
+	background: url(../image/discover-link.jpg);
+}
+.discover:hover {
+	width: 80px;
+	background: url(../image/discover-hover.jpg) -1px 0;
+}
+/*游戏*/
+
+.game:link {
+	width: 81px;
+	background: url(../image/game-link.jpg);
+}
+.game:hover {
+	width: 81px;
+	background: url(../image/game-hover.jpg) -1px 0;
+}
+/*用户*/
+
+.user:link {
+	width: 140px;
+	background: url(../image/user-link.jpg);
+}
+.user:hover {
+	width: 140px;
+	background: url(../image/user-hover.jpg) -1px 0;
+}
+/*私信*/
+
+.massage:link {
+	width: 31px;
+	background: url(../image/massage-link.jpg);
+}
+.massage:hover {
+	width: 31px;
+	background: url(../image/massage-hover.jpg);
+}
+/*设置*/
+
+.for-center-header>ul>li {
+	position: relative;
+}
+.setting{
+	width:31px;
+	height: 40px;
+}
+.setting:link {
+	background: url(../image/setting-link.jpg) no-repeat;
+}
+.setting:hover {
+	background: url(../image/setting-hover.jpg);
+}
+#retangle {
+	position: absolute;
+	margin-left: 65px;
+	margin-top: -16px;
+	border: 8px solid transparent;
+	border-bottom-color: rgba(255, 255, 255, 1);
+}
+#setSlide {
+	position: absolute;
+	width: 94px;
+	display: none;
+	border: 1px, solid, #ccc;
+	color: #333333;
+	border-radius: 2px;
+	box-shadow: 0px 2px 8px 1px rgba(0, 0, 0, 0.2);
+	background: #FFFFFF;
+	top: 45px;
+	left: 50%;
+	margin-left: -70px;
+	border: 1px solid #CCCCCC;
+}
+#setSlide ul li {
+	float: left;
+	width: 94px;
+}
+#setSlide ul li a {
+	display: block;
+	min-width: 50px;
+	height: 24px;
+	line-height: 24px;
+	padding: 4px 13px;
+	font: 13px "Arial", "Microsoft YaHei";
+}
+#setSlide ul li a:hover {
+	color: #EB7350;
+	background: #F2F2F5;
+}
+#setSlide ul li:last-child {
+	border-top: 1px solid #CCCCCC;
+}
+/*写微博*/
+
+.compose {
+	width: 41px;
+	background: url(../image/compose.jpg);
+}
+.clear {
+	clear: left;
+}
+/*******************内容区域************************
+****************************************************/
+/*----------------------垂直导航栏------------------*/
+
+.container {
+	overflow: hidden;
+	position: relative;
+	top: 48px;
+	z-index: 0;
+	/*header的为1，这样container就会在下面*/
+	
+	margin: 0 auto;
+	/*居中*/
+	
+	width: 1020px;
+	background: rgba(50, 50, 50, 0.1);
+}
+.vertical-navigation-bar {
+	position: fixed;
+	height: 700px;
+}
+.vertical-navigation-bar ul {
+	width: 150px;
+	/*@why 此前这里有rgba ,为什么会与上面的rgba叠加*/
+}
+.vertical-navigation-bar ul:first-child {
+	margin-top: 14px;
+	font-size: 14px;
+	font-weight: bold;
+}
+.vertical-navigation-bar .slef-information-setting a {
+	width: 15px;
+	height: 15px;
+	margin-left: 130px;
+	margin-right: 0px;
+	font-size: 13px;
+	background: url(../image/20150531045400228_easyicon_net_16.png);
+	background-repeat: no-repeat;
+}
+.vertical-navigation-bar ul:last-child {
+	margin-top: 0;
+	font-size: 13px;
+}
+.vertical-navigation-bar ul a {
+	display: block;
+	/*否则只有左右外边距可以设置 @knowledge*/
+	
+	margin: 0 15px;
+	color: white;
+	font-family: "微软雅黑";
+}
+.vertical-navigation-bar ul a:first-child {
+	line-height: 31px;
+}
+.vertical-navigation-bar ul a:last-child {
+	line-height: 35px;
+}
+.vertical-navigation-bar ul li:hover {
+	background: rgba(255, 255, 255, 0.3);
+}
+/*------------------------主内容--secondary------------------------*/
+
+.secondary {
+	float: right;
+	width: 870px;
+}
+.content {
+	text-align: center;
+	float: left;
+	width: 616px;
+}
+/*-----------------------发布----------------------------*/
+
+.content .publish {
+	position: relative;
+	margin: 18px 8px 15px 8px;
+	float: left;
+	width: 600px;
+	height: 165px;
+	background-color: #fdfdfd;
+	border-radius: 2px;
+}
+.content .publish p:first-child {
+	float: left;
+	color: #1B7FB6;
+	font-family: "方正舒体";
+	margin: 10px 10px 5px 10px;
+}
+.content .publish .news {
+	float: right;
+	color: #EB7350;
+	font-size: 12px;
+	font-family: "微软雅黑";
+	font-weight: lighter;
+	margin: 10px 12px 5px 12px;
+}
+.content .publish textarea {
+	resize: none;
+	width: 570px;
+	height: 78px;
+	background: #ffffff;
+	border: 1px solid #c7c7c7;
+	color: #666666;
+	font-family: "微软雅黑";
+	font-size: 15px;
+	padding: 5px 3px 3px 7px;
+}
+.content .publish textarea:focus {
+	border: 1px solid #FF4500;
+}
+.content .publish .kind a {
+	display: block;
+	float: left;
+	padding: 0 0 0 31px;
+	margin: 5px 0 0 9px;
+	line-height: 28px;
+	font-size: 12px;
+	font-family: "微软雅黑";
+	color: #434343;
+}
+.content .publish .kind a:last-child {
+	margin-left: 0;
+}
+.content .publish .kind .expression {
+	background: url(../image/expression.jpg) no-repeat 0 -1px;
+}
+.content .publish .kind .picture {
+	background: url(../image/picture.jpg) no-repeat 0 -1px;
+}
+.content .publish .kind .vedio {
+	background: url(../image/vedio.jpg) no-repeat 0 -1px;
+}
+.content .publish .kind .topic {
+	background: url(../image/topic.jpg) no-repeat 0 -1px;
+}
+.content .publish .kind .long-weibo {
+	background: url(../image/long-weibo.jpg) no-repeat 0 -1px;
+}
+.content .publish .kind a:hover {
+	color: #FF4500;
+}
+.content .publish .button {
+	float: right;
+}
+.content .publish .button a {
+	display: block;
+	margin: 9px 10px 8px 9px;
+	float: left;
+	font-family: "微软雅黑";
+	font-size: 13px;
+	color: #434343;
+}
+.content .publish .button .who-can-see span {
+	display: block;
+	float: right;
+	margin-top: 3px;
+}
+.content .publish .button .publish-button {
+	width: 80px;
+	line-height: 28px;
+	margin: 4px 10px;
+	background-color: #FF8140;
+	color: white;
+	border-radius: 2px;
+	box-shadow: 1px 1px 1px #e5e5e5
+}
+.content .publish .button .publish-button:hover {
+	background: #F7671D;
+}
+/*------------------分类及搜索---------------------*/
+
+.content .classify {
+	position: relative;
+	background-color: #ffffff;
+	float: left;
+	width: 600px;
+	height: 40px;
+	margin: 0 8px 15px 8px;
+	border-radius: 2px;
+}
+.content .classify a {
+	display: block;
+	float: left;
+	margin: 11px 17px;
+	font-size: 12px;
+	font-family: "微软雅黑";
+}
+.content .classify a:hover {
+	color: #F7671D;
+}
+.content .classify a:first-child {
+	font-weight: bold;
+	color: #434343;
+	cursor: default;
+}
+.content .classify input {
+	width: 120px;
+	height: 24px;
+	float: left;
+	background: #F2F2F5;
+	border: 1px solid #c7c7c7;
+	border-right: none;
+	padding: 0px 10px 0px 10px;
+	margin: 7px 0 10px 110px;
+}
+.content .classify button {
+	float: left;
+	border: none;
+	background-color: #4f8bec;
+	color: #fff;
+	cursor: pointer;
+	width: 50px;
+	height: 26px;
+	font-size: 13px;
+	font-family: "微软雅黑";
+	margin: 7px 0 0 0;
+}
+.content .classify input:focus {
+	border-color: #FF4500;
+}
+.content .classify button:hover {
+	background-color: #F7671D;
+}
+/*-------------------massage1--------------------*/
+
+.content .all-massage {
+	position: relative;
+	background-color: #ffffff;
+	float: left;
+	width: 574px;
+	margin: 0 8px 15px 8px;
+	padding: 10px 16px 10px 10px;
+	border-radius: 2px;
+}
+.content .all-massage .portrait {
+	border-radius: 50%;
+	float: left;
+}
+.content .all-massage .title-of-massage {
+	display: block;
+	float: left;
+	margin: 7px 0 0 0;
+	font-weight: bold;
+	font-family: "微软雅黑";
+	font-size: 14px;
+}
+.content .all-massage .group {
+	width: 514px;
+	margin: 0 0 44px 60px;
+}
+.content .all-massage .title-of-massage,
+.content .all-massage p,
+.content .all-massage img {
+	/*@knowledge 如果此处只写img，则选中所有的img*/
+	
+	float: left;
+}
+.content .all-massage .information,
+.content .all-massage .time-and-address {
+	font-family: "微软雅黑";
+	font-size: 14px;
+	line-height: 24px;
+	text-align: left;
+	color: #333333;
+	margin: 5px 0;
+}
+.content .all-massage .information a {
+	color: #EB7350;
+}
+.content .all-massage .time-and-address {
+	clear: left;
+	font-size: 13px;
+	color: #808080;
+}
+.content .all-massage .time-and-address a {
+	display: block;
+	float: left;
+	font-size: 12px;
+	color: #808080;
+}
+.content .all-massage .time-and-address span {
+	display: block;
+	float: left;
+	margin: 0 4px;
+}
+.content .all-massage .time-and-address a:hover {
+	color: #EB7350;
+}
+.content .all-massage .footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 600px;
+	border-top: solid 1px #D9D9D9;
+}
+.content .all-massage .footer a {
+	display: block;
+	float: left;
+	width: 148px;
+	height: 22px;
+	margin: 10px 0;
+	border-right: solid 1px #D9D9D9;
+	font-family: "微软雅黑";
+	font-size: 12px;
+}
+.content .all-massage .footer ul li:last-child a {
+	/*若此处改为a:last-child，则选中所有的a*/
+	
+	border: none;
+}
+.content .all-massage .footer a:hover {
+	color: #EB7350;
+}
+/*@knowledge写到这里的时候浏览器给p设的margin破坏了效果*/
+/*-------------massage2覆盖all-massage-------------*/
+
+.content .all-massage .group .mas2-img1,
+.content .all-massage .group .mas2-img2,
+.content .all-massage .group .mas2-img3,
+.content .all-massage .group .mas2-img4,
+.content .all-massage .group .mas2-img5,
+.content .all-massage .group .mas2-img6 {
+	margin: 3px;
+	float: left;
+}
+.content .all-massage .group .mas2-img4 {
+	clear: left;
+}
+/*---------------massage3覆盖all-massage--------------*/
+
+.content .all-massage .group .singapore-detail {
+	width: 253px;
+	height: 175px;
+	float: left;
+	box-shadow: 1px 1px 5px gray;
+	font-family: "微软雅黑";
+	font-size: 13px;
+	text-align: left;
+}
+.content .all-massage .group .singapore-detail img {
+	max-width: 253px;
+}
+.content .all-massage .group .singapore-detail a span:first-child {
+	display: block;
+	font-weight: bold;
+}
+.content .all-massage .group .singapore-detail a span:last-child {
+	display: block;
+	margin: 5px;
+	color: #808080;
+}
+.content .all-massage .group .singapore-detail a:hover span:first-child {
+	color: #EB7350;
+}
+/*------------------个人头像及广告--------------------*/
+/*----------------------个人头像----------------------*/
+
+.selfportrait-and-ad {
+	width: 250px;
+	float: right;
+}
+.selfportrait {
+	position: relative;
+	width: 230px;
+	height: 165px;
+	margin: 18px 0;
+	background-color: #FFFFFF;
+	border-radius: 2px;
+}
+.selfportrait .background {
+	max-width: 230px;
+}
+.selfportrait .portrait {
+	max-width: 65px;
+	border-radius: 50%;
+	position: absolute;
+	left: 85px;
+	top: 35px;
+}
+.selfportrait a {
+	display: block;
+}
+.selfportrait .name {
+	position: absolute;
+	left: 55px;
+	top: 100px;
+	font-family: "微软雅黑";
+	font-weight: bold;
+	font-size: 13px;
+	padding-right: 40px;
+	background: url(../image/lv0.png) no-repeat 100%;
+}
+.selfportrait .footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	float: left;
+}
+.selfportrait .footer li {
+	float: left;
+	width: 75px;
+	height: 40px;
+	text-align: center;
+	margin: 5px 0;
+	border-left: solid 1px #D9D9D9;
+}
+.selfportrait .footer li:first-child {
+	border-left: none;
+}
+.selfportrait .footer li a span {
+	display: block;
+	width: 75px;
+	height: 20px;
+	line-height: 20px;
+	font-family: "微软雅黑";
+	font-size: 13px;
+}
+.selfportrait .footer li a .num-of-focus,
+.selfportrait .footer li a .num-of-follow,
+.selfportrait .footer li a .num-of-weibo {
+	font-weight: bold;
+}
+.selfportrait .footer li a .num-of-focus:hover,
+.selfportrait .footer li a .num-of-follow:hover,
+.selfportrait .footer li a .num-of-weibo:hover {
+	color: #EB7350;
+}
+.selfportrait .footer li a .focus,
+.selfportrait .footer li a .follow,
+.selfportrait .footer li a .weibo {
+	color: #9E8080;
+}
+/*-----------------insteresting----------------------*/
+
+.selfportrait-and-ad .insteresting {
+	width: 230px;
+	overflow: hidden;
+	background-color: #FFFFFF;
+	font-family: "微软雅黑";
+	border-radius: 2px;
+}
+.selfportrait-and-ad .insteresting .header-of-insteresting {
+	width: 198px;
+	padding: 0 16px;
+	border-bottom: solid 1px #F2F2F5;
+	float: left;
+}
+.selfportrait-and-ad .insteresting .header-of-insteresting .title {
+	display: block;
+	width: 98px;
+	line-height: 38px;
+	float: left;
+	font-size: 13px;
+	margin: 0;
+	color: #333333;
+	font-weight: bold;
+}
+.selfportrait-and-ad .insteresting .header-of-insteresting a {
+	width: 56px;
+	line-height: 39px;
+	float: right;
+	font-size: 12px;
+	text-align: center;
+}
+.selfportrait-and-ad .insteresting .header-of-insteresting a:hover {
+	color: #EB7350;
+}
+.selfportrait-and-ad .insteresting .suggest {
+	padding: 5px 16px 0 16px;
+	margin-bottom: 10px;
+	width: 197px;
+	float: left;
+}
+.selfportrait-and-ad .insteresting .suggest img {
+	border-radius: 50%;
+	float: left;
+}
+.selfportrait-and-ad .insteresting .suggest .group {
+	float: left;
+	width: 125px;
+	padding: 5px 5px 5px 8px;
+}
+.selfportrait-and-ad .insteresting .suggest .weibo,
+.selfportrait-and-ad .insteresting .suggest .add {
+	display: block;
+}
+.selfportrait-and-ad .insteresting .suggest .weibo {
+	font-family: "微软雅黑";
+	font-size: 13px;
+	font-weight: bold;
+}
+.selfportrait-and-ad .insteresting .suggest .weibo:hover {
+	color: #EB7350;
+}
+.selfportrait-and-ad .insteresting .suggest .add {
+	width: 36px;
+	line-height: 23px;
+	box-shadow: 0 0 2px gray;
+	border-radius: 1px;
+	border-color: #D9D9D9;
+	font-family: "微软雅黑";
+	font-size: 13px;
+	margin-top: 5px;
+	padding-left: 25px;
+	background: url(../image/add.png) no-repeat 5px 2px;
+}
+.selfportrait-and-ad .insteresting .suggest .add:hover {
+	box-shadow: 0 1px 2px gray;
+}
+/*@knowledge 现代浏览器将:visited的样式限制到颜色级别，就是你只能改动color，其他的部分基本都受限。*/
+
+.selfportrait-and-ad .insteresting .suggest p {
+	float: left;
+	width: 187px;
+	background-color: #F2F2F5;
+	font-family: "微软雅黑";
+	font-size: 13px;
+	color: #808080;
+	padding: 5px;
+}
+.selfportrait-and-ad .insteresting .suggest p a {
+	font-size: 12px;
+	color: #EC876D;
+}
+.selfportrait-and-ad .insteresting .more {
+	float: left;
+	width: 230px;
+	line-height: 36px;
+	text-align: center;
+	font-family: "微软雅黑";
+	font-size: 13px;
+	color: #333333;
+	border-top: solid 1px #F2F2F5;
+}
+.selfportrait-and-ad .insteresting .more:hover {
+	color: #EB7350;
+}
+.selfportrait-and-ad .hot-topic {
+	width: 230px;
+	overflow: hidden;
+	background-color: #FFFFFF;
+	font-family: "微软雅黑";
+	border-radius: 2px;
+	margin-top: 20px;
+}
+.selfportrait-and-ad .header-of-hot-topic {
+	width: 198px;
+	padding: 0 16px;
+	border-bottom: solid 1px #F2F2F5;
+	float: left;
+}
+.selfportrait-and-ad .header-of-hot-topic .title {
+	display: block;
+	width: 98px;
+	line-height: 38px;
+	float: left;
+	font-size: 13px;
+	margin: 0;
+	color: #333333;
+	font-weight: bold;
+	text-align: left;
+}
+.selfportrait-and-ad .header-of-hot-topic a {
+	width: 56px;
+	line-height: 39px;
+	float: right;
+	font-size: 12px;
+	text-align: center;
+}
+.selfportrait-and-ad .header-of-hot-topic a:hover {
+	color: #EB7350;
+}
+.selfportrait-and-ad .hot-topic-list {
+	float: left;
+	margin: 10px 14px;
+}
+.selfportrait-and-ad .hot-topic-list a:hover {
+	color: #EB7350;
+}
+.selfportrait-and-ad .hot-topic-list ul li {
+	float: left;
+	width: 195px;
+	font-family: "微软雅黑";
+	font-size: 12px;
+	color: #333333;
+	padding: 8px 0 5px 0;
+}
+.selfportrait-and-ad .hot-topic-list ul li span {
+	display: block;
+	float: right;
+}
+.selfportrait-and-ad .more {
+	float: left;
+	width: 230px;
+	line-height: 36px;
+	text-align: center;
+	font-family: "微软雅黑";
+	font-size: 13px;
+	color: #333333;
+	border-top: solid 1px #F2F2F5;
+}
+.selfportrait-and-ad .more:hover {
+	color: #EB7350;
+}
+.selfportrait-and-ad .goods-recommend {
+	width: 230px;
+	overflow: hidden;
+	background-color: #FFFFFF;
+	font-family: "微软雅黑";
+	border-radius: 2px;
+	margin-top: 20px;
+}
+.selfportrait-and-ad .header-of-hot-goods-recommend {
+	width: 198px;
+	padding: 0 16px;
+	border-bottom: solid 1px #F2F2F5;
+	float: left;
+}
+.selfportrait-and-ad .header-of-hot-goods-recommend {
+	width: 198px;
+	padding: 0 16px;
+	border-bottom: solid 1px #F2F2F5;
+	float: left;
+}
+.selfportrait-and-ad .header-of-hot-goods-recommend .title {
+	display: block;
+	width: 98px;
+	line-height: 38px;
+	float: left;
+	font-size: 13px;
+	margin: 0;
+	color: #333333;
+	font-weight: bold;
+	text-align: left;
+}
+.selfportrait-and-ad .header-of-hot-goods-recommend a {
+	width: 56px;
+	line-height: 39px;
+	float: right;
+	font-size: 12px;
+	text-align: center;
+}
+.selfportrait-and-ad .goods-recommend img {
+	float: left;
+	margin: 20px 22px;
+}
+/*----------------------footer-------------------------*/
+
+.for-center-top,
+.for-center-bottom {
+	overflow: hidden;
+	width: 1000px;
+	margin: 0 auto;
+}
+.footer .top {
+	position: relative;
+	/*@knowledge z-index要设置了position:relative/absolute才起作用*/
+	
+	overflow: hidden;
+	background: #FFFFFF;
+	margin: 48px auto 0 auto;
+	min-width: 1145px;
+}
+.footer .bottom {
+	position: relative;
+	overflow: hidden;
+	background: #F2F2F5;
+	padding-bottom: 50px;
+	text-align: center;
+	min-width: 1145px;
+}
+.footer .top .splendid-weibo,
+.footer .top .phone-weibo,
+.footer .top .cooperation,
+.footer .top .help {
+	width: 190px;
+	float: left;
+	margin: 10px 25px;
+}
+.footer .top .splendid-weibo {
+	margin-left: 50px;
+}
+.footer .bottom ul {
+	margin: 0 55px;
+}
+.footer .top h2 {
+	font-family: "微软雅黑";
+	font-size: 16px;
+	font-weight: lighter;
+	color: #333333;
+}
+.footer .top li a {
+	width: 85px;
+	font-family: "微软雅黑";
+	font-size: 12px;
+	color: #808080;
+	line-height: 25px;
+	float: left;
+	margin-right: 10px;
+}
+.footer .bottom li {
+	float: left;
+	margin: 5px 20px;
+}
+.footer .bottom a,
+.footer .bottom p,
+.footer .bottom select {
+	font-family: "微软雅黑";
+	font-size: 12px;
+	color: #808080;
+	line-height: 25px;
+	float: left;
+	margin-right: 20px;
+}
+.footer .bottom .copyright {
+	clear: left;
+	float: left;
+}
+.footer .bottom select {
+	width: 83px;
+	height: 21px;
+}
+.footer .top a:hover,
+.footer .bottom a:hover {
+	color: #EB7350;
+}
+#backTop {
+	display: inline-block;
+	display: none;
+	width: 40px;
+	height: 35px;
+	background: url(../image/2015060610305595_easyicon_net_19.271641791.png) no-repeat;
+	background-color:#73BBE2 ;
+	background-position: center;
+}
+#backTop:hover{
+	background-color: #47A6D9;
+}
+#privateMassage {
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	background: #EDF0F4;
+	box-shadow: 0px 2px 8px 1px rgba(0, 0, 0, 0.2);
+	;
+	border-radius: 2px 0px 0px 2px;
+}
+#privateMassage span {
+	display: block;
+	width: 18px;
+	height: 16px;
+	margin: 15px 16px 0px 20px;
+	background: url(../image/webim_icon.png) no-repeat;
+	background-position: center left;
+	float: left;
+}
+#privateMassage a {
+	display: block;
+	width: 250px;
+	height: 40px;
+	color: #333333;
+	font: 15px "Arial", "Microsoft YaHei";
+	text-align: left;
+	line-height: 40px;
+	padding-left: 20px;
+}
