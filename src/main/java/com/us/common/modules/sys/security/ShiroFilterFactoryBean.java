@@ -1,13 +1,18 @@
 package com.us.common.modules.sys.security;
 
+import org.apache.commons.lang3.Validate;
 import org.apache.shiro.util.CollectionUtils;
 import org.apache.shiro.util.Nameable;
 import org.apache.shiro.util.StringUtils;
+import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
 import org.apache.shiro.web.filter.mgt.FilterChainManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 
 import javax.servlet.Filter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -15,26 +20,32 @@ import java.util.Map;
  * Created by jansing on 16-11-19.
  */
 public class ShiroFilterFactoryBean extends org.apache.shiro.spring.web.ShiroFilterFactoryBean {
-    private String frontLoginUrl;
-    private String frontSuccessUrl;
+    private static final transient Logger log = LoggerFactory.getLogger(ShiroFilterFactoryBean.class);
+    private Map<String, UrlConfig> urlConfigMap;
+    private String defaultUrlConfigKey = "default";
 
-    public String getFrontLoginUrl() {
-        return frontLoginUrl;
+    public Map<String, UrlConfig> getUrlConfigMap() {
+        return urlConfigMap;
     }
 
-    public void setFrontLoginUrl(String frontLoginUrl) {
-        this.frontLoginUrl = frontLoginUrl;
+    public void setUrlConfigMap(Map<String, UrlConfig> urlConfigMap) {
+        this.urlConfigMap = urlConfigMap;
     }
 
-    public String getFrontSuccessUrl() {
-        return frontSuccessUrl;
+    public String getDefaultUrlConfigKey() {
+        return defaultUrlConfigKey;
     }
 
-    public void setFrontSuccessUrl(String frontSuccessUrl) {
-        this.frontSuccessUrl = frontSuccessUrl;
+    public void setDefaultUrlConfigKey(String defaultUrlConfigKey) {
+        this.defaultUrlConfigKey = defaultUrlConfigKey;
     }
 
     protected FilterChainManager createFilterChainManager() {
+        Validate.validState(urlConfigMap!=null && !urlConfigMap.isEmpty(), "urlConfigMap属性未注入, 请在spring-context-shiro.xml中定义ShiroFilterFactoryBean.", new Object[0]);
+        UrlConfig defaultConfig = getUrlConfigMap().get(defaultUrlConfigKey);
+        Validate.validState(defaultConfig!=null, "未设置缺省的urlConfig, 请在spring-context-shiro.xml中定义ShiroFilterFactoryBean.", new Object[0]);
+        super.setLoginUrl(defaultConfig.getLoginUrl());
+        super.setSuccessUrl(defaultConfig.getSuccessUrl());
         FilterChainManager manager = super.createFilterChainManager();
         Map defaultFilters = manager.getFilters();
         Iterator filters = defaultFilters.values().iterator();
@@ -62,33 +73,20 @@ public class ShiroFilterFactoryBean extends org.apache.shiro.spring.web.ShiroFil
         return manager;
     }
 
-    private void applyFrontLoginUrlIfNecessary(Filter filter) {
-        String frontLoginUrl = this.getFrontLoginUrl();
-        if(StringUtils.hasText(frontLoginUrl) && filter instanceof FormAuthenticationFilter) {
-            FormAuthenticationFilter formFilter = (FormAuthenticationFilter)filter;
-            String existingFrontLoginUrl = formFilter.getFrontLoginUrl();
-            if(FormAuthenticationFilter.DEFAULT_FRONT_LOGIN_URL.equals(existingFrontLoginUrl)) {
-                formFilter.setFrontLoginUrl(frontLoginUrl);
-            }
+    private void applyUrlConfigIfNecessary(Filter filter){
+        if(filter instanceof FormAuthenticationFilter) {
+            FormAuthenticationFilter acFilter = (FormAuthenticationFilter)filter;
+            acFilter.setUrlConfigList(new ArrayList<>(getUrlConfigMap().values()));
+            acFilter.setDefaultUrlConfig(getUrlConfigMap().get(defaultUrlConfigKey));
+        }else if(filter instanceof LogoutFilter){
+            LogoutFilter outFilter = (LogoutFilter)filter;
+            outFilter.setUrlConfigList(new ArrayList<>(getUrlConfigMap().values()));
+            outFilter.setDefaultUrlConfig(getUrlConfigMap().get(defaultUrlConfigKey));
         }
-
-    }
-
-    private void applyFrontSuccessUrlIfNecessary(Filter filter) {
-        String frontSuccessUrl = this.getFrontSuccessUrl();
-        if(StringUtils.hasText(frontSuccessUrl) && filter instanceof FormAuthenticationFilter) {
-            FormAuthenticationFilter formFilter = (FormAuthenticationFilter)filter;
-            String existingFrontSuccessUrl = formFilter.getFrontSuccessUrl();
-            if(FormAuthenticationFilter.DEFAULT_FRONT_SUCCESS_URL.equals(existingFrontSuccessUrl)) {
-                formFilter.setFrontSuccessUrl(frontSuccessUrl);
-            }
-        }
-
     }
 
     private void applyGlobalPropertiesIfNecessary(Filter filter){
-        this.applyFrontLoginUrlIfNecessary(filter);
-        this.applyFrontSuccessUrlIfNecessary(filter);
+        this.applyUrlConfigIfNecessary(filter);
     }
 
 

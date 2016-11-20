@@ -13,6 +13,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by jansing on 16-11-17.
@@ -22,13 +23,11 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
     public static final String DEFAULT_CAPTCHA_PARAM = "validateCode";
     public static final String DEFAULT_MOBILE_PARAM = "mobileLogin";
     public static final String DEFAULT_MESSAGE_PARAM = "message";
-    public static final String DEFAULT_FRONT_LOGIN_URL = "/login.jsp";
-    public static final String DEFAULT_FRONT_SUCCESS_URL = "/";
     private String captchaParam = DEFAULT_CAPTCHA_PARAM;
     private String mobileLoginParam = DEFAULT_MOBILE_PARAM;
     private String messageParam = DEFAULT_MESSAGE_PARAM;
-    private String frontLoginUrl = DEFAULT_FRONT_LOGIN_URL;
-    private String frontSuccessUrl = DEFAULT_FRONT_SUCCESS_URL;
+    private UrlConfig defaultUrlConfig;
+    private List<UrlConfig> urlConfigList;
 
     public FormAuthenticationFilter() {
     }
@@ -67,37 +66,48 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
         return this.messageParam;
     }
 
-    public String getFrontLoginUrl() {
-        return frontLoginUrl;
+    public UrlConfig getDefaultUrlConfig() {
+        return defaultUrlConfig;
     }
 
-    public void setFrontLoginUrl(String frontLoginUrl) {
-        this.frontLoginUrl = frontLoginUrl;
+    public void setDefaultUrlConfig(UrlConfig defaultUrlConfig) {
+        this.defaultUrlConfig = defaultUrlConfig;
     }
 
-    public String getFrontSuccessUrl() {
-        return frontSuccessUrl;
+    public List<UrlConfig> getUrlConfigList() {
+        return urlConfigList;
     }
 
-    public void setFrontSuccessUrl(String frontSuccessUrl) {
-        this.frontSuccessUrl = frontSuccessUrl;
+    public void setUrlConfigList(List<UrlConfig> urlConfigList) {
+        this.urlConfigList = urlConfigList;
     }
 
     @Override
     public boolean isLoginRequest(ServletRequest request, ServletResponse response) {
-        return this.pathsMatch(this.getFrontLoginUrl(), request)||this.pathsMatch(this.getLoginUrl(), request);
+        for(UrlConfig urlConfig:getUrlConfigList()){
+            if(this.pathsMatch(urlConfig.getLoginUrl(),request)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
-        if(this.pathsMatch(getFrontLoginUrl(),request)) {
-            WebUtils.issueRedirect(request, response, this.getFrontLoginUrl(), null, true);
-        }else if(this.pathsMatch(getLoginUrl(),request)) {
-            WebUtils.issueRedirect(request, response, this.getLoginUrl(), null, true);
+        boolean flag = true;
+        for(UrlConfig urlConfig:getUrlConfigList()){
+            if(this.pathsMatch(urlConfig.getLoginUrl(),request)){
+                flag = false;
+                WebUtils.issueRedirect(request, response, urlConfig.getLoginUrl(), null, true);
+                break;
+            }
+        }
+        if(flag){
+            WebUtils.issueRedirect(request, response, getDefaultUrlConfig().getLoginUrl(), null, true);
         }
     }
 
-    //登录失败时，执行该方法后，访问匹配的controller方法
+    //登录失败时，执行该方法后，调用this.redirectToLogin()访问匹配的controller方法
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
         String className = e.getClass().getName();
@@ -121,10 +131,16 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
     @Override
     protected void issueSuccessRedirect(ServletRequest request, ServletResponse response) throws Exception {
         //前台后台登录成功后分别跳转的链接
-        if(this.pathsMatch(getFrontLoginUrl(),request)) {
-            WebUtils.issueRedirect(request, response, this.getFrontSuccessUrl(), null, true);
-        }else if(this.pathsMatch(getLoginUrl(),request)) {
-            WebUtils.issueRedirect(request, response, this.getSuccessUrl(), null, true);
+        boolean flag = true;
+        for(UrlConfig urlConfig:getUrlConfigList()){
+            if(this.pathsMatch(urlConfig.getLoginUrl(),request)){
+                flag = false;
+                WebUtils.issueRedirect(request, response, urlConfig.getSuccessUrl(), null, true);
+                break;
+            }
+        }
+        if(flag){
+            WebUtils.issueRedirect(request, response, getDefaultUrlConfig().getSuccessUrl(), null, true);
         }
     }
 

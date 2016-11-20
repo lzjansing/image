@@ -10,16 +10,34 @@
     <!-- 加载配置属性文件 -->
     <context:property-placeholder ignore-unresolvable="true" location="classpath:image.properties"/>
 
+    <bean id="urlConfig" class="com.us.common.modules.sys.security.UrlConfig">
+        <property name="homeUrl" value="${adminPath}"/>
+        <property name="loginUrl" value="${adminPath}/login"/>
+        <property name="logoutUrl" value="${adminPath}/logout"/>
+        <property name="successUrl" value="${adminPath}?login"/>
+    </bean>
+
+    <bean id="frontUrlConfig" class="com.us.common.modules.sys.security.UrlConfig">
+        <property name="homeUrl" value="${frontPath}/"/>
+        <property name="loginUrl" value="${frontPath}/login"/>
+        <property name="logoutUrl" value="${frontPath}/logout"/>
+        <property name="successUrl" value="${frontPath}?login"/>
+    </bean>
+
     <!-- 安全认证过滤器 -->
     <bean id="shiroFilter" class="com.us.common.modules.sys.security.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="${adminPath}/login"/>
-        <property name="successUrl" value="${adminPath}?login"/>
-        <property name="frontLoginUrl" value="${frontPath}/login"/>
-        <property name="frontSuccessUrl" value="${frontPath}/?login"/>
+        <property name="urlConfigMap">
+            <map>
+                <entry key="admin" value-ref="urlConfig"/>
+                <entry key="front" value-ref="frontUrlConfig"/>
+            </map>
+        </property>
+        <property name="defaultUrlConfigKey" value="admin"/>
         <property name="filters">
             <map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
+                <entry key="logout" value-ref="logoutFilter"/>
             </map>
         </property>
         <property name="filterChainDefinitions">
