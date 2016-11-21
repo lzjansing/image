@@ -3,9 +3,6 @@ package com.us.common.modules.sys.security;
 import org.apache.commons.lang3.Validate;
 import org.apache.shiro.util.CollectionUtils;
 import org.apache.shiro.util.Nameable;
-import org.apache.shiro.util.StringUtils;
-import org.apache.shiro.web.filter.AccessControlFilter;
-import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
 import org.apache.shiro.web.filter.mgt.FilterChainManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,31 +38,31 @@ public class ShiroFilterFactoryBean extends org.apache.shiro.spring.web.ShiroFil
     }
 
     protected FilterChainManager createFilterChainManager() {
-        Validate.validState(urlConfigMap!=null && !urlConfigMap.isEmpty(), "urlConfigMap属性未注入, 请在spring-context-shiro.xml中定义ShiroFilterFactoryBean.", new Object[0]);
+        Validate.validState(urlConfigMap != null && !urlConfigMap.isEmpty(), "urlConfigMap属性未注入, 请在spring-context-shiro.xml中定义ShiroFilterFactoryBean.", new Object[0]);
         UrlConfig defaultConfig = getUrlConfigMap().get(defaultUrlConfigKey);
-        Validate.validState(defaultConfig!=null, "未设置缺省的urlConfig, 请在spring-context-shiro.xml中定义ShiroFilterFactoryBean.", new Object[0]);
+        Validate.validState(defaultConfig != null, "未设置缺省的urlConfig, 请在spring-context-shiro.xml中定义ShiroFilterFactoryBean.", new Object[0]);
         super.setLoginUrl(defaultConfig.getLoginUrl());
         super.setSuccessUrl(defaultConfig.getSuccessUrl());
         FilterChainManager manager = super.createFilterChainManager();
         Map defaultFilters = manager.getFilters();
         Iterator filters = defaultFilters.values().iterator();
 
-        while(filters.hasNext()) {
-            Filter chains = (Filter)filters.next();
+        while (filters.hasNext()) {
+            Filter chains = (Filter) filters.next();
             this.applyGlobalPropertiesIfNecessary(chains);
         }
 
         Map filters1 = this.getFilters();
         String entry;
         Filter url;
-        if(!CollectionUtils.isEmpty(filters1)) {
-            for(Iterator chains1 = filters1.entrySet().iterator(); chains1.hasNext(); manager.addFilter(entry, url, false)) {
-                Map.Entry i$ = (Map.Entry)chains1.next();
-                entry = (String)i$.getKey();
-                url = (Filter)i$.getValue();
+        if (!CollectionUtils.isEmpty(filters1)) {
+            for (Iterator chains1 = filters1.entrySet().iterator(); chains1.hasNext(); manager.addFilter(entry, url, false)) {
+                Map.Entry i$ = (Map.Entry) chains1.next();
+                entry = (String) i$.getKey();
+                url = (Filter) i$.getValue();
                 this.applyGlobalPropertiesIfNecessary(url);
-                if(url instanceof Nameable) {
-                    ((Nameable)url).setName(entry);
+                if (url instanceof Nameable) {
+                    ((Nameable) url).setName(entry);
                 }
             }
         }
@@ -73,28 +70,28 @@ public class ShiroFilterFactoryBean extends org.apache.shiro.spring.web.ShiroFil
         return manager;
     }
 
-    private void applyUrlConfigIfNecessary(Filter filter){
-        if(filter instanceof FormAuthenticationFilter) {
-            FormAuthenticationFilter acFilter = (FormAuthenticationFilter)filter;
+    private void applyUrlConfigIfNecessary(Filter filter) {
+        if (filter instanceof FormAuthenticationFilter) {
+            FormAuthenticationFilter acFilter = (FormAuthenticationFilter) filter;
             acFilter.setUrlConfigList(new ArrayList<>(getUrlConfigMap().values()));
             acFilter.setDefaultUrlConfig(getUrlConfigMap().get(defaultUrlConfigKey));
-        }else if(filter instanceof LogoutFilter){
-            LogoutFilter outFilter = (LogoutFilter)filter;
+        } else if (filter instanceof LogoutFilter) {
+            LogoutFilter outFilter = (LogoutFilter) filter;
             outFilter.setUrlConfigList(new ArrayList<>(getUrlConfigMap().values()));
             outFilter.setDefaultUrlConfig(getUrlConfigMap().get(defaultUrlConfigKey));
         }
     }
 
-    private void applyGlobalPropertiesIfNecessary(Filter filter){
+    private void applyGlobalPropertiesIfNecessary(Filter filter) {
         this.applyUrlConfigIfNecessary(filter);
     }
 
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        if(bean instanceof Filter) {
+        if (bean instanceof Filter) {
             super.postProcessBeforeInitialization(bean, beanName);
-            this.applyGlobalPropertiesIfNecessary((Filter)bean);
+            this.applyGlobalPropertiesIfNecessary((Filter) bean);
         }
 
         return bean;

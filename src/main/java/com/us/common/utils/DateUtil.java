@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package com.us.common.utils;
 
 import org.apache.commons.lang3.time.DateFormatUtils;

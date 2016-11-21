@@ -68,8 +68,8 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 //                throw new AuthenticationException("msg:该帐号禁止登录.");
 //            } else {
             //普通用户不能登录后台
-            if(Integer.valueOf(DictUtil.getDictValue("普通用户","user_type",null)).equals(user.getUserType())){
-                if(Servlets.getServletPath().startsWith(Global.getAdminPath())){
+            if (Integer.valueOf(DictUtil.getDictValue("普通用户", "user_type", null)).equals(user.getUserType())) {
+                if (Servlets.getServletPath().startsWith(Global.getAdminPath())) {
                     return null;
                 }
             }

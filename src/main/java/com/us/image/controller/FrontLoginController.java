@@ -28,8 +28,8 @@ public class FrontLoginController extends BaseController {
     @Autowired
     private SessionDAO sessionDAO;
 
-    @RequestMapping(value="${frontPath}/login", method = RequestMethod.GET)
-    public String login(){
+    @RequestMapping(value = "${frontPath}/login", method = RequestMethod.GET)
+    public String login() {
         SystemAuthorizingRealm.Principal principal = UserUtil.getPrincipal();
         if (this.logger.isDebugEnabled()) {
             this.logger.debug("login, active session size: {}", Integer.valueOf(this.sessionDAO.getActiveSessions(false).size()));
@@ -72,7 +72,7 @@ public class FrontLoginController extends BaseController {
     @RequestMapping({"${frontPath}"})
     public String index() {
         SystemAuthorizingRealm.Principal principal = UserUtil.getPrincipal();
-        if(principal!=null) {
+        if (principal != null) {
             isValidateCodeLogin(principal.getUsername(), false, true);
             if (this.logger.isDebugEnabled()) {
                 this.logger.debug("show index, active session size: {}", Integer.valueOf(this.sessionDAO.getActiveSessions(false).size()));
@@ -106,7 +106,6 @@ public class FrontLoginController extends BaseController {
 
         return loginFailNum.intValue() >= 3;
     }
-
 
 
 }

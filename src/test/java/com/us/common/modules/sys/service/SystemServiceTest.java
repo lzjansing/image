@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -24,7 +24,7 @@ public class SystemServiceTest {
 //        for(int i=0; i<100; i++) {
             User user = new User();
         user.setUsername("2hx4");
-        user.setCreateDate(new Date());
+        user.setCreateDate(LocalDateTime.now());
         user.setFocus(0);
         user.setPassword("fdsa");
 //        user.setUserType(1);
@@ -44,7 +44,7 @@ public class SystemServiceTest {
     public void update(){
         User user = systemService.getUser("0c3cb1375be54ed28ee00fc9f66c35ad");
         user.setUsername("gyh");
-        user.setCreateDate(new Date());
+        user.setCreateDate(LocalDateTime.now());
         systemService.saveUser(user);
     }
 

@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package com.us.common.persistence;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,14 +10,14 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import javax.xml.bind.annotation.XmlTransient;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public abstract class DataEntity<T> extends BaseEntity<T> {
     protected String remarks;
     protected User createBy;
-    protected Date createDate;
+    protected LocalDateTime createDate;
     protected User updateBy;
-    protected Date updateDate;
+    protected LocalDateTime updateDate;
     protected Integer valid;
     public static final Integer VALID_DELETE = 0;
     public static final Integer VALID_ENABLE = 1;
@@ -51,7 +46,7 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
             this.updateBy = user;
         }
 
-        this.updateDate = new Date();
+        this.updateDate = LocalDateTime.now();
         this.createDate = this.updateDate;
     }
 
@@ -61,7 +56,7 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
             this.updateBy = user;
         }
 
-        this.updateDate = new Date();
+        this.updateDate = LocalDateTime.now();
     }
 
     @Length(max = 255)
@@ -82,12 +77,13 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
         this.createBy = createBy;
     }
 
+    //todo 检查JsonFormat是否兼容LocalDateTime
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return this.createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 
@@ -101,11 +97,11 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
     }
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getUpdateDate() {
+    public LocalDateTime getUpdateDate() {
         return this.updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
 

@@ -53,8 +53,8 @@ public class LogoutFilter extends org.apache.shiro.web.filter.authc.LogoutFilter
     }
 
     protected String getRedirectUrl(ServletRequest request, ServletResponse response, Subject subject) {
-        for(UrlConfig urlConfig:getUrlConfigList()){
-            if(this.pathsMatch(urlConfig.getLogoutUrl(),request)){
+        for (UrlConfig urlConfig : getUrlConfigList()) {
+            if (this.pathsMatch(urlConfig.getLogoutUrl(), request)) {
                 return urlConfig.getHomeUrl();
             }
         }

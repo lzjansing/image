@@ -216,7 +216,7 @@
         <example>${fns:jsGetVal('row.user.id')}  返回：!row?'':!row.user?'':!row.user.id?'':row.user.id</example>
     </function>
 
-    <!-- DateUtils -->
+    <!-- DateUtil -->
     <function>
         <description>获取当前日期</description>
         <name>getDate</name>
@@ -230,6 +230,72 @@
         <function-class>com.us.common.utils.DateUtil</function-class>
         <function-signature>long pastDays(java.util.Date)</function-signature>
         <example>${fns:pastDays(date)}</example>
+    </function>
+
+    <!-- LocalDateTimeUtil -->
+    <function>
+        <description>自定义获取当前时期</description>
+        <name>getLDT</name>
+        <function-class>com.us.common.utils.LocalDateTimeUtil</function-class>
+        <function-signature>java.lang.String get(java.lang.String))</function-signature>
+        <example>${fns:getDate(pattern)}</example>
+    </function>
+    <function>
+        <description>获取当前时期</description>
+        <name>getDateTimeLDT</name>
+        <function-class>com.us.common.utils.LocalDateTimeUtil</function-class>
+        <function-signature>java.lang.String getDateTime())</function-signature>
+        <example>${fns:getDateTime()}</example>
+    </function>
+    <function>
+        <description>获取当前日期</description>
+        <name>getDateLDT</name>
+        <function-class>com.us.common.utils.LocalDateTimeUtil</function-class>
+        <function-signature>java.lang.String getDate())</function-signature>
+        <example>${fns:getDate()}</example>
+    </function>
+    <function>
+        <description>获取当前时分</description>
+        <name>getHourMinuteLDT</name>
+        <function-class>com.us.common.utils.LocalDateTimeUtil</function-class>
+        <function-signature>java.lang.String getHourMinute())</function-signature>
+        <example>${fns:getHourMinute()}</example>
+    </function>
+    <function>
+        <description>自定义获取时期</description>
+        <name>formatLDT</name>
+        <function-class>com.us.common.utils.LocalDateTimeUtil</function-class>
+        <function-signature>java.lang.String format(java.time.LocalDateTime,java.lang.String))</function-signature>
+        <example>${fns:formatLDT(localDateTime,pattern)}</example>
+    </function>
+    <function>
+        <description>获取时期</description>
+        <name>formatDateTimeLDT</name>
+        <function-class>com.us.common.utils.LocalDateTimeUtil</function-class>
+        <function-signature>java.lang.String formatDateTime(java.time.LocalDateTime)))</function-signature>
+        <example>${fns:formatDateTimeLDT(localDateTime)}</example>
+    </function>
+    <function>
+        <description>获取日期</description>
+        <name>formatDateLDT</name>
+        <function-class>com.us.common.utils.LocalDateTimeUtil</function-class>
+        <function-signature>java.lang.String formatDate(java.time.LocalDateTime)))</function-signature>
+        <example>${fns:formatDateLDT(localDateTime)}</example>
+    </function>
+    <function>
+        <description>获取时分</description>
+        <name>formatHourMinuteLDT</name>
+        <function-class>com.us.common.utils.LocalDateTimeUtil</function-class>
+        <function-signature>java.lang.String formatHourMinute(java.time.LocalDateTime)))</function-signature>
+        <example>${fns:formatHourMinuteLDT(localDateTime)}</example>
+    </function>
+
+    <function>
+        <description>获取过去的天数</description>
+        <name>pastLTD</name>
+        <function-class>com.us.common.utils.LocalDateTimeUtil</function-class>
+        <function-signature>java.lang.String past(java.time.LocalDateTime)</function-signature>
+        <example>${fns:pastLTD(localDateTime)}</example>
     </function>
 
     <!-- JsonMapper -->

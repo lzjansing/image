@@ -155,28 +155,28 @@ public class Servlets {
      * getRequestURL    http://localhost:8080/image/login
      * getQueryString   username=aaa&password=ttt
      * 参考org.apache.shiro.web.util.WebUtils.getRequestUri()等
+     *
      * @return
      */
-    public static String getContextPath(){
+    public static String getContextPath() {
         return getRequest().getContextPath();
     }
 
-    public static String getServletPath(){
+    public static String getServletPath() {
         return getRequest().getServletPath();
     }
 
-    public static String getRequestURI(){
+    public static String getRequestURI() {
         return getRequest().getRequestURI();
     }
 
-    public static String getRequestURL(){
+    public static String getRequestURL() {
         return getRequest().getRequestURL().toString();
     }
 
-    public static String getQueryString(){
+    public static String getQueryString() {
         return getRequest().getQueryString();
     }
-
 
 
     public static boolean isStaticFile(String uri) {

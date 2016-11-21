@@ -46,9 +46,7 @@
                                 <td><a href="form?id=${role.id}">${role.enname}</a></td>
                                 <shiro:hasPermission name="sys:role:edit"><td>
                                     <a href="${ctx}/sys/role/assign?id=${role.id}">分配</a>
-                                    <c:if test="${(role.sysData eq fns:getDictValue('是', 'yes_no', '1') && fns:getUser().admin)||!(role.sysData eq fns:getDictValue('是', 'yes_no', '1'))}">
-                                        <a href="${ctx}/sys/role/form?id=${role.id}">修改</a>
-                                    </c:if>
+                                    <a href="${ctx}/sys/role/form?id=${role.id}">修改</a>
                                     <a href="#confirm" data-toggle="modal" onclick="confirmDialog('确认要删除该角色吗？', '${ctx}/sys/role/delete?id=${role.id}');">删除</a>
                                 </td></shiro:hasPermission>
                             </tr>

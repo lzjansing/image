@@ -3,10 +3,7 @@ package com.us.spring.mvc.controller;
 
 import com.us.common.beanvalidator.BeanValidators;
 import com.us.common.mapper.JsonMapper;
-import com.us.spring.mvc.utils.MyBooleanEditor;
-import com.us.spring.mvc.utils.MyDateEditor;
-import com.us.spring.mvc.utils.MyIntegerEditor;
-import com.us.spring.mvc.utils.MyStringEditor;
+import com.us.spring.mvc.utils.*;
 import org.apache.shiro.authc.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +21,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -116,6 +114,7 @@ public class BaseController {
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(LocalDateTime.class, new MyLocalDateTimeEditor());
         binder.registerCustomEditor(String.class, new MyStringEditor());
         binder.registerCustomEditor(Boolean.class, new MyBooleanEditor());
         binder.registerCustomEditor(Integer.class, new MyIntegerEditor());

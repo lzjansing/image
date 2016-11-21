@@ -81,7 +81,7 @@
                                         ${rule.keyword}
                                 </a></td>
                                 <td>
-                                    <fmt:formatDate value="${rule.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                ${fns:formatDateTimeLDT(rule.updateDate)}
                                 </td>
                                 <td>
                                     <shiro:hasPermission name="rule:edit">

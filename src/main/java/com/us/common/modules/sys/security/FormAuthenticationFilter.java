@@ -5,7 +5,6 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Service;
 
@@ -84,8 +83,8 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 
     @Override
     public boolean isLoginRequest(ServletRequest request, ServletResponse response) {
-        for(UrlConfig urlConfig:getUrlConfigList()){
-            if(this.pathsMatch(urlConfig.getLoginUrl(),request)){
+        for (UrlConfig urlConfig : getUrlConfigList()) {
+            if (this.pathsMatch(urlConfig.getLoginUrl(), request)) {
                 return true;
             }
         }
@@ -95,14 +94,14 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
     @Override
     protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
         boolean flag = true;
-        for(UrlConfig urlConfig:getUrlConfigList()){
-            if(this.pathsMatch(urlConfig.getLoginUrl(),request)){
+        for (UrlConfig urlConfig : getUrlConfigList()) {
+            if (this.pathsMatch(urlConfig.getLoginUrl(), request)) {
                 flag = false;
                 WebUtils.issueRedirect(request, response, urlConfig.getLoginUrl(), null, true);
                 break;
             }
         }
-        if(flag){
+        if (flag) {
             WebUtils.issueRedirect(request, response, getDefaultUrlConfig().getLoginUrl(), null, true);
         }
     }
@@ -132,14 +131,14 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
     protected void issueSuccessRedirect(ServletRequest request, ServletResponse response) throws Exception {
         //前台后台登录成功后分别跳转的链接
         boolean flag = true;
-        for(UrlConfig urlConfig:getUrlConfigList()){
-            if(this.pathsMatch(urlConfig.getLoginUrl(),request)){
+        for (UrlConfig urlConfig : getUrlConfigList()) {
+            if (this.pathsMatch(urlConfig.getLoginUrl(), request)) {
                 flag = false;
                 WebUtils.issueRedirect(request, response, urlConfig.getSuccessUrl(), null, true);
                 break;
             }
         }
-        if(flag){
+        if (flag) {
             WebUtils.issueRedirect(request, response, getDefaultUrlConfig().getSuccessUrl(), null, true);
         }
     }

@@ -5,14 +5,13 @@ import java.io.Serializable;
 /**
  * Created by jansing on 16-11-20.
  */
-public class UrlConfig implements Serializable{
+public class UrlConfig implements Serializable {
     private String homeUrl = "/";
     private String loginUrl = "/login";
     private String successUrl = homeUrl;
     private String logoutUrl = "/logout";
 
     public UrlConfig() {
-        System.out.println("urlconfig");
     }
 
     public String getHomeUrl() {
@@ -20,7 +19,7 @@ public class UrlConfig implements Serializable{
     }
 
     public void setHomeUrl(String homeUrl) {
-        if(this.successUrl.equals(this.homeUrl)){
+        if (this.successUrl.equals(this.homeUrl)) {
             this.successUrl = homeUrl;
         }
         this.homeUrl = homeUrl;

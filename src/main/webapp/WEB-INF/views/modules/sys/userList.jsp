@@ -81,7 +81,7 @@
                                         ${user.focus}
                                 </td>
                                 <td>
-                                    <fmt:formatDate value="${user.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                        ${fns:formatDateTimeLDT(user.createDate)}
                                 </td>
                                 <td>
                                     <shiro:hasPermission name="sys:user:edit">
