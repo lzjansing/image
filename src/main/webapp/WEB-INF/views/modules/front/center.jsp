@@ -31,7 +31,7 @@
             <a class="home" href="#">首页</a>
             <a class="discover" href="">发现</a>
             <a class="game" href="">游戏</a>
-            <a class="user" href="#">${sessionScope.loginAccount.user.nickname}</a>
+            <a class="user" href="#">${fns.getAccount().user.nickname}</a>
         </ul>
 
         <ul>
@@ -71,7 +71,7 @@
         <a href="${ctx}/account/center">
             <img class="photo" alt="文婷婷" src="http://tp3.sinaimg.cn/3774621790/180/5707665503/0">
         </a>
-        <h5><i>${sessionScope.loginAccount.user.nickname}</i></h5>
+        <h5><i>${fns:getAccount().user.nickname}</i></h5>
         <p>希望改变。。。</p>
     </div>
     <div id="personal_headerBottom">

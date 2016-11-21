@@ -18,10 +18,10 @@
     </bean>
 
     <bean id="frontUrlConfig" class="com.us.common.modules.sys.security.UrlConfig">
-        <property name="homeUrl" value="${frontPath}/"/>
-        <property name="loginUrl" value="${frontPath}/login"/>
-        <property name="logoutUrl" value="${frontPath}/logout"/>
-        <property name="successUrl" value="${frontPath}?login"/>
+        <property name="homeUrl" value="${frontPath}/access/"/>
+        <property name="loginUrl" value="${frontPath}/access/login"/>
+        <property name="logoutUrl" value="${frontPath}/access/logout"/>
+        <property name="successUrl" value="${frontPath}/access/"/>
     </bean>
 
     <!-- 安全认证过滤器 -->
@@ -52,8 +52,9 @@
                 <!--${adminPath}/** = user,roles[admin]-->
                 <!--前台-->
                 /static/** = anon
-                ${frontPath}/login = authc
-                ${frontPath}/logout = logout
+                ${frontPath}/access/login = authc
+                ${frontPath}/access/logout = logout
+                <!--${frontPath}/account/** = user-->
                 ${frontPath}/** = anon
             </value>
         </property>

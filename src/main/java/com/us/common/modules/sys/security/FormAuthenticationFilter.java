@@ -1,6 +1,8 @@
 package com.us.common.modules.sys.security;
 
+import com.us.common.config.Global;
 import com.us.common.utils.StringUtil;
+import com.us.common.web.Servlets;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -42,7 +44,8 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
         String host = StringUtil.getRemoteAddr((HttpServletRequest) request);
         String captcha = this.getCaptcha(request);
         boolean mobile = this.isMobileLogin(request);
-        return new UsernamePasswordToken(username, password, rememberMe, host, captcha, mobile);
+        return new UsernamePasswordToken(username, password, rememberMe, host, captcha, mobile,
+                !Servlets.getServletPath().startsWith(Global.getAdminPath()));
     }
 
     public String getCaptchaParam() {
@@ -115,7 +118,7 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
             if (e.getMessage() != null && StringUtil.startsWith(e.getMessage(), "msg:")) {
                 message = StringUtil.replace(e.getMessage(), "msg:", "");
             } else {
-                message = "系统出现点问题，请稍后再试！";
+                message = ((UsernamePasswordToken) token).isFrontEnd() ? "" : "系统出现点问题，请稍后再试！";
                 e.printStackTrace();
             }
         } else {

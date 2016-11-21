@@ -8,6 +8,8 @@ import com.us.common.modules.sys.entities.Menu;
 import com.us.common.modules.sys.entities.Role;
 import com.us.common.modules.sys.entities.User;
 import com.us.common.modules.sys.security.SystemAuthorizingRealm.Principal;
+import com.us.image.dao.AccountDao;
+import com.us.image.entities.Account;
 import com.us.spring.utils.CacheUtil;
 import com.us.spring.utils.SpringContextHolder;
 import org.apache.shiro.SecurityUtils;
@@ -25,6 +27,7 @@ public class UserUtil {
     private static UserDao userDao = (UserDao) SpringContextHolder.getBean(UserDao.class);
     private static RoleDao roleDao = (RoleDao) SpringContextHolder.getBean(RoleDao.class);
     private static MenuDao menuDao = (MenuDao) SpringContextHolder.getBean(MenuDao.class);
+    private static AccountDao accountDao = (AccountDao) SpringContextHolder.getBean(AccountDao.class);
     public static final String USER_CACHE = "userCache";
     public static final String USER_CACHE_ID_ = "id_";
     public static final String USER_CACHE_USERNAME_ = "un_";
@@ -62,10 +65,27 @@ public class UserUtil {
     public static User getUser() {
         Principal principal = getPrincipal();
         if (principal != null) {
+            if(principal.isFrontEnd()){
+                return null;
+            }
             User user = get(principal.getId());
             return user != null ? user : new User();
         } else {
             return new User();
+        }
+    }
+
+    public static Account getAccount() {
+        Principal principal = getPrincipal();
+
+        if (principal != null) {
+            if(!principal.isFrontEnd()){
+                return null;
+            }
+            Account account = accountDao.selectById(principal.getId());
+            return account != null ? account : new Account();
+        } else {
+            return new Account();
         }
     }
 
@@ -85,6 +105,9 @@ public class UserUtil {
         List roleList = (List) getCache(CACHE_ROLE_LIST);
         if (roleList == null) {
             User user = getUser();
+            if(user==null){
+                return null;
+            }
             if (isAdmin(user)) {
                 roleList = roleDao.findList(new Role());
             } else {
@@ -102,6 +125,9 @@ public class UserUtil {
         List menuList = (List) getCache(CACHE_MENU_LIST);
         if (menuList == null) {
             User user = getUser();
+            if(user==null){
+                return null;
+            }
             Menu m = new Menu();
             if (isAdmin(user)) {
                 menuList = menuDao.findByUserId(m);

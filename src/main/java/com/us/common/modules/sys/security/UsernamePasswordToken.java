@@ -6,6 +6,7 @@ package com.us.common.modules.sys.security;
 public class UsernamePasswordToken extends org.apache.shiro.authc.UsernamePasswordToken {
     private String captcha;
     private boolean mobileLogin;
+    private boolean frontEnd;
 
     public UsernamePasswordToken() {
     }
@@ -14,10 +15,11 @@ public class UsernamePasswordToken extends org.apache.shiro.authc.UsernamePasswo
         super(username, password);
     }
 
-    public UsernamePasswordToken(String username, char[] password, boolean rememberMe, String host, String captcha, boolean mobileLogin) {
+    public UsernamePasswordToken(String username, char[] password, boolean rememberMe, String host, String captcha, boolean mobileLogin, boolean frontEnd) {
         super(username, password, rememberMe, host);
         this.captcha = captcha;
         this.mobileLogin = mobileLogin;
+        this.frontEnd = frontEnd;
     }
 
     public String getCaptcha() {
@@ -30,5 +32,13 @@ public class UsernamePasswordToken extends org.apache.shiro.authc.UsernamePasswo
 
     public boolean isMobileLogin() {
         return this.mobileLogin;
+    }
+
+    public boolean isFrontEnd() {
+        return frontEnd;
+    }
+
+    public void setFrontEnd(boolean frontEnd) {
+        frontEnd = frontEnd;
     }
 }

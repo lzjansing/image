@@ -1,14 +1,14 @@
 package com.us.image.controller;
 
+import com.us.common.modules.sys.utils.UserUtil;
 import com.us.image.entities.Account;
 import com.us.spring.mvc.controller.BaseController;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * @author : Zhong Junbin
@@ -20,13 +20,15 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "${frontPath}/account")
 public class AccountController extends BaseController {
 
+    //已使用
     // TODO 未使用 Shiro，无法使用注解
 
     @ModelAttribute
-    public void populateAccountIntoModel(Model model, HttpSession session) {
-        model.addAttribute("loginAccount", session.getAttribute("loginAccount"));
+    public void populateAccountIntoModel(Model model) {
+        model.addAttribute("loginAccount", UserUtil.getAccount());
     }
 
+//    @RequiresAuthentication
     @RequestMapping(value = "/center", method = RequestMethod.GET)
     public String personCenter(@ModelAttribute(value = "loginAccount") Account loginAccount) {
         if (loginAccount == null) {

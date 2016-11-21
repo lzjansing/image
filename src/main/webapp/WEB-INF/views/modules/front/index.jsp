@@ -30,7 +30,7 @@
             <a class="home" href="#">首页</a>
             <a class="discover" href="">发现</a>
             <a class="game" href="">游戏</a>
-            <a class="user" href="">${sessionScope.loginAccount.user.nickname}</a>
+            <a class="user" href="">${fns:getAccount().user.nickname}</a>
         </ul>
 
         <ul>
@@ -266,7 +266,7 @@
                      src="${basePath}/static/image/selfportrait-background.jpg"/>
                 <img class="portrait" src="${basePath}/static/image/selfportrait.jpg"/>
                 <%-- TODO 个人中心 --%>
-                <a class="name" href="${ctx}/account/center">${sessionScope.loginAccount.user.nickname}</a>
+                <a class="name" href="${ctx}/account/center">${fns:getAccount().user.nickname}</a>
                 <ul class="footer">
                     <li>
                         <a href="">

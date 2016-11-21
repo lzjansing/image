@@ -57,7 +57,7 @@
                 </ul>
                 <form method="post" action="${ctx}/access/login">
                     <div class="filed" id="xing">
-                        <input type="text" class="input" id="name" name="email" placeholder="邮箱"/>
+                        <input type="text" class="input" id="name" name="username" placeholder="邮箱"/>
                     </div>
                     <div class="filed pw" id="mima">
                         <input type="password" class="input" id="password" name="password" placeholder="请输入密码"/>

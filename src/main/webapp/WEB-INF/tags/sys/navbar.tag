@@ -22,7 +22,7 @@
             <li class="dropdown user">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                     <img alt="" src="${ctxFront}/img/avatar.png"/>
-                    <span class="username">${session.getAttribute('loginUser')!=null?session.getAttribute('loginUser').username:''}</span>
+                    <span class="username">${fns:getUser().username}</span>
                     <i class="fa fa-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu">

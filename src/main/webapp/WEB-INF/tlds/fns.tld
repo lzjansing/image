@@ -76,6 +76,13 @@
         <function-signature>com.us.common.modules.sys.entities.User getUser()</function-signature>
         <example>${fns:getUser()}</example>
     </function>
+    <function>
+        <description>获取前台当前用户对象</description>
+        <name>getAccount</name>
+        <function-class>com.us.common.modules.sys.utils.UserUtil</function-class>
+        <function-signature>com.us.image.entities.Account getAccount()</function-signature>
+        <example>${fns:getAccount()}</example>
+    </function>
 
     <function>
         <description>根据编码获取用户对象</description>

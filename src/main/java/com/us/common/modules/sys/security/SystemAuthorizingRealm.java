@@ -6,16 +6,14 @@ import com.us.common.modules.sys.entities.Menu;
 import com.us.common.modules.sys.entities.Role;
 import com.us.common.modules.sys.entities.User;
 import com.us.common.modules.sys.service.SystemService;
-import com.us.common.modules.sys.utils.DictUtil;
 import com.us.common.modules.sys.utils.UserUtil;
 import com.us.common.utils.Encodes;
 import com.us.common.utils.StringUtil;
-import com.us.common.web.Servlets;
+import com.us.image.service.AccountService;
 import com.us.spring.utils.SpringContextHolder;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.credential.AllowAllCredentialsMatcher;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -25,6 +23,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -40,12 +39,30 @@ import java.util.Iterator;
 @Service
 public class SystemAuthorizingRealm extends AuthorizingRealm {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private CredentialsMatcher frontCredentialsMatcher;
     private SystemService systemService;
+    @Autowired
+    private AccountService accountService;
 
     public SystemAuthorizingRealm() {
     }
 
-    //登录
+    public CredentialsMatcher getFrontCredentialsMatcher() {
+        return frontCredentialsMatcher;
+    }
+
+    public void setFrontCredentialsMatcher(CredentialsMatcher frontCredentialsMatcher) {
+        this.frontCredentialsMatcher = frontCredentialsMatcher;
+    }
+
+    /**
+     * 构造登录信息，
+     * 参考AuthenticatingRealm.getAuthenticationInfo()
+     *
+     * @param authenticationToken
+     * @return
+     * @throws AuthenticationException
+     */
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         int activeSessionSize = this.getSystemService().getSessionDao().getActiveSessions(false).size();
@@ -61,28 +78,27 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
             }
         }
 
-        //todo 没有验证密码？
-        User user = this.getSystemService().getUserByUsername(token.getUsername());
-        if (user != null) {
-//            if(User.VALID_DISABLE.equals(user.getValid())) {
-//                throw new AuthenticationException("msg:该帐号禁止登录.");
-//            } else {
-            //普通用户不能登录后台
-            if (Integer.valueOf(DictUtil.getDictValue("普通用户", "user_type", null)).equals(user.getUserType())) {
-                if (Servlets.getServletPath().startsWith(Global.getAdminPath())) {
-                    return null;
-                }
+        if (token.isFrontEnd()) {
+            com.us.image.entities.Account account = accountService.selectByEmail(token.getUsername());
+            if (account != null) {
+                return new SimpleAuthenticationInfo(
+                        new Principal(account.getId(), account.getEmail(), token.isMobileLogin(), token.isFrontEnd()),
+                        account.getPassword(),
+                        Util.bytes(account.getEmail()),
+                        this.getName());
             }
-            byte[] salt = Encodes.decodeHex(user.getPassword().substring(0, 16));
-            return new SimpleAuthenticationInfo(
-                    new Principal(user, token.isMobileLogin()),
-                    user.getPassword().substring(16),
-                    Util.bytes(salt),
-                    this.getName());
-//            }
         } else {
-            return null;
+            User user = this.getSystemService().getUserByUsername(token.getUsername());
+            if (user != null) {
+                byte[] salt = Encodes.decodeHex(user.getPassword().substring(0, 16));
+                return new SimpleAuthenticationInfo(
+                        new Principal(user.getId(), user.getUsername(), token.isMobileLogin(), token.isFrontEnd()),
+                        user.getPassword().substring(16),
+                        Util.bytes(salt),
+                        this.getName());
+            }
         }
+        return null;
     }
 
     //权限
@@ -103,6 +119,10 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
                     this.getSystemService().getSessionDao().delete(session);
                 }
             }
+        }
+        if (principal.isFrontEnd()) {
+            //前台用户无需任何权限
+            return null;
         }
 
         User user = this.getSystemService().getUserByUsername(principal.getUsername());
@@ -131,7 +151,27 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
                 simpleAuthorizationInfo.addRole(roleIterator.next().getEnname());
             }
             return simpleAuthorizationInfo;
+        }
+    }
 
+    /**
+     * 验证密码是否正确
+     *
+     * @param token
+     * @param info
+     * @throws AuthenticationException
+     */
+    @Override
+    protected void assertCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) throws AuthenticationException {
+        UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
+        CredentialsMatcher cm = usernamePasswordToken.isFrontEnd() ? this.getFrontCredentialsMatcher() : this.getCredentialsMatcher();
+        if (cm != null) {
+            if (!cm.doCredentialsMatch(token, info)) {
+                String msg = "Submitted credentials for token [" + token + "] did not match the expected credentials.";
+                throw new IncorrectCredentialsException(msg);
+            }
+        } else {
+            throw new AuthenticationException("A CredentialsMatcher must be configured in order to verify credentials during authentication.  If you do not wish for credentials to be examined, you can configure an " + AllowAllCredentialsMatcher.class.getName() + " instance.");
         }
     }
 
@@ -140,6 +180,10 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
         HashedCredentialsMatcher matcher = new HashedCredentialsMatcher("SHA-1");
         matcher.setHashIterations(1024);
         this.setCredentialsMatcher(matcher);
+
+        HashedCredentialsMatcher frontMatcher = new HashedCredentialsMatcher("MD5");
+        frontMatcher.setHashIterations(1);
+        this.setFrontCredentialsMatcher(frontMatcher);
     }
 
     public SystemService getSystemService() {
@@ -154,11 +198,13 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
         private String id;
         private String username;
         private boolean mobileLogin;
+        private boolean frontEnd;
 
-        public Principal(User user, boolean mobileLogin) {
-            this.id = user.getId();
-            this.username = user.getUsername();
+        public Principal(String userId, String username, boolean mobileLogin, boolean frontEnd) {
+            this.id = userId;
+            this.username = username;
             this.mobileLogin = mobileLogin;
+            this.frontEnd = frontEnd;
         }
 
         public String getId() {
@@ -171,6 +217,10 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 
         public boolean isMobileLogin() {
             return this.mobileLogin;
+        }
+
+        public boolean isFrontEnd() {
+            return this.frontEnd;
         }
 
         public String getSessionid() {
