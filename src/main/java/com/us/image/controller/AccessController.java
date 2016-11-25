@@ -7,9 +7,12 @@ import com.us.common.persistence.Page;
 import com.us.common.utils.IdGen;
 import com.us.common.utils.StringUtil;
 import com.us.image.entities.Account;
+import com.us.image.entities.Focus;
 import com.us.image.entities.Share;
+import com.us.image.entities.User;
 import com.us.image.exception.AccountAlreadyExistsException;
 import com.us.image.service.AccountService;
+import com.us.image.service.FocusService;
 import com.us.image.service.ShareService;
 import com.us.image.util.EncryptUtil;
 import com.us.spring.mvc.controller.BaseController;
@@ -17,10 +20,7 @@ import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +44,8 @@ public class AccessController extends BaseController {
     private AccountService accountService;
     @Autowired
     private ShareService shareService;
+    @Autowired
+    private FocusService focusService;
 
     @RequiresGuest
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -103,15 +105,57 @@ public class AccessController extends BaseController {
     }
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-    public String index(Model model) {
+    public String index(Model model, @RequestParam(required = false) String searchInput,
+                        @RequestParam(required = false) String byPraise,
+                        @RequestParam(required = false) Integer pageNo) {
         if(!model.containsAttribute("share")) {
             Share share = new Share();
             share.setPrivated(Share.NO);
             model.addAttribute("share", share);
         }
+        Page<Share> page = new Page<>();
+        page.setPageNo(pageNo!=null?pageNo:1);
+        page.setPageSize(Integer.parseInt(Global.getConfig("page.pageSize")));
         Share tmpShare = new Share();
+        if(StringUtil.isNotBlank(searchInput)){
+            tmpShare.setContent(searchInput);
+            model.addAttribute("searchInput", searchInput);
+        }else if(StringUtil.isNotBlank(byPraise)){
+            page.setOrderBy("a.praise desc");
+            model.addAttribute("byPraise", byPraise);
+        }
+        page = shareService.findPage(page, tmpShare);
+        model.addAttribute("page", page);
+
+        User currentUser = UserUtil.getAccount().getUser();
+        if(currentUser!=null){
+            Share tmpShare2 = new Share();
+            tmpShare2.setUser(currentUser);
+            tmpShare2.setCurrentUser(currentUser);
+            int shareCount = shareService.findList(tmpShare2).size();
+            Focus focus = new Focus();
+            focus.setFromUser(currentUser);
+            int focusCount = focusService.count(focus);
+            focus.setFromUser(null);
+            int beFocusedCount = focusService.count(focus);
+            model.addAttribute("shareCount", shareCount);
+            model.addAttribute("focusCount", focusCount);
+            model.addAttribute("beFocusedCount", beFocusedCount);
+        }
+        return "modules/front/lindex";
+    }
+
+    /**
+     * todo 他人的个人中心
+     */
+    @RequestMapping(value = {"/otherPersonal/{userId}"}, method = RequestMethod.GET)
+    public String otherPersonal(Model model, @PathVariable String userId,
+                        @RequestParam(required = false) Integer pageNo) {
+        Share tmpShare = new Share();
+        tmpShare.setUser(new User(userId));
         tmpShare.setCurrentUser(UserUtil.getAccount().getUser());
         Page<Share> page = new Page<>();
+        page.setPageNo(pageNo!=null?pageNo:1);
         page.setPageSize(Integer.parseInt(Global.getConfig("page.pageSize")));
         page = shareService.findPage(page, tmpShare);
         model.addAttribute("page", page);

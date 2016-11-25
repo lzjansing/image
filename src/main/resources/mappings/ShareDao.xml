@@ -49,6 +49,9 @@
             <if test="id!=null and id!=''">
                 AND a.id = #{id}
             </if>
+            <if test="content!=null and content!=''">
+                AND a.content LIKE concat('%',#{content},'%')
+            </if>
             <choose>
                 <when test="user!=null and user.id!=null and user.id!=''">
                     AND u.id = #{user.id}

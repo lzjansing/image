@@ -17,28 +17,23 @@
 </head>
 <body>
 <div class="header"><!--header-->
+	<form action="${ctx}/access/" method="get" id="searchForm">
 	<div class="headerInner">
 		<div class="logo"><!--logo-->
 			<a href="${ctx}/access/"></a>
 		</div><!--logo结束-->
 		<div class="search relative" id="searchDiv"><!--search-->
-			<span class="placeHolder" id="placeHolder">
-						大家都在：<b>关注油价</b>
-					</span>
-			<input type="text" name="searchInput" id="searchInput" />
-			<a href="#"></a>
+			<span class="placeHolder" id="placeHolder">大家都在：<b>关注油价</b></span>
+			<input type="text" name="searchInput" id="searchInput" value="${searchInput}"/>
+			<input type="hidden" name="pageNo" value="1" id="pageNoInput"/>
+			<input type="hidden" name="byPraise" value="${byPraise}" id="byPraiseInput"/>
+			<a href="javascript:void(0);" id="searchSubmitClick"></a>
 		</div><!--search结束-->
 		<div class="navConfg"><!--导航以及设置-->
 			<div class="nav">
 				<ul>
-					<li>
-						<a href="${ctx}/access/" class="home">
-						</a>
-					</li>
-					<li>
-						<a href="#" class="discover">
-						</a>
-					</li>
+					<li><a href="${ctx}/access/" class="home"></a></li>
+					<li><a href="#" class="discover"></a></li>
 					<shiro:authenticated>
 						<li>
 							<a href="${ctx}/account/center" id="loginUser" class="relative">
@@ -48,41 +43,39 @@
 					</shiro:authenticated>
 				</ul>
 			</div>
+			<shiro:guest>
+
+				<div class="register relative">
+					<ul class="registerUl">
+						<li>
+							<a href="${ctx}/access/login">登录</a>
+						</li>
+						<li>
+							<span id="">|</span>
+						</li>
+						<li>
+							<a href="${ctx}/access/register">注册</a>
+						</li>
+					</ul>
+				</div>
+			</shiro:guest>
 			<shiro:authenticated>
 				<div class="confg relative">
 					<div id="massageConfg">
 						<div id="massageConfgHd" >
 							<ul>
-								<li>
-									<a>
-										评论我的分享
-									</a>
-								</li>
-								<li>
-									<a>
-										赞我的分享
-									</a>
-								</li>
-								<li>
-									<a>
-										收藏我的分享
-									</a>
-								</li>
+								<li><a>评论我的分享</a></li>
+								<li><a>赞我的分享</a></li>
+								<li><a>收藏我的分享</a></li>
 							</ul>
 						</div>
 					</div>
 					<div id="userConfg" >
 						<div id="userConfgHd">
 							<ul>
-								<li>
-									消息设置
-								</li>
-								<li>
-									隐私设置
-								</li>
-								<li>
-									<a href="${ctx}/access/logout">退出</a>
-								</li>
+								<li>消息设置</li>
+								<li>隐私设置</li>
+								<li><a href="${ctx}/access/logout">退出</a></li>
 							</ul>
 						</div>
 					</div>
@@ -92,6 +85,7 @@
 			</shiro:authenticated>
 		</div><!--导航以及设置结束-->
 	</div>
+	</form>
 </div><!--header结束-->
 
 
@@ -99,9 +93,16 @@
 	<div class="mainLeft"><!--main左侧内容-->
 		<div id="LeftMainNav"><!--左侧主要导航-->
 			<div>
-				<a href="${ctx}/access/">首页</a>
+				<a href="${ctx}/access/">最新分享</a>
 			</div>
-			<shiro:authenticated>
+			<div>
+				<a href="${ctx}/access/?byPraise=1">
+					点赞榜
+				</a>
+			</div>
+		</div><!--左侧主要导航结束-->
+		<shiro:authenticated>
+		<div id="LeftMainOth"><!--左侧辅佐导航-->
 				<div>
 					<a href="#">我的收藏</a>
 				</div>
@@ -117,28 +118,9 @@
 				<div>
 					<a href="#">我的微博</a>
 				</div>
-			</shiro:authenticated>
-		</div><!--左侧主要导航结束-->
-		<div id="LeftMainOth"><!--左侧辅佐导航-->
-			<div>
-				<a href="#">
-					最新分享
-				</a>
-			</div>
-			<div>
-				<a href="#">
-					点赞榜
-				</a>
-			</div>
-			<%--<div>--%>
-			<%--<a href="#">--%>
-			<%--好友圈--%>
-			<%--</a>--%>
-			<%--</div>--%>
 		</div>
+		</shiro:authenticated>
 	</div><!--main左侧内容结束-->
-
-
 
 	<div class="mainRight"><!--main右侧内容-->
 		<div class="RightMainCt"><!--main右侧主要内容-->
@@ -282,10 +264,36 @@
 						</div>
 					</div>
 				</c:forEach>
+
+
+				<div id="remainShare">
+					<div>
+						<c:if test="${not page.firstPage}">
+						<a id="prePage" href="javascript:void(0);">上一页</a>
+						</c:if>
+					</div>
+					<div class="relative selectedDiv">
+						<%--<a id="selectedPage" href="#">第一页</a>--%>
+						<%--<a id="selectBtn"></a>--%>
+						<%--<div id="selectDiv">--%>
+							<%--<ul id="selectUl">--%>
+								<%--<li><a href="#">第二页</a></li>--%>
+								<%--<li><a href="#">第三页</a></li>--%>
+								<%--<li><a href="#">第四页</a></li>--%>
+								<%--<li><a href="#">最后一页</a></li>--%>
+							<%--</ul>--%>
+						<%--</div>--%>
+					</div>
+					<div>
+						<c:if test="${not page.lastPage}">
+						<a id="nextPage" href="javascript:void(0);">下一页</a>
+						</c:if>
+					</div>
+				</div>
 			</div>
 		</div><!--main右侧主要内容结束-->
-		<shiro:authenticated>
 			<div class="otherMassage"><!--main右侧个人信息栏-->
+				<shiro:authenticated>
 				<div class="personalMassage">
 					<div class="personalPortrait">
 						<a href="javascript:void(0)">
@@ -304,7 +312,7 @@
 						</div>
 						<div>
 							<a href="#">
-								<p>${beFoucsedCount}</p>
+								<p>${beFocusedCount}</p>
 								<p>粉丝</p>
 							</a>
 						</div>
@@ -316,55 +324,55 @@
 						</div>
 					</div>
 				</div>
-
+				</shiro:authenticated>
+				<shiro:guest>
+				<div class="registerPn">
+					<div class="registerDiv">
+						<div class="registerTbl">
+							<a href="javascript:void(0)">账号登录</a>
+							<a href="${ctx}/access/register">注册</a>
+							<div class="clearfix"></div>
+						</div>
+						<form method="post" action="${ctx}/access/login">
+						<div class="registerInput">
+							<input type="text" name="username" id="userName"  placeholder="请输入邮箱"/>
+							<input type="password" name="password"  id="password" placeholder="请输入密码"/>
+						</div>
+							<div class="extraDiv">
+								<%--<div class="rememberMe">--%>
+									<%--<input type="checkbox" id="checkbox"/>--%>
+									<%--<label for="checkbox">记住我</label>--%>
+								<%--</div>--%>
+								<%--<div class="findPswd">--%>
+									<%--<a href="javascript:void(0)">忘记密码</a>--%>
+								<%--</div>--%>
+							</div>
+						<input type="submit" value="登录" name="submit" id="submitBtn"/>
+						</form>
+						<div class="registerTip">
+							<span>还没有账号？</span><a href="${ctx}/access/register">立即注册！</a>
+						</div>
+					</div>
+				</div>
+				</shiro:guest>
 			</div><!--main右侧个人信息栏结束-->
 			<div class="clearfix"></div>
-		</shiro:authenticated>
 	</div>
 	<div class="clearfix"></div>
 </div>
-<%--<div id="commentTemplate" style="displag:nont;">--%>
-<%--<div class="commentsList">--%>
-	<%--<div class="first">--%>
-		<%--<a href="#"><img src="${ctxStatic}/image/portrait.jpg"/></a>--%>
-	<%--</div>--%>
-	<%--<div class="second">--%>
-		<%--<a href="javascript:void(0)" class="commentsUserName" >'+item.fromUser.nickname+'</a>--%>
-		<%--item.parent.id!=null--%>
-		<%--<a href="javascript:void(0)" class="adverseUserName">@item.toUser.nickname</a>--%>
-		<%--:<br/>--%>
-		<%--'+item.content+'--%>
-	<%--</div>--%>
-	<%--<div class="third clearfix">--%>
-		<%--<span class="commentsTime">2016年11月22日</span>--%>
-		<%--<div class="commentsKinds">--%>
-			<%--<a href="javascript:void(0)">删除</a><span>|</span>--%>
-			<%--<a href="javascript:void(0)" class="response" style="font-weight: bold;">回复</a><span>|</span>--%>
-			<%--<a href="javascript:void(0)" class="collection3">点赞</a>--%>
-		<%--</div>--%>
-		<%--<div class="clearfix"></div>--%>
-		<%--todo--%>
-		<%--<div class="responseDiv" style="display: block;">--%>
-			<%--<div class="responseInput">--%>
-				<%--<div class="responseTip">可输入字数<span>100</span>个</div>--%>
-				<%--<textarea>回复@Livia爱紫藤萝：</textarea>--%>
-			<%--</div>--%>
-			<%--<div class="clearfix"></div>--%>
-			<%--<div class="responseFun">--%>
-				<%--<a class="responseExpression"></a>--%>
-				<%--<a class="responsePublish" href="javascript:void(0)">回复</a>--%>
-				<%--<div class="clearfix"></div>--%>
-			<%--</div>--%>
-		<%--</div>--%>
-
-	<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
 
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/front/plugins/jquery-1.10.2.min.js"></script>
 <script type="application/javascript">
 	//分享表单
+	//是否公开
+	$("#pulishPublicOrPrv > li:first").click(function(){
+		$("#privatedInput").val(1);
+	});
+	$("#pulishPublicOrPrv > li:last").click(function(){
+		$("#privatedInput").val(0);
+	});
+
 	var imgCount = 0;
 	//图片上传
 	var imgchange = function(event){
@@ -536,7 +544,7 @@
 		var t = $(this);
 		showComments(t.attr("share-id"), t.attr("next-page-no"), t.parent().parent());
 	});
-	function createCommentHtml(item){console.log(item.toUser.nickname);
+	function createCommentHtml(item){
 		var h = '\
 <div class="commentsList">\
 	<div class="first">\
@@ -606,6 +614,21 @@
 		submitCommentForm(form);
 		form.find("input:last").remove();
 		base.remove();
+	});
+
+	//搜索按钮
+	$("#searchSubmitClick").click(function(){
+		$("#byPraiseInput").val("");
+		$("#searchForm").submit();
+	});
+	//分页，需要处理一般分页、搜索分页、点赞榜分页
+	$("#prePage").click(function(){
+		$("#pageNoInput").val("${page.prev}");
+		$("#searchForm").submit();
+	});
+	$("#nextPage").click(function(){
+		$("#pageNoInput").val("${page.next}");
+		$("#searchForm").submit();
 	});
 
 

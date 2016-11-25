@@ -75,7 +75,7 @@ public class FocusService extends CrudService<FocusDao, Focus> {
         return count(focus);
     }
 
-    private int count(Focus focus){
+    public int count(Focus focus){
         return dao.count(focus);
     }
 

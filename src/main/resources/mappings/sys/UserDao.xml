@@ -33,7 +33,7 @@
         </if>
         <where>
             <if test="username != null and username != ''">
-                AND a.username like concat('%',#{username},'%')
+                AND a.username LIKE concat('%',#{username},'%')
             </if>
             <if test="userType != null">
                 AND a.user_type = #{userType}

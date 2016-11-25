@@ -105,7 +105,7 @@ public class AccountController extends BaseController {
             return "redirect:/" + this.frontPath + "access/";
         }else{
             model.addAttribute("share", share);
-            return accessController.index(model);
+            return accessController.index(model,null,null,null);
         }
     }
 
@@ -212,5 +212,23 @@ public class AccountController extends BaseController {
     }
 
 
-
+    /**
+     * todo 个人中心
+     * @param model
+     * @param pageNo
+     * @return
+     */
+    @RequestMapping(value = {"/personal"}, method = RequestMethod.GET)
+    public String otherPersonal(Model model, @RequestParam(required = false) Integer pageNo) {
+        Share tmpShare = new Share();
+        tmpShare.setCurrentUser(UserUtil.getAccount().getUser());
+        tmpShare.setUser(tmpShare.getCurrentUser());
+        Page<Share> page = new Page<>();
+        page.setPageNo(pageNo!=null?pageNo:1);
+        page.setPageSize(Integer.parseInt(Global.getConfig("page.pageSize")));
+        page = shareService.findPage(page, tmpShare);
+        model.addAttribute("page", page);
+        //todo focusCount beFoucsedCount shareCount
+        return "modules/front/lindex";
+    }
 }

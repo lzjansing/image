@@ -21,10 +21,17 @@
     <select id="count" resultType="int">
         SELECT count(a.from_uid)
         FROM focus a
-        WHERE a.from_uid = #{fromUser.id}
-        <if test="isNew!=null">
-            AND is_new = #{isNew}
-        </if>
+        <where>
+            <if test="fromUser!=null and fromUser.id!=null and fromUser.id!=''">
+                AND a.from_uid = #{fromUser.id}
+            </if>
+            <if test="toUser!=null and toUser.id!=null and toUser.id!=''">
+                AND a.to_uid = #{toUser.id}
+            </if>
+            <if test="isNew!=null">
+                AND is_new = #{isNew}
+            </if>
+        </where>
     </select>
 
     <insert id="insert">
