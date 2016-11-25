@@ -39,7 +39,7 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
         this.setId(IdGen.uuid());
 
         User user = UserUtil.getUser();
-        if (user!=null && StringUtil.isNotBlank(user.getId())) {
+        if (user != null && StringUtil.isNotBlank(user.getId())) {
             this.createBy = user;
             this.updateBy = user;
         }
@@ -50,7 +50,7 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 
     public void preUpdate() {
         User user = UserUtil.getUser();
-        if (user!=null && StringUtil.isNotBlank(user.getId())) {
+        if (user != null && StringUtil.isNotBlank(user.getId())) {
             this.updateBy = user;
         }
 

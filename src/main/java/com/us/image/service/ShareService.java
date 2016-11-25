@@ -6,7 +6,6 @@ import com.us.common.service.CrudService;
 import com.us.common.utils.Message;
 import com.us.image.dao.ShareDao;
 import com.us.image.entities.Share;
-import com.us.image.entities.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,14 +37,14 @@ public class ShareService extends CrudService<ShareDao, Share> {
     }
 
     @Transactional(readOnly = false)
-    public Message updateSelf(Share share){
+    public Message updateSelf(Share share) {
         share.setCurrentUser(UserUtil.getAccount().getUser());
         share.setUpdateDate(LocalDateTime.now());
         Message message = new Message();
-        if(dao.updateSelf(share)>0){
+        if (dao.updateSelf(share) > 0) {
             message.setCode(Message.SUCCESS);
             message.setMessage("设置成功");
-        }else{
+        } else {
             message.setCode(Message.FAIL);
             message.setMessage("设置失败");
         }
@@ -54,14 +53,14 @@ public class ShareService extends CrudService<ShareDao, Share> {
 
     //评论数、收藏数、点赞数自增1
     @Transactional(readOnly = false)
-    public Message increase(Share share){
+    public Message increase(Share share) {
         share.setCurrentUser(UserUtil.getAccount().getUser());
         share.setUpdateDate(LocalDateTime.now());
         Message message = new Message();
-        if(dao.increase(share)>0){
+        if (dao.increase(share) > 0) {
             message.setCode(Message.SUCCESS);
             message.setMessage("设置成功");
-        }else{
+        } else {
             message.setCode(Message.FAIL);
             message.setMessage("设置失败");
         }
@@ -70,14 +69,14 @@ public class ShareService extends CrudService<ShareDao, Share> {
 
     //评论数、收藏数、点赞数自减1
     @Transactional(readOnly = false)
-    public Message decrease(Share share){
+    public Message decrease(Share share) {
         share.setCurrentUser(UserUtil.getAccount().getUser());
         share.setUpdateDate(LocalDateTime.now());
         Message message = new Message();
-        if(dao.decrease(share)>0){
+        if (dao.decrease(share) > 0) {
             message.setCode(Message.SUCCESS);
             message.setMessage("设置成功");
-        }else{
+        } else {
             message.setCode(Message.FAIL);
             message.setMessage("设置失败");
         }

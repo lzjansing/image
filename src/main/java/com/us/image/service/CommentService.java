@@ -48,13 +48,13 @@ public class CommentService extends CrudService<CommentDao, Comment> {
         comment.setFromUser(UserUtil.getAccount().getUser());
         comment.setIsNew(Boolean.TRUE);
         //根据回复分享/评论 设置
-        if(comment.getParent()==null || StringUtil.isBlank(comment.getParent().getId())) {
+        if (comment.getParent() == null || StringUtil.isBlank(comment.getParent().getId())) {
             comment.setToUser(share.getUser());
             comment.setParent(new Comment());
-        }else{
+        } else {
             Comment parent = dao.get(comment.getParent().getId());
             comment.setToUser(parent.getFromUser());
-            comment.setPids(parent.getPids()+","+parent.getId());
+            comment.setPids(parent.getPids() + "," + parent.getId());
         }
         super.save(comment);
 
@@ -65,11 +65,11 @@ public class CommentService extends CrudService<CommentDao, Comment> {
     }
 
     @Transactional(readOnly = false)
-    public Message uncomment(String commentId){
+    public Message uncomment(String commentId) {
         Message message = null;
         //检查是否已评论
         Comment comment = dao.get(commentId);
-        if(comment==null){
+        if (comment == null) {
             message = new Message(Message.FAIL, "未评论");
             return message;
         }
@@ -88,7 +88,7 @@ public class CommentService extends CrudService<CommentDao, Comment> {
         return message;
     }
 
-    public List<Comment> findParentList(String pids){
+    public List<Comment> findParentList(String pids) {
         return dao.findParentList(pids.split(","));
     }
 

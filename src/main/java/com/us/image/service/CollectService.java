@@ -1,6 +1,5 @@
 package com.us.image.service;
 
-import com.us.common.modules.sys.utils.DictUtil;
 import com.us.common.modules.sys.utils.UserUtil;
 import com.us.common.persistence.Page;
 import com.us.common.service.CrudService;
@@ -24,13 +23,13 @@ public class CollectService extends CrudService<CollectDao, Collect> {
     private ShareService shareService;
 
     @Transactional(readOnly = false)
-    public Message collected(String shareId){
+    public Message collected(String shareId) {
         Message message = null;
         //检查是否已收藏
         Collect collect = new Collect();
         collect.setFromUser(UserUtil.getAccount().getUser());
         collect.setShare(new Share(shareId));
-        if(dao.get(collect)!=null){
+        if (dao.get(collect) != null) {
             message = new Message(Message.FAIL, "已收藏");
             return message;
         }
@@ -52,13 +51,13 @@ public class CollectService extends CrudService<CollectDao, Collect> {
     }
 
     @Transactional(readOnly = false)
-    public Message uncollected(String shareId){
+    public Message uncollected(String shareId) {
         Message message = null;
         //检查是否已收藏
         Collect collect = new Collect();
         collect.setFromUser(UserUtil.getAccount().getUser());
         collect.setShare(new Share(shareId));
-        if(dao.get(collect)==null){
+        if (dao.get(collect) == null) {
             message = new Message(Message.FAIL, "未收藏");
             return message;
         }
@@ -77,22 +76,22 @@ public class CollectService extends CrudService<CollectDao, Collect> {
         return message;
     }
 
-    public int countCurrentUser(){
+    public int countCurrentUser() {
         return countCurrentUser(new Collect());
     }
 
-    public int countNewCurrentUser(){
+    public int countNewCurrentUser() {
         Collect collect = new Collect();
         collect.setIsNew(Boolean.TRUE);
         return countCurrentUser(collect);
     }
 
-    private int countCurrentUser(Collect collect){
+    private int countCurrentUser(Collect collect) {
         collect.setFromUser(UserUtil.getAccount().getUser());
         return count(collect);
     }
 
-    private int count(Collect collect){
+    private int count(Collect collect) {
         return dao.count(collect);
     }
 

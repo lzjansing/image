@@ -5,7 +5,6 @@ import com.us.common.utils.Message;
 import com.us.common.utils.StringUtil;
 import com.us.spring.mvc.utils.FileUploadUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +22,7 @@ public class FileUploadController extends BaseController {
 
     /**
      * 单文件ajax上传
+     *
      * @param req
      * @return
      */
@@ -32,7 +32,7 @@ public class FileUploadController extends BaseController {
         Message message = FileUploadUtil.upload(file, req, Global.getConfig("uploadPath"));
         //html的id，用以回显
         String id = req.getParameter("id");
-        if(StringUtil.isNotBlank(id)){
+        if (StringUtil.isNotBlank(id)) {
             message.getExtra().put("id", id);
         }
         StringUtil.split("fdsa", "fdsa");

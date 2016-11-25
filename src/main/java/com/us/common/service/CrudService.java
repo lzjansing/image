@@ -36,7 +36,7 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 
     @Transactional(readOnly = false)
     public void save(T entity) {
-        if (entity.getId()==null) {
+        if (entity.getId() == null) {
             entity.preInsert();
             this.dao.insert(entity);
         } else {

@@ -3,7 +3,6 @@ package com.us.common.persistence;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 import com.us.common.config.Global;
-import com.us.common.utils.StringUtil;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import javax.xml.bind.annotation.XmlTransient;

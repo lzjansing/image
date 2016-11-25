@@ -6,7 +6,6 @@ import com.us.common.service.CrudService;
 import com.us.common.utils.Message;
 import com.us.image.dao.FocusDao;
 import com.us.image.entities.Focus;
-import com.us.image.entities.Share;
 import com.us.image.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +23,13 @@ public class FocusService extends CrudService<FocusDao, Focus> {
     private ShareService shareService;
 
     @Transactional(readOnly = false)
-    public Message focused(String userId){
+    public Message focused(String userId) {
         Message message = null;
         //检查是否已关注
         Focus focus = new Focus();
         focus.setFromUser(UserUtil.getAccount().getUser());
         focus.setToUser(new User(userId));
-        if(dao.get(focus)!=null){
+        if (dao.get(focus) != null) {
             message = new Message(Message.FAIL, "已关注");
             return message;
         }
@@ -46,13 +45,13 @@ public class FocusService extends CrudService<FocusDao, Focus> {
     }
 
     @Transactional(readOnly = false)
-    public Message unfocused(String userId){
+    public Message unfocused(String userId) {
         Message message = null;
         //检查是否已关注
         Focus focus = new Focus();
         focus.setFromUser(UserUtil.getAccount().getUser());
         focus.setToUser(new User(userId));
-        if(dao.get(focus)==null){
+        if (dao.get(focus) == null) {
             message = new Message(Message.FAIL, "未关注");
             return message;
         }
@@ -66,16 +65,16 @@ public class FocusService extends CrudService<FocusDao, Focus> {
         return message;
     }
 
-    public int countCurrentUser(){
+    public int countCurrentUser() {
         return countCurrentUser(new Focus());
     }
 
-    private int countCurrentUser(Focus focus){
+    private int countCurrentUser(Focus focus) {
         focus.setFromUser(UserUtil.getAccount().getUser());
         return count(focus);
     }
 
-    public int count(Focus focus){
+    public int count(Focus focus) {
         return dao.count(focus);
     }
 

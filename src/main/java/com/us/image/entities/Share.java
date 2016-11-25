@@ -16,7 +16,7 @@ public class Share extends DataEntity<Share> {
     private Integer praise;
     private Integer collect;
     private Integer comment;
-    public static final int CAN_PRAISE  = 001;
+    public static final int CAN_PRAISE = 001;
     public static final int CAN_COLLECT = 010;
     public static final int CAN_COMMENT = 100;
     //是否被当前用用户操作过
@@ -95,20 +95,22 @@ public class Share extends DataEntity<Share> {
         this.permission = permission;
     }
 
-    public boolean isCanPraise(){
-        return permission!=null&&(permission&CAN_PRAISE)>0?true:false;
-    }
-    public boolean isCanCollect(){
-        return permission!=null&&(permission&CAN_COLLECT)>0?true:false;
-    }
-    public boolean isCanComment(){
-        return permission!=null&&(permission&CAN_COMMENT)>0?true:false;
+    public boolean isCanPraise() {
+        return permission != null && (permission & CAN_PRAISE) > 0 ? true : false;
     }
 
-    public void setPermission(boolean canPraise, boolean canCollect, boolean canComment){
-        setPermission(0&(canPraise?CAN_PRAISE:0)
-                &(canCollect?CAN_COLLECT:0)
-                &(canComment?CAN_COMMENT:0));
+    public boolean isCanCollect() {
+        return permission != null && (permission & CAN_COLLECT) > 0 ? true : false;
+    }
+
+    public boolean isCanComment() {
+        return permission != null && (permission & CAN_COMMENT) > 0 ? true : false;
+    }
+
+    public void setPermission(boolean canPraise, boolean canCollect, boolean canComment) {
+        setPermission(0 & (canPraise ? CAN_PRAISE : 0)
+                & (canCollect ? CAN_COLLECT : 0)
+                & (canComment ? CAN_COMMENT : 0));
     }
 
     /**

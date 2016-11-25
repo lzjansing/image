@@ -25,7 +25,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @author : Zhong Junbin
@@ -77,7 +76,7 @@ public class AccessController extends BaseController {
                         @ModelAttribute(value = "registerMsg") String registerMsg) {
         model.addAttribute("errorMsg", errorMsg);
         model.addAttribute("registerMsg", registerMsg);
-        return UserUtil.getPrincipal()!=null? "redirect:/" + this.frontPath + "access/": "modules/front/login";
+        return UserUtil.getPrincipal() != null ? "redirect:/" + this.frontPath + "access/" : "modules/front/login";
     }
 
     /**
@@ -108,19 +107,19 @@ public class AccessController extends BaseController {
     public String index(Model model, @RequestParam(required = false) String searchInput,
                         @RequestParam(required = false) String byPraise,
                         @RequestParam(required = false) Integer pageNo) {
-        if(!model.containsAttribute("share")) {
+        if (!model.containsAttribute("share")) {
             Share share = new Share();
             share.setPrivated(Share.NO);
             model.addAttribute("share", share);
         }
         Page<Share> page = new Page<>();
-        page.setPageNo(pageNo!=null?pageNo:1);
+        page.setPageNo(pageNo != null ? pageNo : 1);
         page.setPageSize(Integer.parseInt(Global.getConfig("page.pageSize")));
         Share tmpShare = new Share();
-        if(StringUtil.isNotBlank(searchInput)){
+        if (StringUtil.isNotBlank(searchInput)) {
             tmpShare.setContent(searchInput);
             model.addAttribute("searchInput", searchInput);
-        }else if(StringUtil.isNotBlank(byPraise)){
+        } else if (StringUtil.isNotBlank(byPraise)) {
             page.setOrderBy("a.praise desc");
             model.addAttribute("byPraise", byPraise);
         }
@@ -128,7 +127,7 @@ public class AccessController extends BaseController {
         model.addAttribute("page", page);
 
         User currentUser = UserUtil.getAccount().getUser();
-        if(currentUser!=null){
+        if (currentUser != null) {
             Share tmpShare2 = new Share();
             tmpShare2.setUser(currentUser);
             tmpShare2.setCurrentUser(currentUser);
@@ -150,12 +149,12 @@ public class AccessController extends BaseController {
      */
     @RequestMapping(value = {"/otherPersonal/{userId}"}, method = RequestMethod.GET)
     public String otherPersonal(Model model, @PathVariable String userId,
-                        @RequestParam(required = false) Integer pageNo) {
+                                @RequestParam(required = false) Integer pageNo) {
         Share tmpShare = new Share();
         tmpShare.setUser(new User(userId));
         tmpShare.setCurrentUser(UserUtil.getAccount().getUser());
         Page<Share> page = new Page<>();
-        page.setPageNo(pageNo!=null?pageNo:1);
+        page.setPageNo(pageNo != null ? pageNo : 1);
         page.setPageSize(Integer.parseInt(Global.getConfig("page.pageSize")));
         page = shareService.findPage(page, tmpShare);
         model.addAttribute("page", page);

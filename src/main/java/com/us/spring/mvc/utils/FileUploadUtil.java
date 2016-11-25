@@ -72,6 +72,6 @@ public class FileUploadUtil {
     }
 
     private static String getRealPath(HttpServletRequest req, String path) {
-        return req.getSession().getServletContext().getRealPath("/"+(path!=null?path:""));
+        return req.getSession().getServletContext().getRealPath("/" + (path != null ? path : ""));
     }
 }

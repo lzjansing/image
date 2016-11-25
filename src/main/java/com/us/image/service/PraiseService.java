@@ -23,13 +23,13 @@ public class PraiseService extends CrudService<PraiseDao, Praise> {
     private ShareService shareService;
 
     @Transactional(readOnly = false)
-    public Message praised(String shareId){
+    public Message praised(String shareId) {
         Message message = null;
         //检查是否已赞
         Praise praise = new Praise();
         praise.setFromUser(UserUtil.getAccount().getUser());
         praise.setShare(new Share(shareId));
-        if(dao.get(praise)!=null){
+        if (dao.get(praise) != null) {
             message = new Message(Message.FAIL, "已赞");
             return message;
         }
@@ -51,13 +51,13 @@ public class PraiseService extends CrudService<PraiseDao, Praise> {
     }
 
     @Transactional(readOnly = false)
-    public Message unpraised(String shareId){
+    public Message unpraised(String shareId) {
         Message message = null;
         //检查是否已赞
         Praise praise = new Praise();
         praise.setFromUser(UserUtil.getAccount().getUser());
         praise.setShare(new Share(shareId));
-        if(dao.get(praise)==null){
+        if (dao.get(praise) == null) {
             message = new Message(Message.FAIL, "未赞");
             return message;
         }
@@ -76,22 +76,22 @@ public class PraiseService extends CrudService<PraiseDao, Praise> {
         return message;
     }
 
-    public int countCurrentUser(){
+    public int countCurrentUser() {
         return countCurrentUser(new Praise());
     }
 
-    public int countNewCurrentUser(){
+    public int countNewCurrentUser() {
         Praise praise = new Praise();
         praise.setIsNew(Boolean.TRUE);
         return countCurrentUser(praise);
     }
 
-    private int countCurrentUser(Praise praise){
+    private int countCurrentUser(Praise praise) {
         praise.setFromUser(UserUtil.getAccount().getUser());
         return count(praise);
     }
 
-    private int count(Praise praise){
+    private int count(Praise praise) {
         return dao.count(praise);
     }
 
