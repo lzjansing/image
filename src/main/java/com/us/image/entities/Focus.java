@@ -1,6 +1,5 @@
 package com.us.image.entities;
 
-import com.us.common.modules.sys.entities.User;
 import com.us.common.persistence.DataEntity;
 
 /**

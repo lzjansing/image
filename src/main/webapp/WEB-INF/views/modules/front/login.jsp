@@ -57,24 +57,24 @@
                 </ul>
                 <form method="post" action="${ctx}/access/login">
                     <div class="filed" id="xing">
-                        <input type="text" class="input" id="name" name="username" placeholder="邮箱"/>
+                        <input type="text" class="input" id="name" name="username" placeholder="邮箱" tabindex="1"/>
                     </div>
                     <div class="filed pw" id="mima">
-                        <input type="password" class="input" id="password" name="password" placeholder="请输入密码"/>
+                        <input type="password" class="input" id="password" name="password" placeholder="请输入密码" tabindex="2"/>
                     </div>
-                    <div id="forget">
+                    <%--<div id="forget">--%>
                         <%--<label for="tip" title="建议在网吧或公共电脑上取消该选项.">--%>
                         <%--<input id="tip" type="checkbox" checked="checked"/> 下次自动登录--%>
                         <%--</label>--%>
-                        <a href="#" content="记不住登录状态，怎么办？" title="记不住登录状态，怎么办？" id="a_icon"></a>
-                        <a href="#" id="forgetRight">忘记密码</a>
-                    </div>
+                        <%--<a href="#" content="记不住登录状态，怎么办？" title="记不住登录状态，怎么办？" id="a_icon"></a>--%>
+                        <%--<a href="#" id="forgetRight">忘记密码</a>--%>
+                    <%--</div>--%>
                     <div id="msg">
                         <span id="error" style="color: red;font-size: 32px;text-align: center;"></span>
                         <span id="register" style="color: blue;font-size: 32px;text-align: center;"></span>
                     </div>
                     <div id="yellowLogin">
-                        <input type="submit" class="submit" id="submit" name="submit" value="登录"/>
+                        <input type="submit" class="submit" id="submit" name="submit" value="登录" tabindex="3"/>
                     </div>
                 </form>
             </div>

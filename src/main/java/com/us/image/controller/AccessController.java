@@ -1,12 +1,16 @@
 package com.us.image.controller;
 
+import com.us.common.config.Global;
 import com.us.common.modules.sys.security.SystemAuthorizingRealm;
 import com.us.common.modules.sys.utils.UserUtil;
+import com.us.common.persistence.Page;
 import com.us.common.utils.IdGen;
 import com.us.common.utils.StringUtil;
 import com.us.image.entities.Account;
+import com.us.image.entities.Share;
 import com.us.image.exception.AccountAlreadyExistsException;
 import com.us.image.service.AccountService;
+import com.us.image.service.ShareService;
 import com.us.image.util.EncryptUtil;
 import com.us.spring.mvc.controller.BaseController;
 import org.apache.shiro.authz.annotation.RequiresGuest;
@@ -21,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author : Zhong Junbin
@@ -37,6 +42,8 @@ public class AccessController extends BaseController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private ShareService shareService;
 
     @RequiresGuest
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -96,8 +103,20 @@ public class AccessController extends BaseController {
     }
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-    public String index() {
-        return "modules/front/index";
+    public String index(Model model) {
+        if(!model.containsAttribute("share")) {
+            Share share = new Share();
+            share.setPrivated(Share.NO);
+            model.addAttribute("share", share);
+        }
+        Share tmpShare = new Share();
+        tmpShare.setCurrentUser(UserUtil.getAccount().getUser());
+        Page<Share> page = new Page<>();
+        page.setPageSize(Integer.parseInt(Global.getConfig("page.pageSize")));
+        page = shareService.findPage(page, tmpShare);
+        model.addAttribute("page", page);
+        //todo focusCount beFoucsedCount shareCount
+        return "modules/front/lindex";
     }
 
 }

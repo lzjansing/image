@@ -1,4 +1,5 @@
-1、valid只用来表示是否被删除
+1、valid只用来d to http://localhost:8080/image/access/
+localhost/:138 GET http://localhost:8080/image/static/images/body_bg.jpg 404 ()表示是否被删除
 2、移除xml中sql对常量的取值，移除实体类中的常量，将jsp中取实体类常量改为取字典值
 3、修改表名：user->sys_user
 4、shiro一旦登录，登录信息在项目重启|tomcat重启之后仍然存在？
@@ -8,10 +9,16 @@
 7、日志系统
 8、意见反馈功能
 9、完善Servlets
-
+10、优化entity，增加currentUser以查询与当前用户相关信息
+11、优化sql：ShareDao.xml.get/findList，查询一个/列出share并确定当前用户是否已赞/已收藏
+12、关系型实体，去掉其他实体类属性，只保留他们的id
+    如Collect.java改fromUser为fromUid
+13、使用DBUnit重新构建Test
+14、js的多级parent()
 
 1、完善静态文件
 http://localhost:8080/image/front/plugins/uniform/images/sprite.png
+http://localhost:8080/favicon.ico
 /menuForm的checkbox样式问题
 tagIconSelect.jsp中有部分图标不显示？
 2、与前端对比shiro配置

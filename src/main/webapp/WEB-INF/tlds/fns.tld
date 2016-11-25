@@ -222,6 +222,17 @@
         <function-signature>java.lang.String jsGetVal(java.lang.String)</function-signature>
         <example>${fns:jsGetVal('row.user.id')}  返回：!row?'':!row.user?'':!row.user.id?'':row.user.id</example>
     </function>
+    <function>
+        <description>
+            Splits a string into an array of substrings.
+        </description>
+        <name>split</name>
+        <function-class>org.apache.commons.lang3.StringUtils</function-class>
+        <function-signature>java.lang.String[] split(java.lang.String, java.lang.String)</function-signature>
+        <example>
+            ${fn:split(customerNames, ";")}
+        </example>
+    </function>
 
     <!-- DateUtil -->
     <function>

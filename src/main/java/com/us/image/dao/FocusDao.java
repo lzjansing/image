@@ -10,4 +10,8 @@ import com.us.image.entities.Focus;
 @MyBatisDao
 public interface FocusDao extends CrudDao<Focus> {
 
+    public int deleteSelf(Focus focus);
+
+    public int count(Focus focus);
+
 }

@@ -26,7 +26,7 @@ public class LocalDateTimeUtil {
     }
 
     public static String formatDate(LocalDateTime localDateTime) {
-        return format(localDateTime, "yyyy-MM-dd");
+        return format(localDateTime, "yyyy年MM月dd日");
     }
 
     public static String formatTime(LocalDateTime localDateTime) {
@@ -80,18 +80,12 @@ public class LocalDateTimeUtil {
         LocalDateTime after = isBefore ? now : localDateTime;
         Duration duration = Duration.between(before, after);
         if (duration.toDays() > 0) {
-            if (duration.toDays() > 365) {
-                return duration.toDays() / 365 + " 年" + (isBefore ? "前" : "后");
-            }
-            if (duration.toDays() > 30) {
-                return duration.toDays() / 30 + " 月" + (isBefore ? "前" : "后");
-            }
-            return duration.toDays() + " 日" + (isBefore ? "前" : "后");
+            return formatDate(localDateTime);
         }
         if (duration.toHours() > 0) {
             return duration.toHours() + " 小时" + (isBefore ? "前" : "后");
         }
-        return duration.toMinutes() + " 分" + (isBefore ? "前" : "后");
+        return duration.toMinutes() + " 分钟" + (isBefore ? "前" : "后");
     }
 
 

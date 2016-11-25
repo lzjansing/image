@@ -12,7 +12,7 @@ import java.util.List;
  * Created by jansing on 16-11-14.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:/spring-context.xml")
+@ContextConfiguration(locations = "classpath*:/spring-context*.xml")
 public class DictServiceTest {
     @Autowired
     private DictService dictService;

@@ -1,6 +1,5 @@
 package com.us.image.entities;
 
-import com.us.common.modules.sys.entities.User;
 import com.us.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
@@ -17,8 +16,19 @@ public class Share extends DataEntity<Share> {
     private Integer praise;
     private Integer collect;
     private Integer comment;
+    public static final int CAN_PRAISE  = 001;
+    public static final int CAN_COLLECT = 010;
+    public static final int CAN_COMMENT = 100;
+    //是否被当前用用户操作过
+    private User currentUser;
+    private Integer hadCollected;
+    private Integer hadPraised;
 
     public Share() {
+    }
+
+    public Share(String id) {
+        super(id);
     }
 
     public User getUser() {
@@ -85,6 +95,22 @@ public class Share extends DataEntity<Share> {
         this.permission = permission;
     }
 
+    public boolean isCanPraise(){
+        return permission!=null&&(permission&CAN_PRAISE)>0?true:false;
+    }
+    public boolean isCanCollect(){
+        return permission!=null&&(permission&CAN_COLLECT)>0?true:false;
+    }
+    public boolean isCanComment(){
+        return permission!=null&&(permission&CAN_COMMENT)>0?true:false;
+    }
+
+    public void setPermission(boolean canPraise, boolean canCollect, boolean canComment){
+        setPermission(0&(canPraise?CAN_PRAISE:0)
+                &(canCollect?CAN_COLLECT:0)
+                &(canComment?CAN_COMMENT:0));
+    }
+
     /**
      * 点赞量
      *
@@ -122,6 +148,30 @@ public class Share extends DataEntity<Share> {
 
     public void setComment(Integer comment) {
         this.comment = comment;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public Integer getHadCollected() {
+        return hadCollected;
+    }
+
+    public void setHadCollected(Integer hadCollected) {
+        this.hadCollected = hadCollected;
+    }
+
+    public Integer getHadPraised() {
+        return hadPraised;
+    }
+
+    public void setHadPraised(Integer hadPraised) {
+        this.hadPraised = hadPraised;
     }
 
     @Override

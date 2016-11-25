@@ -10,4 +10,11 @@ import com.us.image.entities.Share;
 @MyBatisDao
 public interface ShareDao extends CrudDao<Share> {
 
+    public int updateSelf(Share share);
+
+    public int increase(Share share);
+
+    public int decrease(Share share);
+
+    public int deleteSelf(Share share);
 }

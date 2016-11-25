@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.us.image.dao.FocusDao">
+
+    <sql id="focusColumns">
+        a.id AS "id",
+        a.from_uid AS "fromUser.id",
+        a.to_uid AS "toUser.id",
+        a.is_new AS "isNew",
+        a.create_date AS "createDate"
+    </sql>
+
+    <select id="get" resultType="Focus">
+        SELECT
+        <include refid="focusColumns"/>
+        FROM focus a
+        WHERE a.from_uid = #{fromUser.id}
+        AND a.to_uid = #{toUser.id}
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT count(a.from_uid)
+        FROM focus a
+        WHERE a.from_uid = #{fromUser.id}
+        <if test="isNew!=null">
+            AND is_new = #{isNew}
+        </if>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO focus(
+        id,
+        from_uid,
+        to_uid,
+        is_new,
+        create_date
+        ) VALUES (
+        #{id},
+        #{fromUser.id},
+        #{toUser.id},
+        #{isNew},
+        #{createDate}
+        )
+    </insert>
+
+    <delete id="deleteSelf">
+        DELETE FROM focus
+        WHERE
+        from_uid = #{fromUser.id}
+        AND to_uid = #{toUser.id}
+    </delete>
+</mapper>

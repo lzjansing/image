@@ -1,5 +1,6 @@
 package com.us.spring.mvc.utils;
 
+import com.us.common.utils.Message;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -12,12 +13,18 @@ import java.net.URLEncoder;
  * Created by jansing on 16-10-30.
  */
 public class FileUploadUtil {
+    public static final String PATH_KEY = "path";
 
-    public static String upload(CommonsMultipartFile file, HttpServletRequest req, String uploadPath) throws IOException {
-        String realpath = getRealPath(req, uploadPath);
-        File tmp = new File(realpath + File.separator + file.getOriginalFilename());
+    public static Message upload(CommonsMultipartFile file, HttpServletRequest req, String uploadPath) throws IOException {
+        String relativePath = uploadPath + File.separator + file.getOriginalFilename();
+        String realPath = getRealPath(req) + relativePath;
+        File tmp = new File(realPath);
         FileUtils.copyInputStreamToFile(file.getInputStream(), tmp);
-        return uploadPath + File.separator + file.getOriginalFilename();
+        Message message = new Message();
+        message.setCode(Message.SUCCESS);
+        message.setMessage("上传成功");
+        message.getExtra().put(PATH_KEY, relativePath);
+        return message;
     }
 
     public static void download(HttpServletRequest req, HttpServletResponse resp, String filePath) throws FileNotFoundException {
@@ -60,7 +67,11 @@ public class FileUploadUtil {
         }
     }
 
+    private static String getRealPath(HttpServletRequest req) {
+        return getRealPath(req, null);
+    }
+
     private static String getRealPath(HttpServletRequest req, String path) {
-        return req.getSession().getServletContext().getRealPath("/WEB-INF/" + path);
+        return req.getSession().getServletContext().getRealPath("/"+(path!=null?path:""));
     }
 }

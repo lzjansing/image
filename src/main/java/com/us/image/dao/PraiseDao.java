@@ -10,4 +10,8 @@ import com.us.image.entities.Praise;
 @MyBatisDao
 public interface PraiseDao extends CrudDao<Praise> {
 
+    public int deleteSelf(Praise praise);
+
+    public int count(Praise praise);
+
 }

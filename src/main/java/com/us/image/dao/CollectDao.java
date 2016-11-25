@@ -10,4 +10,7 @@ import com.us.image.entities.Collect;
 @MyBatisDao
 public interface CollectDao extends CrudDao<Collect> {
 
+    public int deleteSelf(Collect collect);
+
+    public int count(Collect collect);
 }

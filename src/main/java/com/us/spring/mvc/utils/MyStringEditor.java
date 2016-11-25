@@ -12,12 +12,12 @@ public class MyStringEditor extends PropertyEditorSupport {
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
         //转义，防注入
-        this.setValue(text == null ? null : StringEscapeUtils.escapeHtml4(text.trim()));
+        this.setValue(text == null ? null : StringEscapeUtils.escapeHtml4(text.trim()).replaceAll("\r\n", "<br/>"));
     }
 
     @Override
     public String getAsText() {
         Object value = this.getValue();
-        return value != null ? value.toString() : "";
+        return value != null ? StringEscapeUtils.unescapeHtml4(value.toString()).replaceAll("<br/>", "\r\n") : "";
     }
 }

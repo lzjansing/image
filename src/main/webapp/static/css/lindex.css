@@ -1,0 +1,651 @@
+/*主体内容    *****************************/
+#main{
+	
+	width: 1000px;
+	min-height: 680px;
+	padding-bottom: 30px;
+	padding-top: 70px;
+	background-color: rgba(96,50,49,.25);
+}
+/*主体左侧内容*************/
+.mainLeft{
+	
+	position: fixed;
+	width: 150px;
+	height: 500px;
+}
+/*左侧辅佐导航*/
+#LeftMainOth{
+	
+	margin-top: 20px;
+	padding-top: 10px;
+	border-top: 1px solid rgba(250,250,250,.5);
+}
+/*左侧主要导航*/
+#LeftMainNav >div >a{
+	
+	display: block;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 20px;
+	text-align: left;
+	font-size: 14px;
+	font-weight: bold;
+	color: #fff;
+}
+#LeftMainOth >div >a{
+	
+	display: block;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 30px;
+	text-align: left;
+	font-size: 12px;
+	font-weight: normal;
+	color: #fff;
+} 
+#LeftMainNav >div:hover,
+#LeftMainOth >div:hover{
+	
+	background-color: rgba(255,255,255,.3);
+}
+
+/*主体右侧的内容************/
+.mainRight{
+	
+	width: 850px;
+	float: right;
+}
+/*主体的右侧的主要部分，分享显示部分*/
+.RightMainCt{
+	
+	width: 600px;
+	margin-left: 10px;
+	float: left;
+}
+/*发布区*/
+.publishWrap{
+	
+	padding: 10px;
+	background-color: #fff;
+}
+.publishWrap >div:first-child{
+	
+	margin-bottom: 10px;
+}
+/*“有什么新鲜事儿告诉大家”div*/
+.publishTbl{
+	
+	width:200px;
+	height: 21px;
+	background: url('../image/newThing.gif') no-repeat;
+	float: left;
+}
+/*剩余字数提醒*/
+.numTips{
+	
+	display: inline-block;
+	line-height: 20px;
+	padding-right: 5px;
+	font-family: "arial, helvetica, sans-serif";
+	float: right;
+}
+/*输入区*/
+#publishInput{
+	
+	padding: 5px;
+	max-width: 565px;
+	overflow: hidden;
+	outline: none;
+	text-decoration: none;
+	text-align: left;
+	border: 1px solid cornflowerblue;
+}
+/*发布区其他部分*/
+.publishOth{
+	
+	margin-top: 10px;
+}
+/*表情或图片*/
+.kinds{
+	
+	float: left;
+}
+.kinds >a{
+	
+	display: inline-block;
+	height: 26px;
+	line-height: 26px;
+	padding-left: 30px;	
+	margin-right: 20px;
+}
+.kinds >a:first-child{
+	
+	
+	background: url('../icon/expression.jpg')no-repeat;
+}
+.kinds >a:last-child{
+	
+	background: url('../icon/picture.jpg')no-repeat;
+}
+/*设置公开或私有 、发布按钮*/
+.funcs{
+	
+	float: right;
+	padding-right: 5px;
+}
+.funcs >a{
+	
+	display: inline-block;
+}
+.funcs >a:first-child{
+	
+	padding-right: 23px;
+	margin-right: 20px;
+	background: url('../icon/xiala.bmp') no-repeat right;
+}
+
+.funcs >a:first-child:hover{
+	
+	background: url('../icon/xialahover.bmp') no-repeat right;
+}
+#publishBtn{
+	
+	padding: 8px 20px;
+	color: #fff;
+	font-size: 16px;
+	background-color: #fa7d3c;
+	border-radius: 3px;
+}
+#publishBtn:hover{
+	
+	box-shadow: 0 0 5px 3px rgba(240,240,240,.8);
+}
+/*分享显示区*/
+.showPn{
+	
+	padding: 20px 10px 10px;
+	margin-top: 10px;
+	border-bottom: 1px solid #eee;
+	background-color: #fff;
+}
+.list{
+	padding-bottom: 20px;
+	border-bottom: 1px solid #eee;
+}
+.list >a{
+	
+	display: inline-block;
+	float: left;
+	margin-left: 10px;
+}
+.list >a >img{
+	
+	display: inline-block;
+	height: 50px;
+	width: 50px;
+	border-radius: 25px;
+}
+.multiCt{
+		
+	width: 500px;
+	float: right;
+	text-align: left;
+}
+.multiCt >a{
+	
+	font-size: 14px;
+	font-weight: bold;
+}
+.multiCt >p{
+	
+	text-align: left;
+	margin: 5px 0;
+}
+
+.publicOrPrv{
+	
+	display: inline-block;
+	width: 23px;
+	height: 20px;
+	float: right;
+	/*background: url('../icon/litter.png') no-repeat right top;*/
+}
+.unlockedShare{
+	background: url('../icon/litter.png') no-repeat right top;
+}
+.lockedShare{
+	background: url('../icon/locked.bmp') no-repeat right top;
+}
+/*.publicOrPrv:hover{*/
+	/*background: url('../icon/litterHover.png') no-repeat 0 1px;*/
+/*}*/
+.publicOrPrvHover{
+	
+	cursor: pointer;
+}
+
+/**/
+.pulishPublicOrPrv >li{
+	
+	text-align: left;
+	padding: 10px 10px 10px 5px;
+}
+
+.pulishPublicOrPrv a{
+	
+	display: block;
+	text-align: left;
+}
+.pulishPublicOrPrv{
+	
+	top: 18px;
+}
+
+.multiCt .pulishPublicOrPrv{
+	
+	display: none;
+	position: absolute;
+	width: 100px;
+	background-color: #fff;
+	border-radius: 2px;
+	border: 1px solid #eee;
+	left: 470px;
+	z-index: 9;
+}
+
+.shareCt >p{
+	
+	padding: 10px 2px 8px;
+	text-align: left;
+}
+.showPnFuncs{
+	
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+.collection{
+	
+	display: inline-block;
+	margin: 0 30px 0 30px;
+	padding: 0 30px 0 30px;
+}
+.collection:first-child{
+	
+	border-right: 1px solid #eee;
+	/*background: url('../icon/uncollected.bmp') no-repeat 2px -2px;*/
+}
+.collection:first-child:hover{
+
+	background: url('../icon/collected.bmp') no-repeat 2px 0;
+}
+.uncollected {
+	background: url('../icon/uncollected.bmp') no-repeat 2px -2px;
+}
+.collected {
+	background: url('../icon/collected.bmp') no-repeat 2px 0;
+}
+.collection:nth-child(2){
+	
+	border-right: 1px solid #eee;
+	background: url('../icon/comment.bmp') no-repeat;
+}
+.collection:nth-child(2):hover{
+	
+	background: url('../icon/commentHover.bmp') no-repeat 1px 1px;
+}
+/*.collection:nth-child(3){*/
+	/**/
+	/*background: url('../icon/weizan.bmp') no-repeat;*/
+/*}*/
+.unpraised {
+	background: url('../icon/weizan.bmp') no-repeat;
+}
+.praised {
+	background: url('../icon/yizan.bmp') no-repeat;
+}
+.shareImg >div{
+	
+	width: 150px;
+	height: 130px;
+	text-align: center;
+	overflow: hidden;
+	margin: 5px;
+	float: left;
+}
+
+/*主体的右侧的个人信息栏*/
+.otherMassage{
+	
+	
+	width: 230px;
+	margin-right: 5px;
+	float: right;
+}
+.personalMassage{
+	
+	position: fixed;
+	width: 230px;
+	height: 210px;
+	background: url('../image/profile_cover_s.jpg') no-repeat #fff;
+}
+.personalMassage >div{
+	
+	position: relative;
+}
+.personalPortrait{
+	
+
+	top: 40px;
+}
+.personalPortrait > a> img{
+	
+	width: 60px;
+	height: 60px;
+	border-radius: 30px;
+}
+.personalPortrait >a >img:hover{
+	
+	box-shadow: 0 0 3px 2px #fa7d3c;
+}
+.personalName{
+	
+	top: 50px;
+	font-family: "arial, helvetica, sans-serif";
+	font-size: 18px;
+	font-weight: bold;
+}
+.personalManage {
+	
+	top:75px;
+	height: 60px;
+}
+.personalManage >div{
+	
+	display: inline-block;
+	padding: 0 20px;
+	font-size: 18px;
+}
+.personalManage >div:not(:last-child){
+	
+	border-right: 1px solid rgba(200,200,200,.6);
+}
+.personalManage >div >a:hover{
+	
+	color: #fa7d3c;
+}
+
+/*图片上传部分*/
+#uploadDiv{
+	
+	position: absolute;
+	display: none;
+	padding: 20px;
+	top: 30px;
+	left: 80px;
+	z-index: 9;
+	
+	text-align: left;
+	font-size: 17px;
+	border: 1px solid #999;
+	border-radius: 3px;
+	background-color: #fff;
+	box-shadow: 0 2px 1px #FFB941;
+}
+#files{
+	
+	position: relative;
+	display: block;
+	width: 60px;
+	height: 35px;
+	top: -35px;
+	opacity: 0;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#uploadBtn,
+#confirmBtn{
+	
+	display: inline-block;
+	height: 35px;
+	line-height: 35px;
+	padding: 0 10px;
+	letter-spacing: .2em;
+	color: #fff;
+	background-color: #fa7d3c;
+	border: none;
+	border-radius: 3px;
+}
+#confirmBtn{
+	
+	margin-top: 10px;
+}
+#uploadBtn:hover,
+#confirmBtn:hover{
+	
+	cursor: pointer;
+}
+
+#picturePreView{
+	
+	width: 240px;
+}
+
+#picturePreView >div>img{
+	
+	max-height: 65px;
+}
+#picturePreView >div{
+	
+	width: 65px;
+	height: 65px;
+	margin: 5px;
+	overflow: hidden;
+	float: left;
+}
+
+/*评论展示*/
+
+.comments{
+	
+	background-color: #f2f2f5;
+}
+.commentsPersonalInfo{
+	
+	padding-top: 15px;
+}
+
+.comments img{
+	
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+}
+.comments textarea{
+	
+	width: 490px;
+	max-width: 490px;
+	text-align: left;
+	padding: 5px;
+	overflow: hidden;
+	text-decoration: none;
+	word-wrap: break-word;	
+	
+}
+.commentsImg,
+.commentsInput{
+	
+	display: inline-block;
+}
+.commentsImg{
+	
+	margin: 16px 0 0 12px;
+	float: left;
+}
+.commentsInput{
+	
+	margin-right: 12px;
+	
+	float: right;
+}
+.commentsFun{
+	
+	margin: 5px 0;
+	padding-bottom: 10px;
+}
+/*评论的表情*/
+.commentsExpression{
+	
+	display: inline-block;
+	width: 23px;
+	height: 23px;
+	float: left;
+	margin-left: 70px;
+	background: url('../icon/expression.jpg') no-repeat center;
+}
+.commentsPublish{
+	
+	display: inline-block;
+	width: 60px;
+	height: 35px;
+	line-height: 35px;
+	background-color: #fa7d3c;
+	color: #fff;
+	box-shadow: 0 0 3px 1px #fff;
+	border-radius: 3px;
+	float: right;
+	margin-right: 14px;
+}
+.commentsTip{
+	
+	text-align: right;
+	padding-right: 5px;
+}
+
+/*每一条评论*/
+
+.comments{
+	
+	display: none;
+	margin-top: 10px;
+}
+.commentsLists a:hover{
+	
+	color: #fa7d3c;
+}
+.commentsLists >div:first-child{
+	
+	width: 500px;
+	padding-top: 10px;
+	margin-right: 10px;
+	border-top: 1px solid #e3e3e3;
+}
+.commentsList{
+	
+	margin: 10px 0;
+}
+.commentsList:not(:last-child){
+	
+	border-bottom: 1px solid #fff;
+}
+.tipsDiv{
+	
+	text-align: left;
+	padding: 0 0 10px;
+	border-bottom: 1px solid #fff;
+}
+.first{
+	
+	width: 40px;
+	height: 40px;
+	float: left;
+}
+.second{
+	
+	width: 430px;
+	text-align: left;
+	float: right;
+}
+
+.commentsRemain{
+	
+	border-top: 1px solid #e3e3e3;
+	padding: 10px;
+}
+.third{
+	
+	padding: 5px 0;
+}
+.third .collection3{
+	
+	padding-left: 23px;
+	background: url(../icon/weizan.bmp) no-repeat;
+}
+.commentsTime{
+	
+	display: inline-block;
+	float: left;
+}
+.commentsKinds{
+	
+	display: inline-block;
+	float: right;
+}
+.commentsKinds >a{
+	
+	margin: 0 10px;
+}
+/*回复输入*/
+
+.responseDiv{
+	
+	display: none;
+	width: 440px;
+	padding: 10px;
+	margin-top: 10px;
+	margin-right: 10px;
+	background-color: #fff;
+	border-radius: 5px;
+}
+.responseTip{
+	
+	text-align: right;
+	padding-right: 10px;
+}
+.responseInput textarea{
+	
+	width: 400px;
+	max-width: 400px;
+	margin-top: 0;
+}
+.responseFun{
+	
+	margin-top: 5px;
+}
+.responsePublish{
+	
+	display: inline-block;
+	width: 55px;
+	height: 30px;
+	line-height: 30px;
+	background-color: #fa7d3c;
+	color: #fff;
+	box-shadow: 0 0 3px 1px #fff;
+	border-radius: 3px;
+	float: right;
+	margin-right: 14px;
+}
+.responsePublish:hover{
+	
+	background-color: #1B7FB6;
+}
+.responseExpression{
+	
+	display: inline-block;
+	width: 23px;
+	height: 23px;
+	float: left;
+	margin-left: 10px;
+	background: url('../icon/expression.jpg') no-repeat center;
+}

@@ -14,10 +14,9 @@ public abstract class BaseEntity<T> implements Serializable {
     protected String id;
     protected Page<T> page;
     protected Map<String, String> sqlMap;
-    protected boolean isNew;
+    protected Boolean isNew;
 
     public BaseEntity() {
-        this.isNew = false;
     }
 
     public BaseEntity(String id) {
@@ -66,11 +65,11 @@ public abstract class BaseEntity<T> implements Serializable {
 
     public abstract void preUpdate();
 
-    public boolean getIsNew() {
-        return this.isNew || StringUtil.isBlank(this.getId());
+    public Boolean getIsNew() {
+        return this.isNew;
     }
 
-    public void setIsNew(boolean isNew) {
+    public void setIsNew(Boolean isNew) {
         this.isNew = isNew;
     }
 

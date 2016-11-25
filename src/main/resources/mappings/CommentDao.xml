@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.us.image.dao.CommentDao">
+
+    <sql id="commentColumns">
+        a.id AS "id",
+        a.from_uid AS "fromUser.id",
+        f.nickname AS "fromUser.nickname",
+        a.to_uid AS "toUser.id",
+        t.nickname AS "toUser.nickname",
+        a.sid AS "share.id",
+        a.pid AS "parent.id",
+        a.pids AS "pids",
+        a.content AS "content",
+        a.is_new AS "isNew",
+        a.valid AS "valid",
+        a.create_date AS "createDate",
+        a.update_date AS "updateDate"
+    </sql>
+
+    <sql id="commentJoins">
+        LEFT JOIN t_user f ON f.id=a.from_uid
+        LEFT JOIN t_user t ON t.id=a.to_uid
+    </sql>
+
+    <select id="get" resultType="Comment">
+        SELECT
+        <include refid="commentColumns"/>
+        FROM comment a
+        <include refid="commentJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findParentList" resultType="Comment">
+        SELECT
+        <include refid="commentColumns"/>
+        FROM comment a
+        <include refid="commentJoins"/>
+        <where>
+            a.valid = #{VALID_ENABLE}
+            AND id IN
+            <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+                 #{item}
+            </foreach>
+        </where>
+        ORDER BY a.create_date desc
+    </select>
+
+    <select id="findList" resultType="Comment">
+        SELECT
+        <include refid="commentColumns"/>
+        FROM comment a
+        <include refid="commentJoins"/>
+        <where>
+            a.valid = #{VALID_ENABLE}
+            <if test="share!=null and share.id!=null and share.id!=''">
+                AND sid = #{share.id}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date desc
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT count(a.from_uid)
+        FROM comment a
+        WHERE a.from_uid = #{fromUser.id}
+        <if test="isNew!=null">
+            AND is_new = #{isNew}
+        </if>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO comment(
+        id,
+        from_uid,
+        to_uid,
+        sid,
+        pid,
+        pids,
+        content,
+        is_new,
+        valid,
+        create_date,
+        update_date
+        ) VALUES (
+        #{id},
+        #{fromUser.id},
+        #{toUser.id},
+        #{share.id},
+        #{parent.id},
+        #{pids},
+        #{content},
+        #{isNew},
+        #{valid},
+        #{createDate},
+        #{updateDate}
+        )
+    </insert>
+
+    <delete id="deleteSelf">
+        DELETE FROM comment
+        WHERE
+        id = #{id}
+        AND from_uid = #{fromUser.id}
+    </delete>
+</mapper>

@@ -1,5 +1,9 @@
 package com.us.common.utils;
 
+import com.google.common.collect.Maps;
+
+import java.util.Map;
+
 /**
  * Created by jansing on 16-10-17.
  */
@@ -10,6 +14,15 @@ public class Message {
 
     private String code;
     private String message;
+    private Map<String, Object> extra = Maps.newHashMap();
+
+    public Message() {
+    }
+
+    public Message(String code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
     public String getCode() {
         return code;
@@ -27,11 +40,20 @@ public class Message {
         this.message = message;
     }
 
+    public Map<String, Object> getExtra() {
+        return extra;
+    }
+
+    public void setExtra(Map<String, Object> extra) {
+        this.extra = extra;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
                 "code='" + code + '\'' +
                 ", message='" + message + '\'' +
+                ", extra=" + extra +
                 '}';
     }
 }

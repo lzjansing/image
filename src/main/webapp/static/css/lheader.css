@@ -1,0 +1,274 @@
+/*初始化*****************************************/
+*{
+	padding: 0;
+	margin: 0 auto;
+	text-align: center;
+	font-family: "微软雅黑";
+	font-size: .8em;
+}
+body{
+	
+	width: 1348px;
+	overflow-y: scroll;
+	background: url('../image/body_bg.jpg') no-repeat 50% 0 #f5e9d3;
+}
+.clearfix{
+	
+	clear: both;
+}
+.relative{
+	
+	position: relative;
+}
+a{
+	text-decoration: none;
+	color: #666;
+}
+ul{
+	list-style-type: none;
+}
+/*初始化结束*/
+/*header****************************************/
+.header{
+	
+	position: fixed;
+	width: 1348px;
+	height: 48px;
+	border-top: 2px solid #fa7d3c;
+	border-bottom: 1px solid #f5f5f5;
+	box-shadow: 0 0 5px 3px rgba(0,0,0,.2);
+	background-color: rgba(255,255,255,.9);
+	z-index: 10;
+}
+/*header 的内包围 header的内容都在内包围中*****/
+.headerInner{
+	
+	width: 1280px;
+	height: 48px;
+}
+.headerInner >div{
+	
+	float: left;
+}
+/*logo*/
+.logo{
+	
+	width: 140px;
+	height: 48px;
+}
+.logo>a{
+	
+	display: block;
+	width: 140px;
+	height: 48px;
+	background: url('../icon/logo.png') no-repeat 47% 41%;
+}
+/*搜索框*/
+.search{
+	
+	width: 470px;
+	height: 30px;
+	margin-top: 9px;
+	background-color: #f2f2f5;
+	border: 1px solid #ccc;
+	color: #999;
+}
+.search:hover{
+	
+	border: 1px solid #fa7d3c;
+}
+.search >span{
+	
+	position: absolute;
+	display: inline-block;
+	left: 0;
+	height: 28px;
+	line-height: 28px;
+	text-align: left;
+	padding-left: 8px;
+	z-index: 10;
+}
+.search >input{
+	
+	position: absolute;
+	left: 0;
+	display: block;
+	width: 440px;
+	height: 28px;
+	padding: 0 8px;
+	text-align: left;
+	background-color: #f2f2f5;
+	outline: none;
+	border: none;
+}
+.search >a{
+	
+	position: absolute;
+	right: 5px;
+	display: block;
+	width: 18px;
+	height: 28px;
+	background: url('../icon/search-link.jpg') no-repeat 0 #f2f2f5;
+}
+.search >a:hover{
+	
+	background: url('../icon/search-hover.jpg') 0;
+}
+/*设置栏*/
+.navConfg,
+.nav,
+.confg{
+	display: inline-block;	
+}
+.headerInner >div:last-child
+{
+	height: 48px;
+	float: right;
+}
+.nav{
+	
+	height: 26px;
+	margin-top: 12px;
+	padding-right: 40px;
+	float: left;
+	border-right: 1px solid rgba(200,200,200,.7);
+}
+
+.nav >ul >li{
+	
+	display: inline-block;
+	padding-right: 20px;
+	margin-right: 10px;
+}
+.nav >ul >li >a{
+	
+	display: inline-block;
+}
+.nav .home{
+	
+	width: 66px;
+	height: 26px;
+	background: url('../icon/home-hover.png') no-repeat 0 0;
+}
+
+.nav .discover{
+	
+	width: 62px;
+	height: 26px;
+	background: url('../icon/discover-s.png') no-repeat 0 -2px;
+}
+
+#loginUser >span{
+
+	padding-left: 30px;
+	font-size: 2.5 em;
+	color: #222;
+}
+#loginUser{
+	
+	top: -10px;
+	height: 26px;
+	background: url('../icon/user.png') no-repeat 0 -4px;
+}
+
+.nav .discover:hover{
+
+	background: url('../icon/discover-hover.png') no-repeat 2px 1px;
+}
+
+#loginUser:hover{
+
+	color: #fa7d3c;
+	background: url('../icon/user-hover.bmp') no-repeat 2px -2px;
+}
+
+.confg{
+	
+	margin-top: 12px;
+	margin-left: 24px;
+	float: right;
+}
+.confg >div{
+	
+	display: inline-block;
+	width: 26px;
+	height: 23px;
+	padding-bottom: 10px;
+	margin-right: 20px;
+}
+#massageConfg{
+	
+	background: url('../icon/massage-link.jpg') no-repeat -3px -3px;
+}
+#massageConfg:hover{
+	
+	cursor: pointer;
+	background: url('../icon/massage-hover.jpg') no-repeat -3px -3px;
+}
+#userConfg{
+	
+	background: url('../icon/setting-link.jpg') no-repeat -3px -3px;
+}
+#userConfg:hover{
+	
+	cursor: pointer;
+	background: url('../icon/setting-hover.jpg') no-repeat -3px -3px;
+}
+#editFast{
+	
+	background: url('../icon/edit.jpg') no-repeat -7px -3px;
+}
+#editFast:hover{
+	
+	cursor: pointer;
+}
+/*header 的样式结束*******************************/
+/*隐藏项设置**/
+#massageConfgHd,
+#userConfgHd
+{
+	
+	position: absolute;
+	top: 30px;
+	background-color: #fff;
+	border-radius: 2px;
+	border: 1px solid #eee;
+}
+#massageConfgHd{
+	
+	left: -14px;
+}
+#userConfgHd
+{
+	left: 40px;
+}
+#massageConfgHd >ul >li,
+#userConfgHd >ul >li,
+#pulishPublicOrPrv >li{
+	
+	text-align: left;
+	padding: 10px 10px 10px 5px;
+}
+#pulishPublicOrPrv{
+	
+	position: absolute;
+	top: 35px;
+	left: -5px;
+	width: 100px;
+	background-color: #fff;
+	border-radius: 2px;
+	border: 1px solid #eee;
+	z-index: 9;
+}
+#pulishPublicOrPrv a{
+	
+	display: block;
+	text-align: left;
+}
+#massageConfgHd,
+#userConfgHd,
+#pulishPublicOrPrv
+{
+	display: none;
+}
+
