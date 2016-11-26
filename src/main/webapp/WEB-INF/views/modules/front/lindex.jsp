@@ -15,7 +15,7 @@
 	<script type="application/javascript">
 		var ctx = "${ctx}";
 		var ctxStatic = "${ctxStatic}";
-		var currentUser = "${loginUser ne null?loginUser.id:''}";
+		var currentUserId = "${loginUser ne null?loginUser.id:''}";
 	</script>
 	<script type="text/javascript" src="${ctxStatic}/js/lindex.js"></script>
 
@@ -101,9 +101,7 @@
 				<a href="${ctx}/access/">最新分享</a>
 			</div>
 			<div>
-				<a href="${ctx}/access/?byPraise=1">
-					点赞榜
-				</a>
+				<a href="${ctx}/access/?byPraise=1">点赞榜</a>
 			</div>
 		</div><!--左侧主要导航结束-->
 		<shiro:authenticated>
@@ -157,7 +155,7 @@
 						<div id="uploadDiv">
 							<form:hidden path="image" id="imageInput"/>
 							<div id="uploadBtn">选择图片
-								<input type="file" name="file[]" id="files" multiple="multiple" title="请点击选择图片" onchange="imgchange(event)" accept="image/gif,image/jpeg,image/jpg,image/png,image/bmp"/>
+								<input type="file" id="files" multiple="multiple" title="请点击选择图片" onchange="imgchange(event)" accept="image/gif,image/jpeg,image/jpg,image/png,image/bmp"/>
 							</div>
 
 							<div id="picturePreView">
@@ -166,9 +164,9 @@
 									<div><img id="uploadImg${status.index}" src="${img}" height="65px"/></div>
 								</c:forEach>
 							</div>
-							<div class="clearfix">
-								<input type="button" name="uploadBtn" value="确认" id="confirmBtn" />
-							</div>
+							<%--<div class="clearfix">--%>
+								<%--<input type="button" name="uploadBtn" value="确认" id="confirmBtn" />--%>
+							<%--</div>--%>
 						</div>
 						<form:hidden path="privated" id="privatedInput"/>
 						<div class="funcs relative">
@@ -198,12 +196,12 @@
 				<c:forEach items="${page.list}" var="eachShare">
 					<div class="showPn">
 						<div class="list"><!--内容显示-->
-							<a href="javascript:void(0);">
+							<a href="${ctx}/access/otherPersonal/${eachShare.user.id}">
 								<img src="${ctxStatic}/image/portrait.jpg"/>
 							</a>
 
 							<div class="multiCt relative">
-								<a href="javascript:void(0);">
+								<a href="${ctx}/access/otherPersonal/${eachShare.user.id}">
 										${eachShare.user.nickname}
 								</a>
 								<c:if test="${eachShare.user.id eq fns:getAccount().user.id}">
@@ -262,6 +260,7 @@
 										</div>
 										<div class="commentsListDiv">
 											<div class="commentsList" style="display:none;"></div>
+											<div class="commentsList" style="display:none;"></div>
 										</div>
 									</div>
 								</div><!--评论列表结束-->
@@ -301,12 +300,14 @@
 				<shiro:authenticated>
 				<div class="personalMassage">
 					<div class="personalPortrait">
-						<a href="javascript:void(0)">
+						<a href="${ctx}/account/personal">
 							<img src="${ctxStatic}/image/portrait.jpg" />
 						</a>
 					</div>
 					<div class="personalName">
+						<a href="${ctx}/account/personal">
 						<span>${fns:getAccount().user.nickname}</span>
+						</a>
 					</div>
 					<div class="personalManage">
 						<div>
@@ -322,7 +323,7 @@
 							</a>
 						</div>
 						<div>
-							<a href="#">
+							<a href="${ctx}/account/personal">
 								<p>${shareCount}</p>
 								<p>分享</p>
 							</a>
@@ -457,8 +458,6 @@
 		$("#pageNoInput").val("${page.next}");
 		$("#searchForm").submit();
 	});
-
-
 </script>
 </body>
 </html>

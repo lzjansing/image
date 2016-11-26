@@ -99,7 +99,7 @@ function submitCommentForm(form){
 }
 function showComments(shareId, pageNo, commentsListsDiv){
     $.get(ctx+'/account/getComments/'+shareId+'?pageNo='+pageNo+'&pageSize=30',function(page){
-        var list = page.list;
+        var list = page.list;console.log(list);
         for(var i=0; i<list.length; i++){
             var item = list[i];
             commentsListsDiv.find(".commentsList:last").after(createCommentHtml(item));
@@ -126,12 +126,12 @@ function createCommentHtml(item){
     var h = '\
 <div class="commentsList">\
 	<div class="first">\
-		<a href="#"><img src="'+ctxStatic+'/image/portrait.jpg"/></a>\
+		<a href="'+ctx+'/access/otherPersonal/'+item.fromUser.id+'"><img src="'+ctxStatic+'/image/portrait.jpg"/></a>\
 	</div>\
 	<div class="second">\
-		<a href="javascript:void(0)" class="commentsUserName" >'+item.fromUser.nickname+'</a>';
+		<a href="'+ctx+'/access/otherPersonal/'+item.fromUser.id+'" class="commentsUserName" >'+item.fromUser.nickname+'</a>';
     if(item.parent!=null && item.parent.id!=null){
-        h += '@<a href="javascript:void(0)" class="adverseUserName">'+item.toUser.nickname+'</a>';
+        h += '@<a href="'+ctx+'/access/otherPersonal/'+item.toUser.id+'" class="adverseUserName">'+item.toUser.nickname+'</a>';
     }
     h += ':<br/>\
 		'+item.content+'\
@@ -147,7 +147,7 @@ function createCommentHtml(item){
 		<div class="clearfix"></div>\
 	</div>\
 </div>\
-';
+';console.log(item.createDate);
     return h;
 }
 //删除评论

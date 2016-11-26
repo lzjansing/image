@@ -35,7 +35,6 @@ public class FileUploadController extends BaseController {
         if (StringUtil.isNotBlank(id)) {
             message.getExtra().put("id", id);
         }
-        StringUtil.split("fdsa", "fdsa");
         return message;
     }
 

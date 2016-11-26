@@ -391,6 +391,66 @@ ul{
 	text-align: left;
 	margin-top: 8px;
 }
+/*取消关注按钮以及关注按钮*/
+.cancelAttention{
+
+	display: inline-block;
+	width: 66px;
+	height: 16px;
+	margin-top: 10px;
+	line-height: 16px;
+	border: 1px solid #eee;
+	background-color: #fff;
+	box-shadow: 0 0 1px 1px #fff;
+	border-radius: 1px;
+}
+.cancelAttention:hover{
+
+	cursor: pointer;
+	color: #fa7c3d;
+}
+.cancelAttention >span:first-child{
+
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	background: url('../icon/icon.png') no-repeat -99px -248px;
+}
+.attended,
+.unAttended{
+
+	display: inline-block;
+	width: 75px;
+	height: 16px;
+	line-height: 16px;
+	padding: 4px 0;
+	background-color: #fa7c3d;
+	cursor: pointer;
+	border-radius: 2px;
+	box-shadow: 0 0 3px 1px #fff;
+}
+.attended >a,
+.unAttended >a{
+
+	color: #fff;
+}
+.attended >a:first-child,
+.unAttended >a:first-child{
+
+	display: inline-block;
+	height: 11px;
+	width: 11px;
+	margin-right: 5px;
+}
+.attended >a:first-child{
+
+	background: url('../icon/icon.png') no-repeat -75px -249px;
+}
+.unAttended >a:first-child{
+
+	background: url('../icon/add.png') no-repeat -4px -4px;
+}
+/*取消关注按钮以及关注按钮 样式结束*/
 /*footer*/
 .footer{
 	
