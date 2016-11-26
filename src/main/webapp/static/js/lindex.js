@@ -222,7 +222,6 @@ window.onload=function(){
 	//评论区
 	
 	var showPnFuncs=document.getElementsByClassName("showPnFuncs");
-	
 	for(var i=0;i<showPnFuncs.length;i++){
 		
 		var collection2=showPnFuncs[i].getElementsByClassName("collection2")[0];

@@ -31,6 +31,10 @@ public class ShareService extends CrudService<ShareDao, Share> {
         return super.findPage(page, share);
     }
 
+    public int count(Share share) {
+        return dao.count(share);
+    }
+
     @Transactional(readOnly = false)
     public void save(Share share) {
         super.save(share);

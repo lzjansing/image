@@ -17,4 +17,6 @@ public interface ShareDao extends CrudDao<Share> {
     public int decrease(Share share);
 
     public int deleteSelf(Share share);
+
+    public int count(Share share);
 }

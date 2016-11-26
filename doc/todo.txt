@@ -1,5 +1,5 @@
 1、valid只用来d to http://localhost:8080/image/access/
-localhost/:138 GET http://localhost:8080/image/static/images/body_bg.jpg 404 ()表示是否被删除
+localhost/:138 GET http://localhost:8080/image/static/image/body_bg.jpg 404 ()表示是否被删除
 2、移除xml中sql对常量的取值，移除实体类中的常量，将jsp中取实体类常量改为取字典值
 3、修改表名：user->sys_user
 4、shiro一旦登录，登录信息在项目重启|tomcat重启之后仍然存在？
@@ -23,4 +23,8 @@ http://localhost:8080/favicon.ico
 tagIconSelect.jsp中有部分图标不显示？
 2、与前端对比shiro配置
 --3、注销后的页面不存在
-
+4、注册用户管理,可以禁止或重新允许一个注册用户进行分享活动。处于禁止状态的注册用户的分享均不可见
+5、controller用shiro控制
+--查看自己的分享详细资料,包括:文字、图片、所有点赞、所有评论及回复。
+收藏其他注册用户
+--查看自己点赞、评论、收藏的分享

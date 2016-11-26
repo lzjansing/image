@@ -136,10 +136,13 @@ public class AccessController extends BaseController {
             focus.setFromUser(currentUser);
             int focusCount = focusService.count(focus);
             focus.setFromUser(null);
+            focus.setToUser(currentUser);
             int beFocusedCount = focusService.count(focus);
             model.addAttribute("shareCount", shareCount);
             model.addAttribute("focusCount", focusCount);
             model.addAttribute("beFocusedCount", beFocusedCount);
+
+            model.addAttribute("loginUser", currentUser);
         }
         return "modules/front/lindex";
     }
@@ -149,17 +152,64 @@ public class AccessController extends BaseController {
      */
     @RequestMapping(value = {"/otherPersonal/{userId}"}, method = RequestMethod.GET)
     public String otherPersonal(Model model, @PathVariable String userId,
-                                @RequestParam(required = false) Integer pageNo) {
-        Share tmpShare = new Share();
-        tmpShare.setUser(new User(userId));
-        tmpShare.setCurrentUser(UserUtil.getAccount().getUser());
+                                @RequestParam(required = false) Integer pageNo,
+                                HttpServletRequest req) {
         Page<Share> page = new Page<>();
         page.setPageNo(pageNo != null ? pageNo : 1);
         page.setPageSize(Integer.parseInt(Global.getConfig("page.pageSize")));
+        Share tmpShare = new Share();
+        User currentUser = UserUtil.getAccount().getUser();
+        User pageUser = accountService.selectById(userId).getUser();
+        tmpShare.setUser(pageUser);
+        tmpShare.setCurrentUser(currentUser);
+
+        String by = req.getParameter("by");
+        if (StringUtil.isNotBlank(by)) {
+            if (by.equals("comment")) {
+                tmpShare.setComment(1);
+            } else if (by.equals("collect")) {
+                tmpShare.setCollect(1);
+            } else if (by.equals("praise")) {
+                tmpShare.setPraise(1);
+            }
+            model.addAttribute("by", by);
+        }
+
         page = shareService.findPage(page, tmpShare);
         model.addAttribute("page", page);
-        //todo focusCount beFoucsedCount shareCount
-        return "modules/front/lindex";
+
+        //shareCount collectCount commentCount praiseCount
+        tmpShare.setPraise(null);
+        tmpShare.setComment(null);
+        tmpShare.setCollect(null);
+        int shareCount = shareService.count(tmpShare);
+        model.addAttribute("shareCount", shareCount);
+        tmpShare.setCollect(1);
+        int collectCount = shareService.count(tmpShare);
+        model.addAttribute("collectCount", collectCount);
+        tmpShare.setCollect(null);
+        tmpShare.setComment(1);
+        int commentCount = shareService.count(tmpShare);
+        model.addAttribute("commentCount", commentCount);
+        tmpShare.setComment(null);
+        tmpShare.setPraise(1);
+        int praiseCount = shareService.count(tmpShare);
+        model.addAttribute("praiseCount", praiseCount);
+
+        Focus focus = new Focus();
+        focus.setFromUser(pageUser);
+        int focusCount = focusService.count(focus);
+        focus.setFromUser(null);
+        focus.setToUser(pageUser);
+        int beFocusedCount = focusService.count(focus);
+        model.addAttribute("focusCount", focusCount);
+        model.addAttribute("beFocusedCount", beFocusedCount);
+
+        model.addAttribute("pageUser", pageUser);
+        model.addAttribute("loginUser", currentUser);
+        model.addAttribute("isShare", true);
+        model.addAttribute("action", "/access/otherPersonal/" + userId);
+        return "modules/front/personalManager";
     }
 
 }

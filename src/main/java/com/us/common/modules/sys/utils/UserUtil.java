@@ -65,7 +65,7 @@ public class UserUtil {
     public static User getUser() {
         Principal principal = getPrincipal();
         if (principal != null) {
-            if(principal.isFrontEnd()){
+            if (principal.isFrontEnd()) {
                 return null;
             }
             User user = get(principal.getId());
@@ -79,7 +79,7 @@ public class UserUtil {
         Principal principal = getPrincipal();
 
         if (principal != null) {
-            if(!principal.isFrontEnd()){
+            if (!principal.isFrontEnd()) {
                 return null;
             }
             Account account = accountDao.selectById(principal.getId());
@@ -105,7 +105,7 @@ public class UserUtil {
         List roleList = (List) getCache(CACHE_ROLE_LIST);
         if (roleList == null) {
             User user = getUser();
-            if(user==null){
+            if (user == null) {
                 return null;
             }
             if (isAdmin(user)) {
@@ -125,7 +125,7 @@ public class UserUtil {
         List menuList = (List) getCache(CACHE_MENU_LIST);
         if (menuList == null) {
             User user = getUser();
-            if(user==null){
+            if (user == null) {
                 return null;
             }
             Menu m = new Menu();

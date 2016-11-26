@@ -35,14 +35,14 @@
         SELECT
         <include refid="shareColumns"/>
         <if test="currentUser!=null and currentUser.id!=null and currentUser.id!=''">
-        , IF(c.id IS NULL, 0, 1) hadCollected
-        , IF(p.id IS NULL, 0, 1) hadPraised
+            , IF(c.id IS NULL, 0, 1) hadCollected
+            , IF(p.id IS NULL, 0, 1) hadPraised
         </if>
         FROM share a
         <include refid="shareJoins"/>
         <if test="currentUser!=null and currentUser.id!=null and currentUser.id!=''">
-        LEFT JOIN collect c ON c.sid=a.id AND c.from_uid=#{currentUser.id}
-        LEFT JOIN praise p ON p.sid=a.id AND p.from_uid=#{currentUser.id}
+            LEFT JOIN collect c ON c.sid=a.id AND c.from_uid=#{currentUser.id}
+            LEFT JOIN praise p ON p.sid=a.id AND p.from_uid=#{currentUser.id}
         </if>
         <where>
             a.valid = #{VALID_ENABLE}
@@ -53,7 +53,7 @@
                 AND a.content LIKE concat('%',#{content},'%')
             </if>
             <choose>
-                <when test="user!=null and user.id!=null and user.id!=''">
+                <when test="user!=null and user.id!=null and user.id!='' and comment==null and collect==null and praise==null">
                     AND u.id = #{user.id}
                     <if test="currentUser!=null and currentUser.id!=null and currentUser.id!='' and user.id!=currentUser.id">
                         AND a.privated = #{NO}
@@ -63,6 +63,20 @@
                     AND a.privated = #{NO}
                 </otherwise>
             </choose>
+            <if test="comment!=null or collect!=null or praise!=null">
+                AND a.id IN
+                <choose>
+                    <when test="comment!=null">
+                        (SELECT tc.sid FROM comment tc WHERE tc.from_uid=#{user.id} AND tc.valid=#{VALID_ENABLE})
+                    </when>
+                    <when test="collect!=null">
+                        (SELECT tc.sid FROM collect tc WHERE tc.from_uid=#{user.id})
+                    </when>
+                    <when test="praise!=null">
+                        (SELECT tp.sid FROM praise tp WHERE tp.from_uid=#{user.id})
+                    </when>
+                </choose>
+            </if>
         </where>
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -72,6 +86,42 @@
                 ORDER BY a.update_date desc
             </otherwise>
         </choose>
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT count(a.id)
+        FROM share a
+        <where>
+            a.valid = #{VALID_ENABLE}
+            <if test="content!=null and content!=''">
+                AND a.content LIKE concat('%',#{content},'%')
+            </if>
+            <choose>
+                <when test="user!=null and user.id!=null and user.id!='' and comment==null and collect==null and praise==null">
+                    AND a.uid = #{user.id}
+                    <if test="currentUser!=null and currentUser.id!=null and currentUser.id!='' and user.id!=currentUser.id">
+                        AND a.privated = #{NO}
+                    </if>
+                </when>
+                <otherwise>
+                    AND a.privated = #{NO}
+                </otherwise>
+            </choose>
+            <if test="comment!=null or collect!=null or praise!=null">
+                AND a.id IN
+                <choose>
+                    <when test="comment!=null">
+                        (SELECT tc.sid FROM comment tc WHERE tc.from_uid=#{user.id} AND tc.valid=#{VALID_ENABLE})
+                    </when>
+                    <when test="collect!=null">
+                        (SELECT tc.sid FROM collect tc WHERE tc.from_uid=#{user.id})
+                    </when>
+                    <when test="praise!=null">
+                        (SELECT tp.sid FROM praise tp WHERE tp.from_uid=#{user.id})
+                    </when>
+                </choose>
+            </if>
+        </where>
     </select>
 
     <insert id="insert">
