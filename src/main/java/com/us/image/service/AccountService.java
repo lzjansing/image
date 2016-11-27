@@ -43,12 +43,12 @@ public class AccountService extends BaseService {
     }
 
     @Transactional
-    public int updateLocked(Account account){
+    public int updateLocked(Account account) {
         return accountDao.updateLocked(account);
     }
 
     @Transactional(readOnly = true)
-    public Page<Account> findPage(Page<Account> page, Account account){
+    public Page<Account> findPage(Page<Account> page, Account account) {
         account.setPage(page);
         page.setList(accountDao.findList(account));
         return page;

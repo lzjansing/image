@@ -72,10 +72,10 @@ public class AccountController extends BaseController {
     @RequestMapping(value = "/share", method = RequestMethod.POST)
     public String share(Share share, Model model) {
         boolean success = true;
-        if(Integer.parseInt(DictUtil.getDictValue("禁用","valid", ""))==UserUtil.getAccount().getLocked()){
+        if (Integer.parseInt(DictUtil.getDictValue("禁用", "valid", "")) == UserUtil.getAccount().getLocked()) {
             success = false;
             model.addAttribute("errorMsg", "您的帐号已被禁用，不可发布分享");
-        }else {
+        } else {
             if (share != null && StringUtil.isBlank(share.getImage())) {
                 success = false;
                 model.addAttribute("errorMsg", "请选择要分享的图片");
@@ -234,7 +234,7 @@ public class AccountController extends BaseController {
     @RequestMapping(value = {"/personal"}, method = RequestMethod.GET)
     public String personal(Model model, @RequestParam(required = false) Integer pageNo,
                            HttpServletRequest req) {
-        if(UserUtil.getUser()!=null){
+        if (UserUtil.getUser() != null) {
             //管理员不能看前台页面
             throw new AuthenticationException();
         }
