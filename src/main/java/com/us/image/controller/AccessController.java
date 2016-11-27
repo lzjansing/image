@@ -16,6 +16,7 @@ import com.us.image.service.FocusService;
 import com.us.image.service.ShareService;
 import com.us.image.util.EncryptUtil;
 import com.us.spring.mvc.controller.BaseController;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -107,6 +108,10 @@ public class AccessController extends BaseController {
     public String index(Model model, @RequestParam(required = false) String searchInput,
                         @RequestParam(required = false) String byPraise,
                         @RequestParam(required = false) Integer pageNo) {
+        if(UserUtil.getUser()!=null){
+            //管理员不能看前台页面
+            throw new AuthenticationException();
+        }
         if (!model.containsAttribute("share")) {
             Share share = new Share();
             share.setPrivated(Share.NO);
@@ -120,7 +125,7 @@ public class AccessController extends BaseController {
             tmpShare.setContent(searchInput);
             model.addAttribute("searchInput", searchInput);
         } else if (StringUtil.isNotBlank(byPraise)) {
-            page.setOrderBy("a.praise desc");
+            page.setOrderBy("a.praise, a.create_date desc");
             model.addAttribute("byPraise", byPraise);
         }
         page = shareService.findPage(page, tmpShare);
@@ -154,6 +159,10 @@ public class AccessController extends BaseController {
     public String otherPersonal(Model model, @PathVariable String userId,
                                 @RequestParam(required = false) Integer pageNo,
                                 HttpServletRequest req) {
+        if(UserUtil.getUser()!=null){
+            //管理员不能看前台页面
+            throw new AuthenticationException();
+        }
         Page page = new Page();
         page.setPageNo(pageNo != null ? pageNo : 1);
         page.setPageSize(Integer.parseInt(Global.getConfig("page.pageSize")));

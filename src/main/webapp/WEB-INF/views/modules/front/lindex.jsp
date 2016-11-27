@@ -10,6 +10,7 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>我的首页  随时随地发现分享新鲜事</title>
+	<link rel="shortcut icon" href="${ctxStatic}/static/image/weibo7.png" type="image/x-icon"/>
 	<link type="text/css" rel="stylesheet" href="${ctxStatic}/css/lheader.css"/>
 	<link type="text/css" rel="stylesheet" href="${ctxStatic}/css/lindex.css"/>
 	<script type="application/javascript">

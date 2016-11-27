@@ -14,10 +14,10 @@ localhost/:138 GET http://localhost:8080/image/static/image/body_bg.jpg 404 ()�
 12、关系型实体，去掉其他实体类属性，只保留他们的id
     如Collect.java改fromUser为fromUid
 13、使用DBUnit重新构建Test
-14、js的多级parent()
+--14、js的多级parent()
+-->使用parents(selector)替代
 
 1、完善静态文件
-http://localhost:8080/image/front/plugins/uniform/images/sprite.png
 http://localhost:8080/favicon.ico
 /menuForm的checkbox样式问题
 tagIconSelect.jsp中有部分图标不显示？

@@ -9,6 +9,7 @@ import com.us.common.utils.StringUtil;
 import com.us.image.entities.*;
 import com.us.image.service.*;
 import com.us.spring.mvc.controller.BaseController;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -231,6 +232,10 @@ public class AccountController extends BaseController {
     @RequestMapping(value = {"/personal"}, method = RequestMethod.GET)
     public String personal(Model model, @RequestParam(required = false) Integer pageNo,
                            HttpServletRequest req) {
+        if(UserUtil.getUser()!=null){
+            //管理员不能看前台页面
+            throw new AuthenticationException();
+        }
         Page page = new Page();
         page.setPageNo(pageNo != null ? pageNo : 1);
         page.setPageSize(Integer.parseInt(Global.getConfig("page.pageSize")));

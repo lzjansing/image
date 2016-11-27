@@ -18,6 +18,7 @@
     <link type="text/css" rel="stylesheet" href="${ctxStatic}/css/lheader.css"/>
     <link type="text/css" rel="stylesheet" href="${ctxStatic}/css/lindex.css"/>
     <link type="text/css" rel="stylesheet" href="${ctxStatic}/css/lpersonalManager.css"/>
+    <link rel="shortcut icon" href="${ctxStatic}/static/image/weibo7.png" type="image/x-icon"/>
     <script type="text/javascript" src="${ctxStatic}/js/lpersonalManager.js"></script>
 </head>
 <body>
