@@ -392,7 +392,8 @@ ul{
 	margin-top: 8px;
 }
 /*取消关注按钮以及关注按钮*/
-.cancelAttention{
+.attentionSome,
+.unAttentionSome{
 
 	display: inline-block;
 	width: 66px;
@@ -404,16 +405,23 @@ ul{
 	box-shadow: 0 0 1px 1px #fff;
 	border-radius: 1px;
 }
-.cancelAttention:hover{
+.attentionSome:hover,
+.unAttentionSome:hover{
 
 	cursor: pointer;
 	color: #fa7c3d;
 }
-.cancelAttention >span:first-child{
+.attentionSome >span:first-child,
+.unAttentionSome >span:first-child{
 
 	display: inline-block;
 	width: 14px;
 	height: 14px;
+}
+.attentionSome >span:first-child {
+	background: url('../icon/add.png') no-repeat -4px -4px;
+}
+.unAttentionSome >span:first-child {
 	background: url('../icon/icon.png') no-repeat -99px -248px;
 }
 .attended,
@@ -443,12 +451,10 @@ ul{
 	margin-right: 5px;
 }
 .attended >a:first-child{
-
-	background: url('../icon/icon.png') no-repeat -75px -249px;
+	background: url('../icon/add.png') no-repeat -4px -4px;
 }
 .unAttended >a:first-child{
-
-	background: url('../icon/add.png') no-repeat -4px -4px;
+	background: url('../icon/icon.png') no-repeat -75px -249px;
 }
 /*取消关注按钮以及关注按钮 样式结束*/
 /*footer*/

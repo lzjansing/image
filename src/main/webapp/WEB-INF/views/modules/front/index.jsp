@@ -6,6 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@taglib prefix="fns" uri="/WEB-INF/tlds/fns.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,15 +76,14 @@
     <div class="secondary">
         <div class="content">
             <div class="publish">
+                <form:form modelAttribute="share" action="${ctx}/account/share" method="post">
 
                 <p>有什么新鲜事想告诉大家?</p>
 
-                <a class="news" href="">陈佩斯新剧重返央视，你期待吗？(图)　热门微博</a>
-
-                <textarea class="publish-input" type="text" value="" name="publish-input"></textarea>
+                    <form:textarea path="content" class="publish-input"/>
 
                 <div class="kind">
-                    <a class="expression" href="">表情</a>
+                    <form:hidden path="image"/>
                     <a class="picture" href="">图片</a>
                     <a class="vedio" href="">视频</a>
                     <a class="topic" href="">话题</a>
@@ -92,9 +92,14 @@
                 </div>
 
                 <div class="button">
-                    <a class="who-can-see" href="">公开<span>◢</span></a>
-                    <a class="publish-button" href="">发布</a>
+                    <%--<a class="who-can-see" href="">公开<span>◢</span></a>--%>
+                    <form:select path="privated" class="who-can-see">
+                        <form:option value="${fns:getDictValue('否', 'yes_no', '')}" label="公开"/>
+                        <form:option value="${fns:getDictValue('是', 'yes_no', '')}" label="私有"/>
+                    </form:select>
+                    <input type="submit" class="publish-button" value="发布"/>
                 </div>
+                </form:form>
             </div>
 
             <div class="classify">

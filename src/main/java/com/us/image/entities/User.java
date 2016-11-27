@@ -25,6 +25,8 @@ public class User implements Serializable {
     private String blogAddress;
     private long qq;
 
+    private boolean hadFocused;
+
     public User() {
     }
 
@@ -140,4 +142,11 @@ public class User implements Serializable {
         this.qq = qq;
     }
 
+    public boolean isHadFocused() {
+        return hadFocused;
+    }
+
+    public void setHadFocused(boolean hadFocused) {
+        this.hadFocused = hadFocused;
+    }
 }

@@ -116,7 +116,7 @@
 					<a href="${ctx}/account/personal?by=praise">我的赞</a>
 				</div>
 				<div>
-					<a href="#">我的关注</a>
+					<a href="${ctx}/account/personal?by=focus">我的关注</a>
 				</div>
 				<div>
 					<a href="${ctx}/account/personal">我的微博</a>
@@ -269,7 +269,7 @@
 					</div>
 				</c:forEach>
 
-
+				<c:if test="${not page.firstPage or not page.lastPage}">
 				<div id="remainShare">
 					<div>
 						<c:if test="${not page.firstPage}">
@@ -294,6 +294,7 @@
 						</c:if>
 					</div>
 				</div>
+				</c:if>
 			</div>
 		</div><!--main右侧主要内容结束-->
 			<div class="otherMassage"><!--main右侧个人信息栏-->
@@ -311,20 +312,20 @@
 					</div>
 					<div class="personalManage">
 						<div>
-							<a href="#">
-								<p>${focusCount}</p>
+							<a href="${ctx}/account/personal?by=focus">
+								<p class="currentUserFocusCount">${focusCount}</p>
 								<p>关注</p>
 							</a>
 						</div>
 						<div>
-							<a href="#">
-								<p>${beFocusedCount}</p>
+							<a href="${ctx}/account/personal?by=beFocused">
+								<p class="currentUserBeFocusedCount">${beFocusedCount}</p>
 								<p>粉丝</p>
 							</a>
 						</div>
 						<div>
 							<a href="${ctx}/account/personal">
-								<p>${shareCount}</p>
+								<p class="currentUserShareCount">${shareCount}</p>
 								<p>分享</p>
 							</a>
 						</div>
@@ -439,6 +440,10 @@
 		$("#picturePreView img").each(function(){
 			tmpArr.push($(this).attr("src"));
 		});
+		if(tmpArr.length==0){
+			alert("请选择要分享的图片～");
+			return false;
+		}
 		$("#imageInput").val(tmpArr.join("${fns:getConfig('string.split')}"));
 		//提交
 		$("#shareForm").submit();

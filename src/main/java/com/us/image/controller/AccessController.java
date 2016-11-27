@@ -154,28 +154,42 @@ public class AccessController extends BaseController {
     public String otherPersonal(Model model, @PathVariable String userId,
                                 @RequestParam(required = false) Integer pageNo,
                                 HttpServletRequest req) {
-        Page<Share> page = new Page<>();
+        Page page = new Page();
         page.setPageNo(pageNo != null ? pageNo : 1);
         page.setPageSize(Integer.parseInt(Global.getConfig("page.pageSize")));
-        Share tmpShare = new Share();
         User currentUser = UserUtil.getAccount().getUser();
         User pageUser = accountService.selectById(userId).getUser();
+
+        Share tmpShare = new Share();
         tmpShare.setUser(pageUser);
         tmpShare.setCurrentUser(currentUser);
-
         String by = req.getParameter("by");
-        if (StringUtil.isNotBlank(by)) {
-            if (by.equals("comment")) {
-                tmpShare.setComment(1);
-            } else if (by.equals("collect")) {
-                tmpShare.setCollect(1);
-            } else if (by.equals("praise")) {
-                tmpShare.setPraise(1);
+        if (StringUtil.isNotBlank(by) && by.equals("focus")) {
+            Account account = new Account();
+            account.setId(pageUser.getId());
+            page = accountService.findFocusPage(page, account);
+            accountService.beFocused(page.getList(), currentUser);
+            model.addAttribute("isShare", false);
+        } else if (StringUtil.isNotBlank(req.getParameter("beFocused"))) {
+            Account account = new Account();
+            account.setId(pageUser.getId());
+            page = accountService.findBeFocusedPage(page, account);
+            accountService.beFocused(page.getList(), currentUser);
+            model.addAttribute("isShare", false);
+        } else {
+            if (StringUtil.isNotBlank(by)) {
+                if (by.equals("comment")) {
+                    tmpShare.setComment(1);
+                } else if (by.equals("collect")) {
+                    tmpShare.setCollect(1);
+                } else if (by.equals("praise")) {
+                    tmpShare.setPraise(1);
+                }
             }
-            model.addAttribute("by", by);
+            model.addAttribute("isShare", true);
+            page = shareService.findPage(page, tmpShare);
         }
-
-        page = shareService.findPage(page, tmpShare);
+        model.addAttribute("by", by);
         model.addAttribute("page", page);
 
         //shareCount collectCount commentCount praiseCount
@@ -205,9 +219,9 @@ public class AccessController extends BaseController {
         model.addAttribute("focusCount", focusCount);
         model.addAttribute("beFocusedCount", beFocusedCount);
 
+        accountService.beFocused(pageUser, currentUser);
         model.addAttribute("pageUser", pageUser);
         model.addAttribute("loginUser", currentUser);
-        model.addAttribute("isShare", true);
         model.addAttribute("action", "/access/otherPersonal/" + userId);
         return "modules/front/personalManager";
     }

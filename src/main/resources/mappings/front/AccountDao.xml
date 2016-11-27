@@ -14,8 +14,6 @@
         WHERE id = #{id} AND valid = 1;
     </delete>
 
-    <!--<update id="update" parameterType="Account">-->
-    <!--</update>-->
 
     <sql id="accountColumnMapping">
         a.id           accountId,
@@ -23,6 +21,17 @@
         a.password password,
         a.create_date  createDate,
         u.id           userId,
+        u.nickname     nickname,
+        u.real_name    realName,
+        u.gender       gender,
+        u.blood_group  bloodGroup,
+        u.birthday     birthday,
+        u.interests    interests,
+        u.blog_address blogAddress,
+        u.qq           qq
+    </sql>
+    <sql id="userColumnMapping">
+        u.id           id,
         u.nickname     nickname,
         u.real_name    realName,
         u.gender       gender,
@@ -55,6 +64,47 @@
         FROM t_account a
         LEFT JOIN t_user u ON (a.id = u.id)
         WHERE a.valid = 1;
+    </select>
+
+    <select id="findFocusList" resultType="FrontUser">
+        SELECT
+        <include refid="userColumnMapping"/>
+        FROM t_account a
+        LEFT JOIN t_user u ON (a.id = u.id)
+        LEFT JOIN focus fc ON (fc.to_uid=a.id)
+        WHERE a.valid = #{valid}
+        AND fc.from_uid=#{id}
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+    </select>
+
+    <!--从一串ids中找出当前用户已关注的-->
+    <select id="findFocusListByMap" resultType="java.lang.String">
+        SELECT
+        u.id
+        FROM t_account a
+        LEFT JOIN t_user u ON (a.id = u.id)
+        LEFT JOIN focus fc ON (fc.to_uid=a.id)
+        WHERE a.valid = 1
+        AND fc.from_uid=#{userId}
+        AND u.id IN
+        <foreach collection="ids" open="(" separator="," close=")" item="item">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="findBeFocusedList" resultType="FrontUser">
+        SELECT
+        <include refid="userColumnMapping"/>
+        FROM t_account a
+        LEFT JOIN t_user u ON (a.id = u.id)
+        LEFT JOIN focus fc ON (fc.from_uid=u.id)
+        WHERE a.valid = #{valid}
+        AND fc.to_uid=#{id}
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
     </select>
 
     <resultMap id="accountMap" type="Account">

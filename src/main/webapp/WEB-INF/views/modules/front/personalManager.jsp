@@ -95,30 +95,48 @@
             <div id="personalImg"><img src="${ctxStatic}/image/portrait.jpg" /></div>
             <div><h1 id="personalName">${pageUser.nickname}</h1><span id="sexIcon"></span></div>
             <div id="motto">Just do it</div>
+            <shiro:authenticated>
+                <c:if test="${pageUser.id ne loginUser.id}">
+            <!--关注按钮-->
+            <div ${!pageUser.hadFocused?'':'style="display: none;"'} class="attended attendClick" title="点击加关注" deal-user-id="${pageUser.id}"><a></a><a>关注</a></div><!--未关注div-->
+            <div ${ pageUser.hadFocused?'':'style="display: none;"'} class="unAttended unattendClick" title="点击取消关注" deal-user-id="${pageUser.id}"><a></a><a>取消关注</a></div><!--已关注div-->
+            <!--关注按钮结束-->
+                </c:if>
+            </shiro:authenticated>
         </div><!--个人信息块结束-->
 
         <div class="myHome"><a>我的主页</a></div><!--主页标识-->
         <div class="multiInfo"><!--多信息展示区-->
             <div class="leftNav"><!--leftNav-->
                 <div>
-                    <a href="${ctx}/account/personal?by=collect">收藏</a>
-                    <p>${collectCount}</p>
+                    <a href="${ctx}${action}?by=collect">
+                        收藏
+                    <p class="currentUserCollectCount">${collectCount}</p>
+                    </a>
                 </div>
                 <div>
-                    <a href="${ctx}/account/personal?by=comment">评论</a>
-                    <p>${commentCount}</p>
+                    <a href="${ctx}${action}?by=comment">
+                        评论
+                    <p class="currentUserCommentCount">${commentCount}</p>
+                    </a>
                 </div>
                 <div>
-                    <a href="${ctx}/account/personal?by=praise">点赞</a>
-                    <p>${praiseCount}</p>
+                    <a href="${ctx}${action}?by=praise">
+                        点赞
+                    <p class="currentUserPraiseCount">${praiseCount}</p>
+                    </a>
                 </div>
                 <div>
-                    <a href="${ctx}/account/personal">分享</a>
+                    <a href="${ctx}${action}">
+                        分享
                     <p>${shareCount}</p>
+                    </a>
                 </div>
                 <div>
-                    <p>关注</p>
-                    <p>${focusCount}</p>
+                    <a href="${ctx}${action}?by=focus">
+                        关注
+                    <p class="currentUserFocusCount">${focusCount}</p>
+                    </a>
                 </div>
             </div><!--leftNav结束-->
             <div class="attendDetailShow">
@@ -133,121 +151,34 @@
                     <c:choose>
                         <c:when test="${isShare eq null or not isShare}">
                     <div class="attendLists">
+                        <c:forEach items="${page.list}" var="eachFocus">
                         <div class="attendList">
-                            <div class="attendImg">
-                                <img src="${ctxStatic}/image/portrait7.jpg"/>
+                            <div>
+                                <div class="attendImg">
+                                    <a href="${ctx}/access/otherPersonal/${eachFocus.id}">
+                                    <img src="${ctxStatic}/image/portrait.jpg"/>
+                                    </a>
+                                </div>
+                                <shiro:authenticated>
+                                <div>
+                                    <a ${(loginUser.id ne pageUser.id) and not eachFocus.hadFocused?'':'style="display: none;"'} class="attentionSome attendClick" href="javascript:void(0)" title="点击加关注" deal-user-id="${eachFocus.id}">
+                                        <span></span>
+                                        <span>关注</span>
+                                    </a>
+                                    <a ${(loginUser.id eq pageUser.id) or eachFocus.hadFocused?'':'style="display: none;"'} class="unAttentionSome unattendClick" href="javascript:void(0)" title="点击取消关注" deal-user-id="${eachFocus.id}">
+                                        <span></span>
+                                        <span>取消关注</span>
+                                    </a>
+                                </div>
+                                </shiro:authenticated>
                             </div>
                             <div class="words">
-                                <p>昵称：<strong>杨咩咩咩</strong></p>
-                                <p>个性签名：<strong>怀一颗平常心~</strong></p>
+                                <p>昵称：<strong>${eachFocus.nickname}</strong></p>
+                                <%--<p>个性签名：<strong>怀一颗平常心~</strong></p>--%>
                             </div>
 
                         </div>
-                        <div class="attendList">
-                            <div class="attendImg">
-                                <img src="${ctxStatic}/image/portrait6.jpeg"/>
-                            </div>
-                            <div class="words">
-                                <p>昵称：<strong>阳光浴</strong></p>
-                                <p>个性签名：<strong>向着阳光奔跑~</strong></p>
-                            </div>
-
-                        </div>
-                        <div class="attendList">
-                            <div class="attendImg">
-                                <img src="${ctxStatic}/image/portrait2.jpg" />
-                            </div>
-                            <div class="words">
-                                <p>昵称：<strong>haha，我是帅帅</strong></p>
-                                <p>个性签名：<strong>自然风景，美不胜收~自然风景，美不胜收~自然风景，美不胜收~</strong></p>
-                            </div>
-
-                        </div>
-                        <div class="attendList">
-                            <div class="attendImg">
-                                <img src="${ctxStatic}/image/portrait4.jpg" />
-                            </div>
-                            <div class="words">
-                                <p>昵称：<strong>夏目友人帐</strong></p>
-                                <p>个性签名：<strong>自然风景，美不胜收~自然风景，美不胜收~</strong></p>
-                            </div>
-                        </div>
-                        <div class="attendList">
-                            <div class="attendImg">
-                                <img src="${ctxStatic}/image/portrait5.jpg" />
-                            </div>
-                            <div class="words">
-                                <p>昵称：<strong>航海梦</strong></p>
-                                <p>个性签名：<strong>被梦想鞭笞的人~</strong></p>
-                            </div>
-                        </div>
-                        <div class="attendList">
-                            <div class="attendImg">
-                                <img src="${ctxStatic}/image/portrait3.jpg" />
-                            </div>
-                            <div class="words">
-                                <p>昵称：<strong>爱笑的姑娘</strong></p>
-                                <p>个性签名：<strong>喜欢自娱自乐~心有一份欢喜~</strong></p>
-                            </div>
-                        </div>
-                        <div class="attendList">
-                            <div class="attendImg">
-                                <img src="${ctxStatic}/image/portrait7.jpg"/>
-                            </div>
-                            <div class="words">
-                                <p>昵称：<strong>杨咩咩咩</strong></p>
-                                <p>个性签名：<strong>怀一颗平常心~</strong></p>
-                            </div>
-
-                        </div>
-                        <div class="attendList">
-                            <div class="attendImg">
-                                <img src="${ctxStatic}/image/portrait6.jpeg"/>
-                            </div>
-                            <div class="words">
-                                <p>昵称：<strong>阳光浴</strong></p>
-                                <p>个性签名：<strong>向着阳光奔跑~</strong></p>
-                            </div>
-
-                        </div>
-                        <div class="attendList">
-                            <div class="attendImg">
-                                <img src="${ctxStatic}/image/portrait2.jpg" />
-                            </div>
-                            <div class="words">
-                                <p>昵称：<strong>haha，我是帅帅</strong></p>
-                                <p>个性签名：<strong>自然风景，美不胜收~自然风景，美不胜收~自然风景，美不胜收~</strong></p>
-                            </div>
-
-                        </div>
-                        <div class="attendList">
-                            <div class="attendImg">
-                                <img src="${ctxStatic}/image/portrait4.jpg" />
-                            </div>
-                            <div class="words">
-                                <p>昵称：<strong>夏目友人帐</strong></p>
-                                <p>个性签名：<strong>自然风景，美不胜收~自然风景，美不胜收~</strong></p>
-                            </div>
-                        </div>
-                        <div class="attendList">
-                            <div class="attendImg">
-                                <img src="${ctxStatic}/image/portrait5.jpg" />
-                            </div>
-                            <div class="words">
-                                <p>昵称：<strong>航海梦</strong></p>
-                                <p>个性签名：<strong>被梦想鞭笞的人~</strong></p>
-                            </div>
-                        </div>
-                        <div class="attendList">
-                            <div class="attendImg">
-                                <img src="${ctxStatic}/image/portrait3.jpg" />
-                            </div>
-                            <div class="words">
-                                <p>昵称：<strong>爱笑的姑娘</strong></p>
-                                <p>个性签名：<strong>喜欢自娱自乐~心有一份欢喜~</strong></p>
-                            </div>
-                        </div>
-
+                        </c:forEach>
                     </div><!--detail展示区结束-->
                         </c:when>
                         <c:otherwise>
@@ -387,6 +318,48 @@
         $("#pageNoInput").val("${page.next}");
         $("#pageForm").submit();
     });
+
+    //关注按钮
+
+    $(".attendClick").click(function(){
+        if(!assertLogin()){
+            alert("请先登录！");
+            return false;
+        }
+        var t = $(this);
+        $.get(ctx+'/account/focus/'+t.attr("deal-user-id"), function(msg){
+            if(msg.code=="success"){
+                t.hide();
+                t.parent().find(".unattendClick").show();
+                if(${loginUser ne null and pageUser.id eq loginUser.id}){
+                    fleshFocusCount(msg.extra.count)
+                }
+            }
+        });
+    });
+    $(".unattendClick").click(function(){
+        if(!assertLogin()){
+            alert("请先登录！");
+            return false;
+        }
+        var t = $(this);
+        $.get(ctx+'/account/unfocus/'+t.attr("deal-user-id"), function(msg){
+            if(msg.code=="success"){
+                t.hide();
+                t.parent().find(".attendClick").show();
+                if(${loginUser ne null and pageUser.id eq loginUser.id}){
+                    fleshFocusCount(msg.extra.count)
+                }
+            }
+        });
+    });
+
+    function fleshFocusCount(count){
+        var allFocusCount = $(".currentUserFocusCount");
+        for(var i=0; i<allFocusCount.length; i++) {
+            $(allFocusCount[i]).text(count);
+        }
+    }
 </script>
 </body>
 </html>

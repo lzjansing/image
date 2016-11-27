@@ -2,8 +2,10 @@ package com.us.image.dao;
 
 import com.us.common.persistence.annotation.MyBatisDao;
 import com.us.image.entities.Account;
+import com.us.image.entities.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : Zhong Junbin
@@ -25,5 +27,11 @@ public interface AccountDao {
     Account selectByEmail(String email);
 
     List<Account> selectAll();
+
+    List<User> findFocusList(Account user);
+
+    List<User> findBeFocusedList(Account user);
+
+    List<String> findFocusListByMap(Map<String, Object> map);
 
 }

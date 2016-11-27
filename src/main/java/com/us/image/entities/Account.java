@@ -1,7 +1,7 @@
 package com.us.image.entities;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import com.us.common.persistence.DataEntity;
+
 import java.util.Objects;
 
 /**
@@ -10,12 +10,12 @@ import java.util.Objects;
  * @createDate : 2016/11/20 18:29
  * @description :
  */
-public class Account implements Serializable {
+public class Account extends DataEntity<Account> {
 
     private String id;
     private String email;
     private String password;
-    private LocalDateTime createDate;
+    //    private LocalDateTime createDate;
     private User user;
 
     public Account() {
@@ -77,13 +77,13 @@ public class Account implements Serializable {
         this.password = password;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
+//    public LocalDateTime getCreateDate() {
+//        return createDate;
+//    }
+//
+//    public void setCreateDate(LocalDateTime createDate) {
+//        this.createDate = createDate;
+//    }
 
     public User getUser() {
         return user;

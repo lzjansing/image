@@ -541,10 +541,10 @@
 
     margin: 10px 0;
 }
-.commentsList:not(:last-child){
+/*.commentsList:not(:last-child){*/
 
-    border-bottom: 1px solid #fff;
-}
+    /*border-bottom: 1px solid #fff;*/
+/*}*/
 .tipsDiv{
 
     text-align: left;

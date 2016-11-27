@@ -5,6 +5,7 @@ import com.us.common.beanvalidator.BeanValidators;
 import com.us.common.mapper.JsonMapper;
 import com.us.spring.mvc.utils.*;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,7 +108,7 @@ public class BaseController {
         return "error/400";
     }
 
-    @ExceptionHandler({AuthenticationException.class})
+    @ExceptionHandler({AuthenticationException.class, UnauthenticatedException.class})
     public String authenticationException() {
         return "error/403";
     }

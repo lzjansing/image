@@ -32,6 +32,8 @@ public class AccountController extends BaseController {
     @Autowired
     private AccessController accessController;
     @Autowired
+    private AccountService accountService;
+    @Autowired
     private RuleService ruleService;
     @Autowired
     private ShareService shareService;
@@ -177,14 +179,14 @@ public class AccountController extends BaseController {
 
     //关注取关
     @ResponseBody
-    @RequestMapping(value = "/focused/{userId}", method = RequestMethod.GET)
-    public Message focused(@PathVariable String userId) {
+    @RequestMapping(value = "/focus/{userId}", method = RequestMethod.GET)
+    public Message focus(@PathVariable String userId) {
         return focusService.focused(userId);
     }
 
     @ResponseBody
-    @RequestMapping(value = "/unfocused/{userId}", method = RequestMethod.GET)
-    public Message unfocused(@PathVariable String userId) {
+    @RequestMapping(value = "/unfocus/{userId}", method = RequestMethod.GET)
+    public Message unfocus(@PathVariable String userId) {
         return focusService.unfocused(userId);
     }
 
@@ -225,31 +227,47 @@ public class AccountController extends BaseController {
      * @param pageNo
      * @return
      */
+    @RequiresAuthentication
     @RequestMapping(value = {"/personal"}, method = RequestMethod.GET)
     public String personal(Model model, @RequestParam(required = false) Integer pageNo,
                            HttpServletRequest req) {
-        Page<Share> page = new Page<>();
+        Page page = new Page();
         page.setPageNo(pageNo != null ? pageNo : 1);
         page.setPageSize(Integer.parseInt(Global.getConfig("page.pageSize")));
-        Share tmpShare = new Share();
         User currentUser = UserUtil.getAccount().getUser();
         User pageUser = currentUser;
+        Share tmpShare = new Share();
         tmpShare.setUser(pageUser);
         tmpShare.setCurrentUser(currentUser);
 
         String by = req.getParameter("by");
-        if (StringUtil.isNotBlank(by)) {
-            if (by.equals("comment")) {
-                tmpShare.setComment(1);
-            } else if (by.equals("collect")) {
-                tmpShare.setCollect(1);
-            } else if (by.equals("praise")) {
-                tmpShare.setPraise(1);
+        if (StringUtil.isNotBlank(by) && by.equals("focus")) {
+            Account account = new Account();
+            account.setId(currentUser.getId());
+            page = accountService.findFocusPage(page, account);
+            model.addAttribute("isShare", false);
+            accountService.beFocused(page.getList(), currentUser);
+        } else if (StringUtil.isNotBlank(req.getParameter("beFocused"))) {
+            Account account = new Account();
+            account.setId(currentUser.getId());
+            page = accountService.findBeFocusedPage(page, account);
+            model.addAttribute("isShare", false);
+            accountService.beFocused(page.getList(), currentUser);
+        } else {
+            if (StringUtil.isNotBlank(by)) {
+                if (by.equals("comment")) {
+                    tmpShare.setComment(1);
+                } else if (by.equals("collect")) {
+                    tmpShare.setCollect(1);
+                } else if (by.equals("praise")) {
+                    tmpShare.setPraise(1);
+                }
             }
-            model.addAttribute("by", by);
+            model.addAttribute("isShare", true);
+            page = shareService.findPage(page, tmpShare);
         }
+        model.addAttribute("by", by);
 
-        page = shareService.findPage(page, tmpShare);
         model.addAttribute("page", page);
 
         //shareCount collectCount commentCount praiseCount
@@ -281,7 +299,6 @@ public class AccountController extends BaseController {
 
         model.addAttribute("pageUser", pageUser);
         model.addAttribute("loginUser", currentUser);
-        model.addAttribute("isShare", true);
         model.addAttribute("action", "/account/personal");
         return "modules/front/personalManager";
     }

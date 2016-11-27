@@ -3,15 +3,17 @@
 //公开私有按钮
 $(document).on("click", ".lockedShare", function(){
     var t = $(this);
-    $.get(ctx+'/account/unsetSharePrivate/'+t.attr("share-id"));
-    t.removeClass("lockedShare");
-    t.addClass("unlockedShare");
+    $.get(ctx+'/account/unsetSharePrivate/'+t.attr("share-id"), function(){
+        t.removeClass("lockedShare");
+        t.addClass("unlockedShare");
+    });
 });
 $(document).on("click", ".unlockedShare", function(){
     var t = $(this);
-    $.get(ctx+'/account/setSharePrivate/'+t.attr("share-id"));
-    t.removeClass("unlockedShare");
-    t.addClass("lockedShare");
+    $.get(ctx+'/account/setSharePrivate/'+t.attr("share-id"), function(){
+        t.removeClass("unlockedShare");
+        t.addClass("lockedShare");
+    });
 });
 //收藏按钮
 $(document).on("click", ".collected", function(){
@@ -19,11 +21,12 @@ $(document).on("click", ".collected", function(){
     $.get(ctx+'/account/uncollected/'+t.attr("share-id"),function(msg){
         if(msg.code=="success"){
             t.find("span").text(msg.extra.count);
+            t.removeClass("collected");
+            t.addClass("uncollected");
+            t.css("background", "url("+ctxStatic+"/icon/uncollected.bmp') no-repeat 2px 0");
+            freshCollectCount(-1);
         }
     });
-    t.removeClass("collected");
-    t.addClass("uncollected");
-    t.css("background", "url("+ctxStatic+"/icon/uncollected.bmp') no-repeat 2px 0");
 });
 $(document).on("click", ".uncollected", function(){
     if(!assertLogin()){
@@ -34,11 +37,12 @@ $(document).on("click", ".uncollected", function(){
     $.get(ctx+'/account/collected/'+t.attr("share-id"),function(msg){
         if(msg.code=="success"){
             t.find("span").text(msg.extra.count);
+            t.removeClass("uncollected");
+            t.addClass("collected");
+            t.css("background", "url("+ctxStatic+"/icon/collected.bmp') no-repeat 2px -2px");
+            freshCollectCount(1);
         }
     });
-    t.removeClass("uncollected");
-    t.addClass("collected");
-    t.css("background", "url("+ctxStatic+"/icon/collected.bmp') no-repeat 2px -2px");
 });
 //点赞按钮
 $(document).on("click", ".praised", function(){
@@ -46,11 +50,12 @@ $(document).on("click", ".praised", function(){
     $.get(ctx+'/account/unpraised/'+t.attr("share-id"),function(msg){
         if(msg.code=="success"){
             t.find("span").text(msg.extra.count);
+            t.removeClass("praised");
+            t.addClass("unpraised");
+            t.css("background", "url("+ctxStatic+"/icon/weizan.bmp') no-repeat");
+            freshPraiseCount(-1);
         }
     });
-    t.removeClass("praised");
-    t.addClass("unpraised");
-    t.css("background", "url("+ctxStatic+"/icon/weizan.bmp') no-repeat");
 });
 $(document).on("click", ".unpraised", function(){
     if(!assertLogin()){
@@ -61,11 +66,12 @@ $(document).on("click", ".unpraised", function(){
     $.get(ctx+'/account/praised/'+t.attr("share-id"),function(msg){
         if(msg.code=="success"){
             t.find("span").text(msg.extra.count);
+            t.removeClass("unpraised");
+            t.addClass("praised");
+            t.css("background", "url("+ctxStatic+"/icon/yizan.bmp') no-repeat");
+            freshPraiseCount(1);
         }
     });
-    t.removeClass("unpraised");
-    t.addClass("praised");
-    t.css("background", "url("+ctxStatic+"/icon/yizan.bmp') no-repeat");
 });
 
 //评论
@@ -89,17 +95,17 @@ $(".commentsPublish").click(function(){
 function submitCommentForm(form){
     $.post(form.attr("action"), form.serialize(), function(msg){
         if(msg.code=="success"){
-            form.parent().parent().parent().find(".commentsList:first").before(
-                createCommentHtml(msg.extra.item));
+            form.parent().parent().parent().find(".commentsList:first").before(createCommentHtml(msg.extra.item));
             form.parent().parent().parent().parent().find(".collection2 > span").text(msg.extra.count);
             form.find("textarea").val("");
             form.find("textarea").text("");
+            freshCommentCount(1);
         }
     });
 }
 function showComments(shareId, pageNo, commentsListsDiv){
     $.get(ctx+'/account/getComments/'+shareId+'?pageNo='+pageNo+'&pageSize=30',function(page){
-        var list = page.list;console.log(list);
+        var list = page.list;
         for(var i=0; i<list.length; i++){
             var item = list[i];
             commentsListsDiv.find(".commentsList:last").after(createCommentHtml(item));
@@ -137,7 +143,7 @@ function createCommentHtml(item){
 		'+item.content+'\
 	</div>\
 	<div class="third clearfix">\
-		<span class="commentsTime">'+item.createDate+'</span>\
+		<span class="commentsTime">'+showDateTime(item.createDate)+'</span>\
 		<div class="commentsKinds">';
     if(currentUserId==item.fromUser.id){
         h += '<a href="javascript:void(0)" class="commentDeleteClick" comment-id="'+item.id+'">删除</a><span>|</span>';
@@ -147,7 +153,7 @@ function createCommentHtml(item){
 		<div class="clearfix"></div>\
 	</div>\
 </div>\
-';console.log(item.createDate);
+';
     return h;
 }
 //删除评论
@@ -157,6 +163,7 @@ $(document).on("click", ".commentDeleteClick", function(){
         if(msg.code=="success"){
             t.parent().parent().parent().parent().parent().parent().parent().parent().find(".collection2 > span").text(msg.extra.count);
             t.parent().parent().parent().remove();
+            freshCommentCount(-1);
         }
     });
 });
@@ -211,5 +218,44 @@ function assertLogin(){
         return true;
     }else{
         return false;
+    }
+}
+
+function showDateTime(time){
+    var now = new Date();
+    if(time.year<now.getFullYear() || time.monthValue<now.getMonth()+1 || time.dayOfMonth<now.getDate()){
+        return time.year+"年"+time.monthValue+"月"+time.dayOfMonth+"日";
+    }
+    if(time.hour<now.getHours()){
+        return eval(now.getHours()-time.hour)+"小时前";
+    }
+    return eval(now.getMinutes()-time.minute)+"分钟前";
+}
+
+function freshCollectCount(count){
+    var allCollectCount = $(".currentUserCollectCount");
+    if(allCollectCount.length>0) {
+        count = parseInt($(allCollectCount[0]).text())+count;
+        for (var i = 0; i < allCollectCount.length; i++) {
+            $(allCollectCount[i]).text(count);
+        }
+    }
+}
+function freshCommentCount(count){
+    var allCommentCount = $(".currentUserCommentCount");
+    if(allCommentCount.length>0) {
+        count = parseInt($(allCommentCount[0]).text())+count;
+        for (var i = 0; i < allCommentCount.length; i++) {
+            $(allCommentCount[i]).text(count);
+        }
+    }
+}
+function freshPraiseCount(count){
+    var allPraiseCount = $(".currentUserPraiseCount");
+    if(allPraiseCount.length>0) {
+        count = parseInt($(allPraiseCount[0]).text())+count;
+        for (var i = 0; i < allPraiseCount.length; i++) {
+            $(allPraiseCount[i]).text(count);
+        }
     }
 }

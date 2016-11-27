@@ -19,7 +19,7 @@
             403
         </div>
         <div class="details">
-            <h3>xxx!竟然没有权限</h3>
+            <h3>${fns:getAccount().id eq null?'兄弟，得先登录啊！':'xxx!竟然没有权限'}</h3>
             <p>
                 哎，算了，我们还是<a href="javascript:history.go(-1);">干点别的</a>
             </p>

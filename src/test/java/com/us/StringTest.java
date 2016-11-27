@@ -1,7 +1,11 @@
 package com.us;
 
+import com.google.common.collect.Lists;
+import com.us.common.utils.Collections3;
+import com.us.image.entities.User;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,5 +60,16 @@ public class StringTest {
         }
 //        System.out.println(text.matches(reg1));
 //        System.out.println(text.matches(reg2));
+    }
+
+    @Test
+    public void test02(){
+        List<User> list = Lists.newArrayList();
+        list.add(new User("123456"));
+        list.add(new User("1123456"));
+        list.add(new User("2123456"));
+        list.add(new User("3123456"));
+        list.add(new User("4123456"));
+        System.out.println(Collections3.extractToString(list, "id", "\",\""));
     }
 }

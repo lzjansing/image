@@ -53,9 +53,9 @@
                 AND a.content LIKE concat('%',#{content},'%')
             </if>
             <choose>
-                <when test="user!=null and user.id!=null and user.id!='' and comment==null and collect==null and praise==null">
+                <when test="user!=null and user.id!=null and user.id!=''">
                     AND u.id = #{user.id}
-                    <if test="currentUser!=null and currentUser.id!=null and currentUser.id!='' and user.id!=currentUser.id">
+                    <if test="currentUser==null or currentUser.id==null or currentUser.id!='' or user.id!=currentUser.id">
                         AND a.privated = #{NO}
                     </if>
                 </when>
@@ -97,9 +97,9 @@
                 AND a.content LIKE concat('%',#{content},'%')
             </if>
             <choose>
-                <when test="user!=null and user.id!=null and user.id!='' and comment==null and collect==null and praise==null">
+                <when test="user!=null and user.id!=null and user.id!=''">
                     AND a.uid = #{user.id}
-                    <if test="currentUser!=null and currentUser.id!=null and currentUser.id!='' and user.id!=currentUser.id">
+                    <if test="currentUser==null or currentUser.id==null or currentUser.id!='' or user.id!=currentUser.id">
                         AND a.privated = #{NO}
                     </if>
                 </when>
