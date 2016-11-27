@@ -373,6 +373,10 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/front/plugins/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="${ctxStatic}/js/default-share.js"></script>
 <script type="application/javascript">
+	<c:if test="${errorMsg ne null}">
+	alert("${errorMsg}");
+	</c:if>
+
 	//分享表单
 	//是否公开
 	$("#pulishPublicOrPrv > li:first").click(function(){

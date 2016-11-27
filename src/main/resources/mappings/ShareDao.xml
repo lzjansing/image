@@ -46,6 +46,7 @@
         </if>
         <where>
             a.valid = #{VALID_ENABLE}
+            AND EXISTS(SELECT 'x' FROM t_account ta WHERE ta.id=a.uid AND ta.locked=1)
             <if test="id!=null and id!=''">
                 AND a.id = #{id}
             </if>
@@ -93,6 +94,7 @@
         FROM share a
         <where>
             a.valid = #{VALID_ENABLE}
+            AND EXISTS(SELECT 'x' FROM t_account ta WHERE ta.id=a.uid AND ta.locked=1)
             <if test="content!=null and content!=''">
                 AND a.content LIKE concat('%',#{content},'%')
             </if>

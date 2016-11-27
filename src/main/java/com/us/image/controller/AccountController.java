@@ -72,31 +72,33 @@ public class AccountController extends BaseController {
     @RequestMapping(value = "/share", method = RequestMethod.POST)
     public String share(Share share, Model model) {
         boolean success = true;
-        if (UserUtil.getAccount() == null) {
-            model.addAttribute("errorMsg", "请先登录!");
-        }
-        if (share != null && StringUtil.isBlank(share.getImage())) {
+        if(Integer.parseInt(DictUtil.getDictValue("禁用","valid", ""))==UserUtil.getAccount().getLocked()){
             success = false;
-            model.addAttribute("errorMsg", "请选择要分享的图片");
-        }
-        boolean filter = false;
-        if (StringUtil.isNotBlank(share.getContent())) {
-            Matcher matcher = Pattern.compile("foo").matcher(share.getContent());
-            List<Rule> ruleList = ruleService.findList(new Rule());
-            for (Rule rule : ruleList) {
-                if (Rule.RULETYPE_NORMAL.equals(rule.getType())) {
-                    filter = share.getContent().indexOf(rule.getKeyword()) >= 0;
-                } else if (Rule.RULETYPE_REGEXP.equals(rule.getType())) {
-                    matcher.reset();
-                    filter = matcher.usePattern(Pattern.compile(rule.getKeyword())).find();
+            model.addAttribute("errorMsg", "您的帐号已被禁用，不可发布分享");
+        }else {
+            if (share != null && StringUtil.isBlank(share.getImage())) {
+                success = false;
+                model.addAttribute("errorMsg", "请选择要分享的图片");
+            }
+            boolean filter = false;
+            if (StringUtil.isNotBlank(share.getContent())) {
+                Matcher matcher = Pattern.compile("foo").matcher(share.getContent());
+                List<Rule> ruleList = ruleService.findList(new Rule());
+                for (Rule rule : ruleList) {
+                    if (Rule.RULETYPE_NORMAL.equals(rule.getType())) {
+                        filter = share.getContent().indexOf(rule.getKeyword()) >= 0;
+                    } else if (Rule.RULETYPE_REGEXP.equals(rule.getType())) {
+                        matcher.reset();
+                        filter = matcher.usePattern(Pattern.compile(rule.getKeyword())).find();
+                    }
+                    if (filter) {
+                        break;
+                    }
                 }
                 if (filter) {
-                    break;
+                    success = false;
+                    model.addAttribute("errorMsg", "发布失败，包含敏感词");
                 }
-            }
-            if (filter) {
-                success = false;
-                model.addAttribute("errorMsg", "发布失败，包含敏感词");
             }
         }
         if (success) {

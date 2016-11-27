@@ -22,15 +22,19 @@ public interface AccountDao {
 
     //void update(Account account);
 
+    int updateLocked(Account account);
+
     Account selectById(String id);
 
     Account selectByEmail(String email);
 
     List<Account> selectAll();
 
-    List<User> findFocusList(Account user);
+    List<Account> findList(Account account);
 
-    List<User> findBeFocusedList(Account user);
+    List<User> findFocusList(Account account);
+
+    List<User> findBeFocusedList(Account account);
 
     List<String> findFocusListByMap(Map<String, Object> map);
 

@@ -4,21 +4,28 @@
 <mapper namespace="com.us.image.dao.AccountDao">
 
     <insert id="insert" parameterType="Account">
-        INSERT INTO t_account (id, email, password, create_date)
-        VALUES (#{id}, #{email}, #{password}, #{createDate});
+        INSERT INTO t_account (id, email, password, locked, create_date)
+        VALUES (#{id}, #{email}, #{password}, #{locked}, #{createDate})
     </insert>
 
-    <delete id="delete" parameterType="string">
+    <update id="delete" parameterType="string">
         UPDATE t_account
         SET valid = 0
-        WHERE id = #{id} AND valid = 1;
-    </delete>
+        WHERE id = #{id} AND valid = 1
+    </update>
+
+    <update id="updateLocked">
+        UPDATE t_account
+        SET locked=#{locked}
+        WHERE id=#{id} AND valid=1
+    </update>
 
 
     <sql id="accountColumnMapping">
         a.id           accountId,
         a.email        email,
         a.password password,
+        a.locked       locked,
         a.create_date  createDate,
         u.id           userId,
         u.nickname     nickname,
@@ -47,7 +54,7 @@
         <include refid="accountColumnMapping"/>
         FROM t_account a
         LEFT JOIN t_user u ON (a.id = u.id)
-        WHERE a.id = #{id} AND a.valid = 1;
+        WHERE a.id = #{id} AND a.valid = 1
     </select>
 
     <select id="selectByEmail" parameterType="string" resultMap="accountMap">
@@ -55,7 +62,7 @@
         <include refid="accountColumnMapping"/>
         FROM t_account a
         LEFT JOIN t_user u ON (a.id = u.id)
-        WHERE a.email = #{email} AND a.valid = 1;
+        WHERE a.email = #{email} AND a.valid = 1
     </select>
 
     <select id="selectAll" resultMap="accountMap">
@@ -63,7 +70,21 @@
         <include refid="accountColumnMapping"/>
         FROM t_account a
         LEFT JOIN t_user u ON (a.id = u.id)
-        WHERE a.valid = 1;
+        WHERE a.valid = 1
+    </select>
+
+    <select id="findList" resultMap="accountMap">
+        SELECT
+        <include refid="accountColumnMapping"/>
+        FROM t_account a
+        LEFT JOIN t_user u ON (a.id = u.id)
+        WHERE a.valid = 1
+        <if test="email!=null and email!=''">
+            AND a.email LIKE concat('%',#{email},'%')
+        </if>
+        <if test="locked!=null">
+            AND a.locked=#{locked}
+        </if>
     </select>
 
     <select id="findFocusList" resultType="FrontUser">
@@ -110,6 +131,7 @@
     <resultMap id="accountMap" type="Account">
         <id property="id" column="accountId"/>
         <result property="email" column="email"/>
+        <result property="locked" column="locked"/>
         <result property="password" column="password"/>
         <result property="createDate" column="createDate"/>
         <association property="user" javaType="FrontUser">

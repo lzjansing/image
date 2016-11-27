@@ -17,6 +17,7 @@ public class Account extends DataEntity<Account> {
     private String password;
     //    private LocalDateTime createDate;
     private User user;
+    private Integer locked = 1;
 
     public Account() {
     }
@@ -93,4 +94,11 @@ public class Account extends DataEntity<Account> {
         this.user = user;
     }
 
+    public Integer getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Integer locked) {
+        this.locked = locked;
+    }
 }
