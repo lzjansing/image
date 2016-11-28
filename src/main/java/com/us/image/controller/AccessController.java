@@ -108,7 +108,8 @@ public class AccessController extends BaseController {
     public String index(Model model, @RequestParam(required = false) String searchInput,
                         @RequestParam(required = false) String byPraise,
                         @RequestParam(required = false) Integer pageNo) {
-        if (UserUtil.getUser() != null) {
+        com.us.common.modules.sys.entities.User user;
+        if ((user = UserUtil.getUser()) != null && StringUtil.isNotBlank(user.getId())) {
             //管理员不能看前台页面
             throw new AuthenticationException();
         }
@@ -159,7 +160,8 @@ public class AccessController extends BaseController {
     public String otherPersonal(Model model, @PathVariable String userId,
                                 @RequestParam(required = false) Integer pageNo,
                                 HttpServletRequest req) {
-        if (UserUtil.getUser() != null) {
+        com.us.common.modules.sys.entities.User user;
+        if ((user = UserUtil.getUser()) != null && StringUtil.isNotBlank(user.getId())) {
             //管理员不能看前台页面
             throw new AuthenticationException();
         }

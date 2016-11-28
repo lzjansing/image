@@ -234,7 +234,8 @@ public class AccountController extends BaseController {
     @RequestMapping(value = {"/personal"}, method = RequestMethod.GET)
     public String personal(Model model, @RequestParam(required = false) Integer pageNo,
                            HttpServletRequest req) {
-        if (UserUtil.getUser() != null) {
+        com.us.common.modules.sys.entities.User user;
+        if ((user = UserUtil.getUser()) != null && StringUtil.isNotBlank(user.getId())) {
             //管理员不能看前台页面
             throw new AuthenticationException();
         }
